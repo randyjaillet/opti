@@ -1,6 +1,6 @@
 :root {
   --text-col-rgbvals: 255,255,255;
-  --text-col: rgb(var(--text-col-rgbvals));
+  --text-col: rgba(var(--text-col-rgbvals), .9);
   --surface-bg: rgba(153, 153, 153, .1);
   --surface-element-dropshadows-rgbvals: 0,0,0;
   --surface-element-dropshadows: rgb(var(--surface-element-dropshadows-rgbvals));
@@ -16,7 +16,8 @@
   --surface-horzpad: 9px;
   --surface-radius-decl: 7px;
   --tag-horzpad: 5px;
-  --tag-bg: rgba(153, 153, 153, .2);
+  --tag-bg: rgba(255, 255, 255, .07);
+  --tag-shadows: none;
 }
 
 *:not(.opti *) {
@@ -144,8 +145,7 @@ main:not(.opti *) header:not(.opti *) #header-wrap #themeNscheme > div label {
   gap: 10px;
 }
 main:not(.opti *) header:not(.opti *) #header-wrap #themeNscheme > div .opti .surface {
-  font-size: 12px;
-  opacity: 0.6;
+  font-size: inherit;
 }
 main:not(.opti *) header:not(.opti *).opti-scheme-dark #header-wrap {
   background-color: #222;
