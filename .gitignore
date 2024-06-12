@@ -4,3 +4,4 @@ opti.sublime-project
 opti.sublime-workspace
 config.codekit3
 package-lock.json
+*.sublime-workspace
