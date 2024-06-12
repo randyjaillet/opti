@@ -483,11 +483,12 @@
 }
 
 .opti[data-theme=glossy] {
+  --surface-bg: #222;
   --tag-bg: inherit;
   --surface-shadow-decl: inset 0 1px rgba(255, 255, 255, .12), 0 0 0 500vw transparent, 0 1px 3px rgba(0, 0, 0, .35);
 }
 .opti[data-theme=glossy]:not([disabled=disabled]) .surface {
-  --surface-gradients-decl: radial-gradient(150% 110% at center top, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.07) 50%, transparent 50%), linear-gradient(transparent 70%, rgba(255, 255, 255, 0.03));
+  --surface-gradients-decl: linear-gradient(transparent 70%, rgba(255, 255, 255, 0.02)), radial-gradient(transparent, rgba(68, 68, 68, 0.75)), radial-gradient(150% 110% at center top, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.07) 50%, transparent 50%);
 }
 .opti[data-theme=glossy]:not([disabled=disabled]) .surface:hover, .opti[data-theme=glossy]:not([disabled=disabled]) .surface:focus {
   --surface-bg: rgba(0, 0, 0, .3);
@@ -495,7 +496,7 @@
 }
 .opti[data-theme=glossy]:not([disabled=disabled]):is(.activated, .activatedLocked) {
   --surface-bg: rgba(0, 0, 0, .3);
-  --surface-gradients-decl: linear-gradient(rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.05) 50%, transparent 50%), linear-gradient(transparent 70%, rgba(255, 255, 255, 0.03));
+  --surface-gradients-decl: linear-gradient(rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.05) 50%, transparent 50%), linear-gradient(transparent 70%, rgba(255, 255, 255, 0.02));
   --surface-shadow-decl: inset 0 1px rgba(255, 255, 255, .2), 0 0 0 500vw rgba(255, 255, 255, 0.4), 0 1px 1px transparent;
 }
 .opti[data-theme=glossy]:not([disabled=disabled]):is(.activated, .activatedLocked) .surface:hover, .opti[data-theme=glossy]:not([disabled=disabled]):is(.activated, .activatedLocked) .surface:focus {
