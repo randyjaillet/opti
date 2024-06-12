@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+	<link href="styles/main.css" rel="stylesheet" />
+	<link href="styles/demo.css" rel="stylesheet" />
+	<script src="scripts/main-min.js"></script>
+
+	<title>Opti</title>
+</head>
+<body>
+	<main>
+		<header>
+			<div id="header-wrap">
+				<h1>
+					<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="0.6" stroke-linecap="round" stroke-linejoin="round">
+						<path d="M3 20a1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v1a1 1 0 0 1-1 1Z"></path>
+						<path d="M20 16a8 8 0 1 0-16 0"></path>
+						<path d="M12 4v4"></path>
+						<path d="M10 4h4"></path>
+					</svg><span>Opti</span>
+				</h1>
+				<select id="demo">
+					<option value="0">Choose foods</option>
+					<option value="1">Bread</option>
+					<optgroup label="Fruits">
+						<option value="2.0">Apples</option>
+						<option value="2.1">Oranges</option>
+						<option value="2.2">Grapes</option>
+						<option value="2.3">Mango</option>
+						<option value="2.4">Kumquat</option>
+						<option value="2.5">Dragonfruit</option>
+					</optgroup>
+					<option value="3">Eggs</option>
+					<optgroup label="Leafy greens">
+						<option value="4.0">Iceburg lettuce</option>
+						<option value="4.1">Romaine lettuce</option>
+						<option value="4.2" disabled="disabled">Spinach</option>
+						<option value="4.3">Kale</option>
+					</optgroup>
+					<option value="5">Carrot</option>
+					<optgroup label="Herbs">
+						<option value="6.0">Basil</option>
+						<option value="6.1">Oregano</option>
+						<option value="6.2">Parsely</option>
+					</optgroup>
+					<option value="7">Potato</option>
+				</select>
+				<section id="themeNscheme">
+					<div>
+						<label>Theme:
+							<select id="theme-switch" data-theme="minimal">
+								<option value="glossy">Glossy</option>
+								<option value="gradated">Gradated</option>
+								<option value="standard">Standard</option>
+								<option value="outline">Outline</option>
+								<option value="compact">Compact</option>
+								<option value="minimal">Minimal</option>
+							</select>
+						</label>
+					</div>
+					<div>
+						<label>Scheme:
+							<select id="scheme-switch" data-theme="minimal">
+								<option value="dark">Dark</option>
+								<option value="light">Light</option>
+							</select>
+						</label>
+					</div>
+				</section>
+			</div>
+			<form id="control-wrap">
+				<section>
+					<button id="activatedlocked">Hold open</button>
+					<h3>Mutations Sandbox</h3>
+					<p>Opti uses mutation observers in an effort to reflect programmatic changes you make to its original <code>select</code>.</p>
+					<p>All of the controls in this box modify the invisible <code>select</code> above, not the Opti directly.</p>
+					<section>
+						<h5>Modify node list:</h5>
+						<div class="flexit">
+							<select id="control-append" data-scheme="light">
+								<option value="append">Append</option>
+								<option value="prepend">Prepend</option>
+								<option value="rmvLast">Remove last</option>
+								<option value="rmvFirst">Remove first</option>
+							</select>
+							<select id="control-append-what" data-scheme="light">
+								<option value="opt">Option</option>
+								<option value="optgroup">Optgroup</option>
+								<option value="optgroupOpt">Opt in last group</option>
+							</select>
+							<button id="doit1">Apply</button>
+						</div>
+						<div class="flexit">
+							<button id="insertoptrandomly">Insert option randomly</button>
+						</div>
+					</section>
+					<section>
+						<h5>Toggle attribute:</h5>
+						<div class="flexit">
+							Select:
+							<button id="togglemultiselect">Multiple</button>
+							<button id="toggledisabselect">Disabled</button>
+						</div>
+						<div class="flexit">
+							Option 2:
+							<button id="toggledisabopt">Disabled</button>
+						</div>
+					</section>
+				</section>
+				<section>
+					<h3>Destroy/Instantiate:</h3>
+					<section>
+						<div class="flexit">
+							<button id="destroy">Destroy</button>
+							<button id="reinst">Reinstantiate</button>
+						</div>
+					</section>
+				</section>
+			</form>
+		</header>
+		<p>Opti augments standard select elements with searchable, easily styleable, custom replacements.</p>
+		<p>Select elements are weird. They are notoriously difficult to style consistently across browsers, their search capabilities are inadequate when they contain many options, and the average user doesn't know how to use them in "multiple" mode.</p>
+		<p>Opti endeavors to remedy this situation.</p>
+	</main>
+</body>
+</html>

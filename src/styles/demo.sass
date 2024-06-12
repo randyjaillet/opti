@@ -1,0 +1,180 @@
+@import 'helpers/helpers'
+
+*:not(.opti *)
+	box-sizing: border-box
+
+body,
+input,
+textarea
+	font: 200 14px/1.35 "Open Sans", sans-serif
+	color: #444
+
+body
+	margin: 0
+	padding: 0
+	background-color: #CCC
+	background-image: repeating-linear-gradient(-45deg, transparent 7px, transparent 10px, rgba(0,0,0,.02) 11px, rgba(0,0,0,.02) 16px, transparent 17px), linear-gradient(to right bottom, rgba(black,.4), transparent)
+	background-position: 0 0
+	background-repeat: no-repeat
+
+p:not(.opti *)
+	margin: 15px 0
+	line-height: 1.35em
+
+button:not(.opti *)
+	appearance: none
+	border: 1px solid rgba(black, .2)
+	border-radius: 7px
+	background-color: white
+	margin: 0
+	padding: 5px 10px
+	color: #888
+	font-size: 80%
+	text-transform: uppercase
+	cursor: pointer
+	transition: all $dur linear
+	min-height: $mh
+
+	&:hover,
+	&:focus,
+	&.on
+		outline: none
+		background-color: #ECF3F8
+		border-color: rgba(#48B, .5)
+		color: black
+
+code:not(.opti *)
+	font-family: "Courier New",monospace
+	font-size: 110%
+
+h1:not(.opti *)
+	font-weight: 400
+	margin: 0
+	font-size: 30px
+	line-height: 28px
+	text-align: center
+	text-transform: uppercase
+	color: black
+
+	svg:not(.opti *)
+		stroke: black
+		stroke-width: 1.2px
+
+	span:not(.opti *)
+		display: block
+
+main:not(.opti *)
+	display: flex
+	flex-direction: column
+	align-items: left
+	justify-content: flex-start
+	max-width: 800px
+	min-height: 100vh
+	margin: 0 auto
+	padding: 30px
+	@media (max-width 450px)
+		padding: 50px 15px
+	box-shadow: 0 0 50px rgba(black, .25)
+	background-color: rgba(white, .5)
+
+	header:not(.opti *)
+		display: flex
+		gap: 20px
+		flex-wrap: wrap
+		
+		#header-wrap
+			flex-basis: 300px
+			display: flex
+			flex-direction: column
+			justify-content: space-between
+			padding: 30px 20px
+			border-radius: 15px
+			text-align: center
+			background-color: #F0F0F0
+			background-image: linear-gradient(transparent, rgba(black, .03))
+			box-shadow: 0 0 15px rgba(black, .08)
+			transition: all $dur linear
+
+			#demo-opti
+				margin: 20px auto 10px auto
+				min-width: 200px
+				max-width: 500px
+
+			#themeNscheme
+				$fs: 12px
+				display: flex
+				flex-direction: column
+				align-items: flex-end
+				gap: 10px
+				font-size: $fs
+				color: #999
+
+				> div
+					display: flex
+
+					label
+						display: flex
+						align-items: center
+						gap: 10px
+
+					.opti
+						// width: 100px
+
+						.surface
+							font-size: $fs
+							opacity: .6
+
+		&.opti-scheme-dark
+			
+			#header-wrap
+				background-color: #222
+				background-image: linear-gradient(rgba(white, .1), transparent)
+				color: white
+
+				h1:not(.opti *)
+					color: white
+
+					svg:not(.opti *)
+						stroke: white
+
+	h3
+		margin: 0
+		font-weight: 600
+
+	#control-wrap
+		flex-basis: min-content
+		flex-basis: 300px
+		flex-grow: 1
+
+		> *
+			position: relative
+			padding: 20px
+			background-color: #F0F0F0
+			background-image: linear-gradient(transparent, rgba(black, .03))
+			border-radius: 15px
+
+			> section:not(.opti *)
+				margin: 20px 0 0 0
+
+			+ *
+				margin: 15px 0 0 0
+
+		.flexit
+			display: flex
+			align-items: center
+			gap: 5px
+			margin: 5px 0
+
+		h5
+			margin: 5px 0
+			font-weight: 500
+			font-size: inherit
+
+		.opti:not(#demo-opti)
+			display: inline-flex
+
+	#activatedlocked
+		position: absolute
+		top: 5px
+		right: 5px
+		border-top-right-radius: 12px

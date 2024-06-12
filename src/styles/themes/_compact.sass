@@ -1,0 +1,44 @@
+//
+// Dark
+//
+
+.opti[data-theme=compact]
+
+	&:not([disabled=disabled])
+		--surface-shadow-decl: 0 1px 0 rgba(255, 255, 255, .4), #{$shadowScreenTransp}
+		--surface-radius-decl: #{$radius} #{$radius} 0 0
+
+		.surface
+
+			&:hover,
+			&:focus
+				--surface-bg: transparent
+				--surface-shadow-decl: 0 1px 0 #{$accent}, #{$shadowScreenTransp}
+
+		&:is(.activated, .activatedLocked)
+			--surface-shadow-decl: 0 0 0 transparent, #{$shadowScreenDark}
+			--surface-radius-decl: #{$radius}
+
+			.surface
+
+				&:hover,
+				&:focus
+					--surface-shadow-decl: 0 0 0 transparent, #{$shadowScreenDark}
+
+	//
+	// Light
+	//
+
+	&[data-scheme=light]
+
+		&:not([disabled=disabled])
+			--surface-shadow-decl: 0 1px 0 rgba(black, .4), $shadowScreenTransp
+
+			.surface
+
+				&:hover,
+				&:focus
+					--surface-shadow-decl: 0 1px 0 $accent, $shadowScreenTransp
+
+			&:is(.activated, .activatedLocked)
+				--surface-shadow-decl: 0 0 0 transparent, $shadowScreenLight

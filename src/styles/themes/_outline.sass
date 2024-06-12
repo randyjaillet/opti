@@ -1,0 +1,31 @@
+//
+// Dark
+//
+
+.opti[data-theme=outline]
+
+	&:not([disabled=disabled], .activated, .activatedLocked)
+
+		.surface
+			background-color: transparent
+			outline: 2px solid rgba(white, .25)
+
+			&:hover,
+			&:focus
+				outline-color: $accent
+
+
+	//
+	// Light
+	//
+
+	&[data-scheme=light]
+
+		&:not([disabled=disabled], .activated, .activatedLocked)
+
+			.surface
+				outline-color: rgba(black, .15)
+
+				&:hover,
+				&:focus
+					outline-color: $accent

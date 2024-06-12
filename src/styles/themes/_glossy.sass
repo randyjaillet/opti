@@ -1,0 +1,71 @@
+//
+// Dark
+//
+
+.opti[data-theme=glossy]
+	// --surface-bg: transparent
+	--tag-bg: inherit
+	--surface-shadow-decl: inset 0 1px rgba(255, 255, 255, .12), #{$shadowScreenTransp}, 0 1px 3px rgba(0, 0, 0, .35)
+
+	&:not([disabled=disabled])
+
+		$radialWhite: radial-gradient(150% 110% at center top, rgba(white, 18%), rgba(white, 7%) 50%, transparent 50%)
+		$linearWhite: linear-gradient(rgba(white, .18), rgba(white, .05) 50%, transparent 50%)
+		$radialAccent: radial-gradient($accent-bg-dark, transparent)
+		$linearWhiteBounce: linear-gradient(transparent 70%, rgba(white, 3%))
+		$linearAccentBounce: linear-gradient(transparent 70%, rgba($accent-bg-dark, 65%))
+
+		.surface
+			--surface-gradients-decl: #{$radialWhite}, #{$linearWhiteBounce}
+
+			&:hover,
+			&:focus
+				--surface-bg: rgba(0, 0, 0, .3)
+				--surface-gradients-decl: #{$radialWhite}, #{$radialAccent}, #{$linearAccentBounce}
+
+		&:is(.activated, .activatedLocked)
+			--surface-bg: rgba(0, 0, 0, .3)
+			--surface-gradients-decl: #{$linearWhite}, #{$linearWhiteBounce}
+			--surface-shadow-decl: inset 0 1px rgba(255, 255, 255, .2), #{$shadowScreenDark}, 0 1px 1px transparent
+
+			.surface
+
+				&:hover,
+				&:focus
+					--surface-gradients-decl: #{$linearWhite}, #{$radialAccent}, #{$linearAccentBounce}
+
+
+	//
+	// Light
+	//
+
+	&[data-scheme=light]
+
+		&:not([disabled=disabled])
+			$radialWhite: radial-gradient(150% 110% at center top, rgba(white, 75%), rgba(white, 40%) 50%, transparent 50%)
+			$linearWhite: linear-gradient(rgba(white, 75%), rgba(white, 40%) 50%, transparent 50%)
+			$radialAccent: radial-gradient(rgba($accent-light, 75%), transparent)
+			$linearWhiteBounce: linear-gradient(transparent 70%, rgba(white, 50%))
+			$linearAccentBounce: linear-gradient(transparent 70%, rgba($accent-bg-light, 50%))
+
+			.surface
+				// --surface-bg: transparent
+				--surface-gradients-decl: #{$linearWhiteBounce}, #{$radialWhite}
+				--surface-shadow-decl: inset 0 1px white, #{$shadowScreenTransp}, 0 1px 3px rgba(0, 0, 0, .15)
+
+				&:hover,
+				&:focus
+					--surface-bg: rgba(34, 34, 34, .05)
+					--surface-gradients-decl: #{$linearAccentBounce}, #{$radialWhite}, #{$radialAccent}
+
+			&:is(.activated, .activatedLocked)
+
+				.surface
+					--accent: rgba($accent-bg-light, 75%)
+					// --surface-bg: rgba(white, .3)
+					--surface-gradients-decl: #{$linearWhiteBounce}, #{$linearWhite}
+					--surface-shadow-decl: inset 0 1px rgba(255, 255, 255, .2), #{$shadowScreenLight}, 0 1px 1px transparent
+
+					&:hover,
+					&:focus
+						--surface-gradients-decl: #{$linearAccentBounce}, #{$linearWhite}, #{$radialAccent}

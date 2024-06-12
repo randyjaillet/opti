@@ -1,0 +1,82 @@
+.opti[data-scheme=light]
+
+
+	//
+	//
+	// Base - Light scheme
+	// 
+	//
+
+	--text-col-rgbvals: 0,0,0
+	--text-col: rgb(var(--text-col-rgbvals))
+	--surface-bg: rgba(34, 34, 34, .05)
+	--surface-element-dropshadows-rgbvals: 255,255,255
+	--surface-element-dropshadows: rgb(var(--surface-element-dropshadows-rgbvals))
+	--surface-element-dropshadows-decl: 0 1px var(--surface-element-dropshadows)
+	--dd-col-rgbvals: 68, 68, 68
+	--dd-col: rgb(var(--dd-col-rgbvals))
+	--dd-bg: rgba(238, 238, 238, .95)
+	--accent-bg: #C7E3F1
+
+
+	//
+	//
+	// States - Light scheme
+	//
+	//
+
+	// Not disabled - light
+	&:is(:not([disabled=disabled]))
+
+		.surface
+
+			&:hover,
+			&:focus
+				--surface-bg: $accent-light
+
+		.dropdown
+
+			.list
+
+				span
+					&:hover,
+					&.fakefocus
+						color: $accent
+
+	// Disabled - light
+	&:is([disabled=disabled])
+
+		.surface
+			background-color: transparent
+
+	// Activated - light
+	&:is(.activated, .activatedLocked)
+
+		.surface
+			background-color: rgba(#EEE, .95)
+			--surface-shadow-decl: #{$shadowScreenLight}
+
+	// Neither zerostate nor disabled - light
+	&:not(.zerostate):not([disabled=disabled])
+
+		.surface
+
+			> svg.icon-ex-surf
+
+				&:hover
+					stroke: crimson
+					background-color: rgba(pink, .6)
+
+	// Removable text/tags highlighted - light
+	&.highlightRemovables .surface .texts .text-op,
+	&:not([disabled=disabled]) .surface .texts ul .tag:hover,
+	&.highlightRemovables .surface .texts ul .tag
+		color: crimson
+
+	// Disabled - light
+	&:not([disabled=disabled]) .surface .texts ul .tag:hover,
+	&.highlightRemovables .surface .texts ul .tag
+		background-color: rgba(pink, .6)
+
+		svg
+			stroke: crimson

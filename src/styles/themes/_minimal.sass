@@ -1,0 +1,23 @@
+//
+// Dark
+//
+
+.opti[data-theme=minimal]
+
+	&:not([disabled=disabled])
+	
+		.surface
+
+			&:hover,
+			&:focus
+				--surface-bg: var(--accent-bg)
+
+		&:is(.activated, .activatedLocked)
+
+			&[multiple=multiple]
+
+				.surface
+
+					&:hover,
+					&:focus
+						--surface-horzpad: #{$horzPad*1.2}

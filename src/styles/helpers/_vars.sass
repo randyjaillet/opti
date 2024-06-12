@@ -1,0 +1,111 @@
+@use 'sass:math'
+
+
+// Product by which to size just about everything
+$oscale: 1
+
+// Duration of most transitions
+$dur: .2s
+
+
+//
+//
+// Dimensions
+//
+//
+
+//
+// Surface
+//
+
+$vertPad: math.round(6px * $oscale)
+$horzPad: math.round($vertPad * 1.5)
+$fontSize: math.round(14px * $oscale)
+$leading: math.round(19px * $oscale)
+$mh: $vertPad * 2 + $leading
+$radius: math.round(7px * $oscale)
+
+//
+// Search
+//
+
+$marginsXSearch: math.round(-8px * $oscale)
+
+//
+// Tags
+//
+
+$tagVertPad: math.round(5px * $oscale)
+$tagHorzPad: math.round(5px * $oscale)
+$tagBGSize: math.round(7px * $oscale)
+$tagMarg: math.round(2px * $oscale)
+$tagFontSize: math.round(11px * $oscale)
+$tagLeading: $leading
+$tagRadius: math.round(3px * $oscale)
+$iconstrokewidth: .6px
+
+
+//
+//
+// Whole declarations
+//
+//
+
+// What's up with these? When Opti is activated, it creates the effect of a
+// partially transparent black/white screen over the page. This is done via
+// the oversized box-shadows below, applied to .surface. It's a nice solution
+// because we don't need a separate element, and the elements on the page
+// beneath the screen can still be clicked on. It's just an aesthetic thing
+// to make the Opti a little more prominent when activated and the background
+// a little less cluttered.
+//
+// So why the completely transparent one? Including it in the inactive state
+// prevents animating the shadow's spread when the Opti is activated.
+// If we don't have a transparent version of the screen in the inactive state,
+// the size of the box-shadow transitions, spreading out from and in to the
+// surface element like a cute little exploding death star.
+// So this way the shadow is already "there" (just invisible) so the browser
+// doesn't see a change in its size to transition, just its color.
+
+$shadowScreenDark: 0 0 0 500vw rgba(255, 255, 255, .4)
+$shadowScreenLight: 0 0 0 500vw rgba(0, 0, 0, .4)
+$shadowScreenTransp: 0 0 0 500vw transparent
+
+
+//
+//
+// Colors
+//
+//
+
+$accent: #48B
+$accent-light: hsl(204.55, 75%, 85%)
+$accent-bg-dark: #32424E
+$accent-bg-light: #C7E3F1
+
+
+//
+//
+// CSS vars
+//
+//
+
+:root
+	--text-col-rgbvals: 255,255,255
+	--text-col: rgb(var(--text-col-rgbvals))
+	--surface-bg: rgba(153, 153, 153, .1)
+	--surface-element-dropshadows-rgbvals: 0,0,0
+	--surface-element-dropshadows: rgb(var(--surface-element-dropshadows-rgbvals))
+	--surface-element-dropshadows-decl: 0 -1px 1px var(--surface-element-dropshadows)
+	--dd-col-rgbvals: 187, 187, 187
+	--dd-col: rgb(var(--dd-col-rgbvals))
+	--dd-bg: rgba(34, 34, 34, .95)
+	--accent-bg: #32424E
+	--surface-shadow-decl: #{$shadowScreenTransp}
+	--surface-gradients-decl: null
+	--surface-horzmar: 0
+	--surface-vertpad: #{$vertPad}
+	--surface-horzpad: #{$horzPad}
+	--surface-radius-decl: #{$radius}
+	--tag-horzpad: 5px
+	--tag-bg: rgba(153, 153, 153, .2)
