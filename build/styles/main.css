@@ -1,0 +1,607 @@
+:root {
+  --text-col-rgbvals: 255,255,255;
+  --text-col: rgb(var(--text-col-rgbvals));
+  --surface-bg: rgba(153, 153, 153, .1);
+  --surface-element-dropshadows-rgbvals: 0,0,0;
+  --surface-element-dropshadows: rgb(var(--surface-element-dropshadows-rgbvals));
+  --surface-element-dropshadows-decl: 0 -1px 1px var(--surface-element-dropshadows);
+  --dd-col-rgbvals: 187, 187, 187;
+  --dd-col: rgb(var(--dd-col-rgbvals));
+  --dd-bg: rgba(34, 34, 34, .95);
+  --accent-bg: #32424E;
+  --surface-shadow-decl: 0 0 0 500vw transparent;
+  --surface-gradients-decl: null;
+  --surface-horzmar: 0;
+  --surface-vertpad: 6px;
+  --surface-horzpad: 9px;
+  --surface-radius-decl: 7px;
+  --tag-horzpad: 5px;
+  --tag-bg: rgba(153, 153, 153, .2);
+}
+
+.opti-hidden {
+  display: none !important;
+}
+
+.opti,
+.opti *,
+.opti *:before,
+.opti *:after {
+  box-sizing: border-box;
+}
+
+.opti {
+  display: block;
+  position: relative;
+  text-align: left;
+  align-items: center;
+}
+.opti .surface .texts .text-op, .opti .surface .texts .text-ph {
+  height: 19px;
+  overflow: visible;
+  opacity: 1;
+  transform: translate(0px, 0px);
+  transition: color 0.2s linear, opacity 0.2s linear, transform 0.2s linear;
+  display: block;
+  order: 0;
+  text-wrap: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.opti.zerostate .surface .text-op, .opti[multiple=multiple] .surface .text-op, .opti:not(.zerostate) .surface .texts .text-ph {
+  height: 0;
+  overflow: hidden;
+  opacity: 0;
+  text-wrap: nowrap;
+  transform: translate(-5px, 0px);
+  transition: opacity 0.2s linear, transform 0.2s linear, height 0s linear 0.2s, flex-basis 0s linear 0.2s;
+}
+.opti .surface .texts .text-op.fadingOut, .opti .surface .texts .text-ph.fadingOut {
+  height: 0 !important;
+  opacity: 0 !important;
+  transform: translate(-5px, 0px) !important;
+  transition: opacity 0.2s linear, transform 0.2s linear, height 0s linear 0.2s, flex-basis 0s linear 0.2s;
+}
+.opti .surface {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  position: relative;
+  margin: 0 var(--surface-horzmar);
+  padding: var(--surface-vertpad) var(--surface-horzpad);
+  background-color: var(--surface-bg);
+  background-image: var(--surface-gradients-decl);
+  background-repeat: no-repeat;
+  border-radius: var(--surface-radius-decl);
+  font-size: 14px;
+  line-height: 19px;
+  text-decoration: none;
+  min-height: 31px;
+  z-index: 100;
+  color: var(--text-col);
+  cursor: pointer;
+  outline: none;
+  box-shadow: var(--surface-shadow-decl);
+  stroke-width: 0.6px;
+  transition: all 0.2s linear;
+}
+.opti .surface .texts {
+  flex: 1 1 auto;
+  min-height: 19px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.opti .surface .texts .text-grp {
+  opacity: 0.35;
+  font-weight: 400;
+}
+.opti .surface .texts .text-grp:after {
+  display: inline-block;
+  margin: 0 5px;
+  content: "/";
+}
+.opti .surface .texts .text-ph {
+  font-style: italic;
+  opacity: 0.35;
+}
+.opti .surface .texts .text-ph:empty {
+  transition: none;
+}
+.opti .surface .texts .text-op {
+  text-shadow: var(--surface-element-dropshadows-decl);
+}
+.opti .surface .texts ul {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  flex-wrap: wrap;
+  flex: 1 1 auto;
+  gap: 5px;
+  align-items: center;
+  height: 0;
+  list-style: none;
+}
+.opti .surface .texts ul .tag {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 1 auto;
+  flex-wrap: nowrap;
+  width: 0;
+  max-width: 150px;
+  list-style: none;
+  font-size: 11px;
+  opacity: 0;
+  margin: 0;
+  padding: 0 var(--tag-horzpad);
+  background-color: var(--tag-bg);
+  color: var(--text-col);
+  border: none;
+  border-radius: 3px;
+  text-decoration: none;
+  transition: all 0.2s linear, max-width 0.3s linear;
+}
+.opti .surface .texts ul .tag svg {
+  display: none;
+  flex: 0 0 7px;
+  width: 7px;
+  height: 7px;
+  margin: 0;
+  margin-right: 3px;
+  stroke-width: 0.6px;
+  stroke: var(--text-col);
+  transition: stroke 0.2s linear;
+}
+.opti .surface .texts ul .tag .tag-text {
+  line-height: 19px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.opti .surface .texts ul .tag.initial, .opti .surface .texts ul .tag.fadingOut {
+  opacity: 0 !important;
+  height: 0;
+  width: 0 !important;
+  max-width: 0;
+  flex-basis: 0 !important;
+  margin: 0;
+  padding: 0 !important;
+}
+.opti .surface > svg {
+  --text-col-faded: rgba(var(--text-col-rgbvals), .8);
+  display: none;
+  flex: 0 0 auto;
+  margin-left: 9px;
+  order: 2;
+  stroke: var(--text-col-faded);
+  stroke-width: 1px;
+  filter: drop-shadow(var(--surface-element-dropshadows-decl));
+}
+.opti .surface > svg.icon-chevs {
+  height: 16px;
+  width: 16px;
+  margin-right: -3px;
+  border-radius: 50%;
+}
+.opti .surface > svg.icon-ban {
+  height: 13px;
+  width: 13px;
+  stroke-width: 1.2px;
+}
+.opti .surface > svg.icon-ex-surf {
+  display: block;
+  width: 18px;
+  height: 18px;
+  margin-right: -8px;
+  stroke-width: 0.7px;
+  border-radius: 50%;
+}
+.opti .dropdown {
+  position: absolute;
+  width: 100%;
+  min-width: 200px;
+  top: 100%;
+  left: -200vw;
+  z-index: 102;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  opacity: 0;
+  transform: translateY(5px);
+  transition: opacity 0.4s linear, transform 0.4s linear, left 0s linear 0.4s;
+  color: var(--dd-col);
+}
+.opti .dropdown .search {
+  display: flex;
+  align-items: center;
+  width: calc(100% + 16px);
+  appearance: none;
+  padding: 6px 7px;
+  background-color: var(--dd-bg);
+  border-radius: 100px;
+  margin: 2px -8px 0 -8px;
+  transition: transform 0.2s linear;
+}
+.opti .dropdown .search svg {
+  margin: 0 4px;
+  stroke: var(--dd-col);
+}
+.opti .dropdown .search input {
+  background-color: transparent;
+  width: 100%;
+  border: none;
+  font-size: 14px;
+  color: var(--dd-col);
+  flex-grow: 1;
+}
+.opti .dropdown .search input:focus {
+  display: block !important;
+  outline: none;
+}
+.opti .dropdown .list {
+  margin: 2px 0 0 0;
+  padding: 12px 0;
+  max-height: 50vh;
+  overflow: auto;
+  position: relative;
+  font-size: 14px;
+  line-height: 1.15em;
+  background-color: var(--dd-bg);
+  border-radius: 7px;
+  transform: translateY(10px);
+  transition: transform 0.2s linear;
+}
+.opti .dropdown .list h5 {
+  margin: 10px 0 10px 20px;
+  padding: 0;
+  font-size: inherit;
+  font-weight: 700;
+  color: rgba(var(--dd-col-rgbvals), 0.35);
+}
+.opti .dropdown .list h5:only-chid {
+  display: none;
+}
+.opti .dropdown .list span {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  padding: 5px 10px 5px 20px;
+  cursor: pointer;
+  transition: all 0.2s linear, padding-left 0.1s linear, padding-right 0.1s linear;
+}
+.opti .dropdown .list span:hover, .opti .dropdown .list span.fakefocus {
+  outline: none;
+}
+.opti .dropdown .list span > * {
+  flex: 1 1 auto;
+}
+.opti .dropdown .list span svg {
+  display: none;
+  flex: 0 0 auto;
+  margin-left: 3px;
+  stroke-width: 1px;
+}
+.opti .dropdown .list span svg.icon-tick {
+  stroke: #48B;
+}
+.opti .dropdown .list span svg.icon-ban {
+  stroke: var(--dd-col);
+}
+.opti .dropdown .list span svg.icon-arrow {
+  display: inline-flex;
+  width: 0;
+  height: 0;
+  stroke: #48B;
+  margin-left: 0;
+  transition: width 0.2s linear, height 0.2s linear, margin-left 0.2s linear;
+}
+.opti .dropdown .list span.selected {
+  color: #48B;
+}
+.opti .dropdown .list span.selected svg.icon-tick {
+  display: inline-flex;
+}
+.opti .dropdown .list span:not([disabled=disabled]):hover, .opti .dropdown .list span:not([disabled=disabled]).fakefocus {
+  background-color: var(--accent-bg);
+  color: #48B;
+}
+.opti .dropdown .list span:not([disabled=disabled]).fakefocus svg.icon-arrow {
+  width: 16px;
+  height: 16px;
+  margin-left: -10px;
+}
+.opti .dropdown .list span[disabled=disabled] {
+  cursor: not-allowed;
+}
+.opti .dropdown .list span[disabled=disabled]:not(.selected) {
+  opacity: 0.7;
+}
+.opti .dropdown .list span[disabled=disabled]:not(.selected) svg.icon-ban {
+  display: inline-flex;
+}
+.opti .dropdown .list section span {
+  padding-left: 40px;
+}
+.opti .dropdown .list section span:not([disabled=disabled]).fakefocus {
+  padding-right: 0px;
+}
+.opti.flip-v .dropdown {
+  top: auto;
+  bottom: calc(100% + 2px);
+  transform: translateY(-5px);
+}
+.opti.flip-v .dropdown .search {
+  order: 1;
+  transform: translateY(0);
+}
+.opti.flip-v .dropdown .list {
+  transform: translateY(-5px);
+}
+.opti.flip-v.activated .dropdown, .opti.flip-v.activatedLocked .dropdown {
+  transform: translateY(0);
+}
+.opti.flip-v.activated .dropdown .list, .opti.flip-v.activatedLocked .dropdown .list {
+  transform: translateY(0);
+}
+.opti[disabled=disabled] .surface {
+  cursor: not-allowed;
+  background-color: transparent;
+  background-image: none;
+  box-shadow: none;
+  border: none;
+  padding: 0;
+  min-height: 0;
+}
+.opti[disabled=disabled] .surface > svg.icon-ban {
+  display: block;
+}
+.opti:not([disabled=disabled]) .surface:hover, .opti:not([disabled=disabled]) .surface:focus {
+  --surface-bg: var(--accent-bg);
+}
+.opti:not([disabled=disabled]) .surface .texts ul .tag svg.icon-ex {
+  display: inline-flex;
+}
+.opti:not([disabled=disabled]) .surface > svg.icon-chevs {
+  display: block;
+}
+.opti:not([disabled=disabled]):is(.activated, .activatedLocked) {
+  --surface-bg: rgba(34, 34, 34, .95);
+  --surface-shadow-decl: 0 0 0 500vw rgba(255, 255, 255, 0.4);
+}
+.opti:not([disabled=disabled]):is(.activated, .activatedLocked) .surface {
+  outline: none;
+  z-index: 101;
+}
+.opti:not([disabled=disabled]):is(.activated, .activatedLocked) .surface:hover, .opti:not([disabled=disabled]):is(.activated, .activatedLocked) .surface:focus {
+  --surface-bg: var(--accent-bg);
+}
+.opti:not([disabled=disabled]):not(.zerostate) .surface > svg.icon-ex-surf {
+  opacity: 1;
+  transition: opacity 0.2s linear, stroke 0.2s linear, background-color 0.2s linear;
+}
+.opti:not([disabled=disabled]):not(.zerostate) .surface > svg.icon-ex-surf:hover {
+  stroke: pink;
+  background-color: rgba(220, 20, 60, 0.3);
+  filter: none;
+}
+.opti[multiple=multiple] .surface .texts .text-op {
+  flex: 0 1 0;
+  width: 0;
+  opacity: 0;
+  overflow: hidden;
+  text-wrap: nowrap;
+}
+.opti[multiple=multiple] .surface .texts ul:not(:empty) {
+  min-height: 19px;
+  height: auto;
+}
+.opti[multiple=multiple] .surface .texts ul:not(:empty) .tag {
+  width: auto;
+  opacity: 1;
+}
+.opti[multiple=multiple]:not(.zerostate) {
+  --surface-horzpad: var(--surface-vertpad);
+}
+.opti:not([multiple=multiple]) .surface .texts ul .tag {
+  opacity: 0;
+  height: 0;
+  width: 0;
+  max-width: 0;
+  flex-basis: 0;
+  margin: 0;
+  padding: 0;
+}
+.opti:is(.activated, .activatedLocked) .dropdown {
+  left: 0;
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.2s linear, transform 0.2s linear;
+}
+.opti:is(.activated, .activatedLocked) .dropdown .list {
+  transform: translateY(0);
+}
+.opti.highlightRemovables .surface .texts .text-op {
+  color: pink;
+}
+.opti:not([disabled=disabled]) .surface .texts ul .tag:hover, .opti.highlightRemovables .surface .texts ul .tag {
+  background-color: rgba(220, 20, 60, 0.3);
+  color: pink;
+}
+.opti:not([disabled=disabled]) .surface .texts ul .tag:hover svg, .opti.highlightRemovables .surface .texts ul .tag svg {
+  stroke: pink;
+}
+.opti.zerostate .surface > svg.icon-ex-surf, .opti[disabled=disabled] .surface > svg.icon-ex-surf {
+  width: 0;
+  opacity: 0;
+  transition: opacity 0.2s linear, width 0s linear 0.2s;
+}
+.opti.zerostate .surface .text-op .text-grp, .opti[multiple=multiple] .surface .text-op .text-grp {
+  display: none;
+}
+
+.opti[data-scheme=light] {
+  --text-col-rgbvals: 0,0,0;
+  --text-col: rgb(var(--text-col-rgbvals));
+  --surface-bg: rgba(34, 34, 34, .05);
+  --surface-element-dropshadows-rgbvals: 255,255,255;
+  --surface-element-dropshadows: rgb(var(--surface-element-dropshadows-rgbvals));
+  --surface-element-dropshadows-decl: 0 1px var(--surface-element-dropshadows);
+  --dd-col-rgbvals: 68, 68, 68;
+  --dd-col: rgb(var(--dd-col-rgbvals));
+  --dd-bg: rgba(238, 238, 238, .95);
+  --accent-bg: #C7E3F1;
+}
+.opti[data-scheme=light]:is(:not([disabled=disabled])) .surface:hover, .opti[data-scheme=light]:is(:not([disabled=disabled])) .surface:focus {
+  --surface-bg: $accent-light;
+}
+.opti[data-scheme=light]:is(:not([disabled=disabled])) .dropdown .list span:hover, .opti[data-scheme=light]:is(:not([disabled=disabled])) .dropdown .list span.fakefocus {
+  color: #48B;
+}
+.opti[data-scheme=light]:is([disabled=disabled]) .surface {
+  background-color: transparent;
+}
+.opti[data-scheme=light]:is(.activated, .activatedLocked) .surface {
+  background-color: rgba(238, 238, 238, 0.95);
+  --surface-shadow-decl: 0 0 0 500vw rgba(0, 0, 0, 0.4);
+}
+.opti[data-scheme=light]:not(.zerostate):not([disabled=disabled]) .surface > svg.icon-ex-surf:hover {
+  stroke: crimson;
+  background-color: rgba(255, 192, 203, 0.6);
+}
+.opti[data-scheme=light].highlightRemovables .surface .texts .text-op, .opti[data-scheme=light]:not([disabled=disabled]) .surface .texts ul .tag:hover, .opti[data-scheme=light].highlightRemovables .surface .texts ul .tag {
+  color: crimson;
+}
+.opti[data-scheme=light]:not([disabled=disabled]) .surface .texts ul .tag:hover, .opti[data-scheme=light].highlightRemovables .surface .texts ul .tag {
+  background-color: rgba(255, 192, 203, 0.6);
+}
+.opti[data-scheme=light]:not([disabled=disabled]) .surface .texts ul .tag:hover svg, .opti[data-scheme=light].highlightRemovables .surface .texts ul .tag svg {
+  stroke: crimson;
+}
+
+.opti[data-theme=glossy] {
+  --tag-bg: inherit;
+  --surface-shadow-decl: inset 0 1px rgba(255, 255, 255, .12), 0 0 0 500vw transparent, 0 1px 3px rgba(0, 0, 0, .35);
+}
+.opti[data-theme=glossy]:not([disabled=disabled]) .surface {
+  --surface-gradients-decl: radial-gradient(150% 110% at center top, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.07) 50%, transparent 50%), linear-gradient(transparent 70%, rgba(255, 255, 255, 0.03));
+}
+.opti[data-theme=glossy]:not([disabled=disabled]) .surface:hover, .opti[data-theme=glossy]:not([disabled=disabled]) .surface:focus {
+  --surface-bg: rgba(0, 0, 0, .3);
+  --surface-gradients-decl: radial-gradient(150% 110% at center top, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.07) 50%, transparent 50%), radial-gradient(#32424E, transparent), linear-gradient(transparent 70%, rgba(50, 66, 78, 0.65));
+}
+.opti[data-theme=glossy]:not([disabled=disabled]):is(.activated, .activatedLocked) {
+  --surface-bg: rgba(0, 0, 0, .3);
+  --surface-gradients-decl: linear-gradient(rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.05) 50%, transparent 50%), linear-gradient(transparent 70%, rgba(255, 255, 255, 0.03));
+  --surface-shadow-decl: inset 0 1px rgba(255, 255, 255, .2), 0 0 0 500vw rgba(255, 255, 255, 0.4), 0 1px 1px transparent;
+}
+.opti[data-theme=glossy]:not([disabled=disabled]):is(.activated, .activatedLocked) .surface:hover, .opti[data-theme=glossy]:not([disabled=disabled]):is(.activated, .activatedLocked) .surface:focus {
+  --surface-gradients-decl: linear-gradient(rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.05) 50%, transparent 50%), radial-gradient(#32424E, transparent), linear-gradient(transparent 70%, rgba(50, 66, 78, 0.65));
+}
+.opti[data-theme=glossy][data-scheme=light]:not([disabled=disabled]) .surface {
+  --surface-gradients-decl: linear-gradient(transparent 70%, rgba(255, 255, 255, 0.5)), radial-gradient(150% 110% at center top, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.4) 50%, transparent 50%);
+  --surface-shadow-decl: inset 0 1px white, 0 0 0 500vw transparent, 0 1px 3px rgba(0, 0, 0, .15);
+}
+.opti[data-theme=glossy][data-scheme=light]:not([disabled=disabled]) .surface:hover, .opti[data-theme=glossy][data-scheme=light]:not([disabled=disabled]) .surface:focus {
+  --surface-bg: rgba(34, 34, 34, .05);
+  --surface-gradients-decl: linear-gradient(transparent 70%, rgba(199, 227, 241, 0.5)), radial-gradient(150% 110% at center top, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.4) 50%, transparent 50%), radial-gradient(rgba(188, 222, 245, 0.75), transparent);
+}
+.opti[data-theme=glossy][data-scheme=light]:not([disabled=disabled]):is(.activated, .activatedLocked) .surface {
+  --accent: rgba($accent-bg-light, 75%);
+  --surface-gradients-decl: linear-gradient(transparent 70%, rgba(255, 255, 255, 0.5)), linear-gradient(rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.4) 50%, transparent 50%);
+  --surface-shadow-decl: inset 0 1px rgba(255, 255, 255, .2), 0 0 0 500vw rgba(0, 0, 0, 0.4), 0 1px 1px transparent;
+}
+.opti[data-theme=glossy][data-scheme=light]:not([disabled=disabled]):is(.activated, .activatedLocked) .surface:hover, .opti[data-theme=glossy][data-scheme=light]:not([disabled=disabled]):is(.activated, .activatedLocked) .surface:focus {
+  --surface-gradients-decl: linear-gradient(transparent 70%, rgba(199, 227, 241, 0.5)), linear-gradient(rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.4) 50%, transparent 50%), radial-gradient(rgba(188, 222, 245, 0.75), transparent);
+}
+
+.opti[data-theme=gradated]:not([disabled=disabled]) .surface {
+  --surface-gradients-decl: linear-gradient(rgba(255, 255, 255, .1), rgba(0, 0, 0, .1));
+  --surface-shadow-decl: inset 0 1px rgba(255, 255, 255, .12), 0 0 0 500vw transparent, 0 1px 1px rgba(0, 0, 0, .25);
+}
+.opti[data-theme=gradated]:not([disabled=disabled]):is(.activated, .activatedLocked) .surface {
+  --surface-shadow-decl: inset 0 1px rgba(255, 255, 255, .12), 0 0 0 500vw rgba(255, 255, 255, 0.4), 0 1px 1px transparent;
+}
+.opti[data-theme=gradated][data-scheme=light]:not([disabled=disabled]) .surface {
+  background-image: linear-gradient(rgba(255, 255, 255, 0.15), rgba(0, 0, 0, 0.05));
+  --surface-shadow-decl: inset 0 1px rgba(255, 255, 255, .5), 0 0 0 500vw transparent, 0 1px 1px rgba(0, 0, 0, .15);
+}
+.opti[data-theme=gradated][data-scheme=light]:not([disabled=disabled]):is(.activated, .activatedLocked) .surface {
+  --surface-shadow-decl: inset 0 1px rgba(255, 255, 255, .5), 0 0 0 500vw rgba(0, 0, 0, 0.4), 0 1px 1px transparent;
+}
+
+.opti[data-theme=compact]:not([disabled=disabled]) {
+  --surface-shadow-decl: 0 1px 0 rgba(255, 255, 255, .4), 0 0 0 500vw transparent;
+  --surface-radius-decl: 7px 7px 0 0;
+}
+.opti[data-theme=compact]:not([disabled=disabled]) .surface:hover, .opti[data-theme=compact]:not([disabled=disabled]) .surface:focus {
+  --surface-bg: transparent;
+  --surface-shadow-decl: 0 1px 0 #48B, 0 0 0 500vw transparent;
+}
+.opti[data-theme=compact]:not([disabled=disabled]):is(.activated, .activatedLocked) {
+  --surface-shadow-decl: 0 0 0 transparent, 0 0 0 500vw rgba(255, 255, 255, 0.4);
+  --surface-radius-decl: 7px;
+}
+.opti[data-theme=compact]:not([disabled=disabled]):is(.activated, .activatedLocked) .surface:hover, .opti[data-theme=compact]:not([disabled=disabled]):is(.activated, .activatedLocked) .surface:focus {
+  --surface-shadow-decl: 0 0 0 transparent, 0 0 0 500vw rgba(255, 255, 255, 0.4);
+}
+.opti[data-theme=compact][data-scheme=light]:not([disabled=disabled]) {
+  --surface-shadow-decl: 0 1px 0 rgba(black, .4), $shadowScreenTransp;
+}
+.opti[data-theme=compact][data-scheme=light]:not([disabled=disabled]) .surface:hover, .opti[data-theme=compact][data-scheme=light]:not([disabled=disabled]) .surface:focus {
+  --surface-shadow-decl: 0 1px 0 $accent, $shadowScreenTransp;
+}
+.opti[data-theme=compact][data-scheme=light]:not([disabled=disabled]):is(.activated, .activatedLocked) {
+  --surface-shadow-decl: 0 0 0 transparent, $shadowScreenLight;
+}
+
+.opti[data-theme=minimal]:not([disabled=disabled]) .surface:hover, .opti[data-theme=minimal]:not([disabled=disabled]) .surface:focus {
+  --surface-bg: var(--accent-bg);
+}
+.opti[data-theme=minimal]:not([disabled=disabled]):is(.activated, .activatedLocked)[multiple=multiple] .surface:hover, .opti[data-theme=minimal]:not([disabled=disabled]):is(.activated, .activatedLocked)[multiple=multiple] .surface:focus {
+  --surface-horzpad: 10.8px;
+}
+
+.opti[data-theme=outline]:not([disabled=disabled], .activated, .activatedLocked) .surface {
+  background-color: transparent;
+  outline: 2px solid rgba(255, 255, 255, 0.25);
+}
+.opti[data-theme=outline]:not([disabled=disabled], .activated, .activatedLocked) .surface:hover, .opti[data-theme=outline]:not([disabled=disabled], .activated, .activatedLocked) .surface:focus {
+  outline-color: #48B;
+}
+.opti[data-theme=outline][data-scheme=light]:not([disabled=disabled], .activated, .activatedLocked) .surface {
+  outline-color: rgba(0, 0, 0, 0.15);
+}
+.opti[data-theme=outline][data-scheme=light]:not([disabled=disabled], .activated, .activatedLocked) .surface:hover, .opti[data-theme=outline][data-scheme=light]:not([disabled=disabled], .activated, .activatedLocked) .surface:focus {
+  outline-color: #48B;
+}
+
+.opti[data-theme=compact], .opti[data-theme=minimal] {
+  --surface-horzpad: 0;
+  --surface-bg: transparent;
+  --tag-horzpad: 0;
+  --tag-bg: transparent;
+}
+.opti[data-theme=compact]:not([disabled=disabled]), .opti[data-theme=minimal]:not([disabled=disabled]) {
+  --surface-horzmar: 11px;
+}
+.opti[data-theme=compact]:not([disabled=disabled]) .surface:hover, .opti[data-theme=compact]:not([disabled=disabled]) .surface:focus, .opti[data-theme=minimal]:not([disabled=disabled]) .surface:hover, .opti[data-theme=minimal]:not([disabled=disabled]) .surface:focus {
+  --surface-horzmar: 0;
+  --surface-horzpad: 11px;
+}
+.opti[data-theme=compact]:not([disabled=disabled]) .surface .texts ul, .opti[data-theme=minimal]:not([disabled=disabled]) .surface .texts ul {
+  gap: 10px;
+}
+.opti[data-theme=compact]:not([disabled=disabled]):is(.activated, .activatedLocked) .surface, .opti[data-theme=minimal]:not([disabled=disabled]):is(.activated, .activatedLocked) .surface {
+  --surface-horzmar: 0;
+  --surface-horzpad: 11px;
+}
+.opti[data-theme=compact]:not([disabled=disabled])[multiple=multiple], .opti[data-theme=minimal]:not([disabled=disabled])[multiple=multiple] {
+  --surface-horzpad: 0;
+}
+.opti[data-theme=compact]:not([disabled=disabled]) .surface .texts ul .tag:hover, .opti[data-theme=compact]:not([disabled=disabled]).highlightRemovables .surface .texts ul .tag, .opti[data-theme=minimal]:not([disabled=disabled]) .surface .texts ul .tag:hover, .opti[data-theme=minimal]:not([disabled=disabled]).highlightRemovables .surface .texts ul .tag {
+  background-color: inherit;
+}
