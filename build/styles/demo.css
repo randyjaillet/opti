@@ -31,11 +31,20 @@ textarea {
   color: #444;
 }
 
+.flexit {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin: 5px 0;
+}
+
 body {
+  --body-bg-col-greyscale: white;
+  --body-bg-col-color: #E4F2FB;
   margin: 0;
   padding: 0;
-  background-color: hsl(204.55, 75%, 85%);
-  background-image: radial-gradient(circle at 100% 150%, hsl(204.55, 75%, 85%) 24%, white 24%, white 28%, hsl(204.55, 75%, 85%) 28%, hsl(204.55, 75%, 85%) 36%, white 36%, white 40%, transparent 40%, transparent), radial-gradient(circle at 0 150%, hsl(204.55, 75%, 85%) 24%, white 24%, white 28%, hsl(204.55, 75%, 85%) 28%, hsl(204.55, 75%, 85%) 36%, white 36%, white 40%, transparent 40%, transparent), radial-gradient(circle at 50% 100%, white 10%, hsl(204.55, 75%, 85%) 10%, hsl(204.55, 75%, 85%) 23%, white 23%, white 30%, hsl(204.55, 75%, 85%) 30%, hsl(204.55, 75%, 85%) 43%, white 43%, white 50%, hsl(204.55, 75%, 85%) 50%, hsl(204.55, 75%, 85%) 63%, white 63%, white 71%, transparent 71%, transparent), radial-gradient(circle at 100% 50%, white 5%, hsl(204.55, 75%, 85%) 5%, hsl(204.55, 75%, 85%) 15%, white 15%, white 20%, hsl(204.55, 75%, 85%) 20%, hsl(204.55, 75%, 85%) 29%, white 29%, white 34%, hsl(204.55, 75%, 85%) 34%, hsl(204.55, 75%, 85%) 44%, white 44%, white 49%, transparent 49%, transparent), radial-gradient(circle at 0 50%, white 5%, hsl(204.55, 75%, 85%) 5%, hsl(204.55, 75%, 85%) 15%, white 15%, white 20%, hsl(204.55, 75%, 85%) 20%, hsl(204.55, 75%, 85%) 29%, white 29%, white 34%, hsl(204.55, 75%, 85%) 34%, hsl(204.55, 75%, 85%) 44%, white 44%, white 49%, transparent 49%, transparent);
+  background-color: var(--body-bg-col-color);
+  background-image: radial-gradient(circle at 100% 150%, var(--body-bg-col-color) 24%, var(--body-bg-col-greyscale) 24%, var(--body-bg-col-greyscale) 28%, var(--body-bg-col-color) 28%, var(--body-bg-col-color) 36%, var(--body-bg-col-greyscale) 36%, var(--body-bg-col-greyscale) 40%, transparent 40%, transparent), radial-gradient(circle at 0 150%, var(--body-bg-col-color) 24%, var(--body-bg-col-greyscale) 24%, var(--body-bg-col-greyscale) 28%, var(--body-bg-col-color) 28%, var(--body-bg-col-color) 36%, var(--body-bg-col-greyscale) 36%, var(--body-bg-col-greyscale) 40%, transparent 40%, transparent), radial-gradient(circle at 50% 100%, var(--body-bg-col-greyscale) 10%, var(--body-bg-col-color) 10%, var(--body-bg-col-color) 23%, var(--body-bg-col-greyscale) 23%, var(--body-bg-col-greyscale) 30%, var(--body-bg-col-color) 30%, var(--body-bg-col-color) 43%, var(--body-bg-col-greyscale) 43%, var(--body-bg-col-greyscale) 50%, var(--body-bg-col-color) 50%, var(--body-bg-col-color) 63%, var(--body-bg-col-greyscale) 63%, var(--body-bg-col-greyscale) 71%, transparent 71%, transparent), radial-gradient(circle at 100% 50%, var(--body-bg-col-greyscale) 5%, var(--body-bg-col-color) 5%, var(--body-bg-col-color) 15%, var(--body-bg-col-greyscale) 15%, var(--body-bg-col-greyscale) 20%, var(--body-bg-col-color) 20%, var(--body-bg-col-color) 29%, var(--body-bg-col-greyscale) 29%, var(--body-bg-col-greyscale) 34%, var(--body-bg-col-color) 34%, var(--body-bg-col-color) 44%, var(--body-bg-col-greyscale) 44%, var(--body-bg-col-greyscale) 49%, transparent 49%, transparent), radial-gradient(circle at 0 50%, var(--body-bg-col-greyscale) 5%, var(--body-bg-col-color) 5%, var(--body-bg-col-color) 15%, var(--body-bg-col-greyscale) 15%, var(--body-bg-col-greyscale) 20%, var(--body-bg-col-color) 20%, var(--body-bg-col-color) 29%, var(--body-bg-col-greyscale) 29%, var(--body-bg-col-greyscale) 34%, var(--body-bg-col-color) 34%, var(--body-bg-col-color) 44%, var(--body-bg-col-greyscale) 44%, var(--body-bg-col-greyscale) 49%, transparent 49%, transparent);
   background-size: 100px 50px;
 }
 
@@ -95,7 +104,7 @@ main:not(.opti *) {
   max-width: 800px;
   min-height: 100vh;
   margin: 0 auto;
-  padding: 30px;
+  padding: 10px 30px 30px 30px;
   background-color: rgba(255, 255, 255, 0.8);
   outline: 3px solid white;
 }
@@ -104,24 +113,28 @@ main:not(.opti *) {
     padding: 50px 15px;
   }
 }
-main:not(.opti *) #scheme-switch-div {
-  margin: 0 0 10px 0;
+main:not(.opti *) #top-controls {
+  margin-bottom: 15px;
+  justify-content: space-between;
+  align-items: center;
+}
+main:not(.opti *) #top-controls #scheme-switch-div {
   display: flex;
   justify-content: flex-end;
 }
-main:not(.opti *) #scheme-switch-div input {
+main:not(.opti *) #top-controls #scheme-switch-div input {
   position: absolute;
   right: 300vw;
 }
-main:not(.opti *) #scheme-switch-div #scheme-switch-label {
+main:not(.opti *) #top-controls #scheme-switch-div #scheme-switch-label {
   position: relative;
   line-height: 22px;
   display: inline-flex;
   align-items: center;
 }
-main:not(.opti *) #scheme-switch-div #scheme-switch-label:before {
+main:not(.opti *) #top-controls #scheme-switch-div #scheme-switch-label:before {
   content: "";
-  width: 65px;
+  width: 55px;
   height: 31px;
   text-align: right;
   display: inline-block;
@@ -130,22 +143,20 @@ main:not(.opti *) #scheme-switch-div #scheme-switch-label:before {
   border-radius: 15.5px;
   transition: all 0.2s linear;
 }
-main:not(.opti *) #scheme-switch-div #scheme-switch-label:after {
+main:not(.opti *) #top-controls #scheme-switch-div #scheme-switch-label:after {
   content: "";
-  height: 23px;
-  width: 23px;
-  border-radius: 11.5px;
-  background-color: rgba(255, 255, 255, 0.2);
+  height: 17px;
+  width: 17px;
+  border-radius: 8.5px;
   background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLXN1biI+PGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iNCIvPjxwYXRoIGQ9Ik0xMiAydjIiLz48cGF0aCBkPSJNMTIgMjB2MiIvPjxwYXRoIGQ9Im00LjkzIDQuOTMgMS40MSAxLjQxIi8+PHBhdGggZD0ibTE3LjY2IDE3LjY2IDEuNDEgMS40MSIvPjxwYXRoIGQ9Ik0yIDEyaDIiLz48cGF0aCBkPSJNMjAgMTJoMiIvPjxwYXRoIGQ9Im02LjM0IDE3LjY2LTEuNDEgMS40MSIvPjxwYXRoIGQ9Im0xOS4wNyA0LjkzLTEuNDEgMS40MSIvPjwvc3ZnPg==);
   background-position: center;
   background-repeat: no-repeat;
-  background-size: 60%;
   position: absolute;
-  top: 4px;
-  left: 4px;
+  top: 7px;
+  left: 7px;
   transition: all 0.1s linear;
 }
-main:not(.opti *) #scheme-switch-div input:checked + #scheme-switch-label:before {
+main:not(.opti *) #top-controls #scheme-switch-div input:checked + #scheme-switch-label:before {
   content: "";
   direction: ltr;
   text-align: left;
@@ -155,29 +166,30 @@ main:not(.opti *) #scheme-switch-div input:checked + #scheme-switch-label:before
   background-color: #24526a;
   transition: background-color 0.1s linear;
 }
-main:not(.opti *) #scheme-switch-div input:checked + #scheme-switch-label:after {
-  left: 38px;
+main:not(.opti *) #top-controls #scheme-switch-div input:checked + #scheme-switch-label:after {
+  left: 31px;
   transition: all 0.1s ease-out;
-  background-color: rgba(255, 255, 255, 0.3);
   background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLW1vb24iPjxwYXRoIGQ9Ik0xMiAzYTYgNiAwIDAgMCA5IDkgOSA5IDAgMSAxLTktOVoiLz48L3N2Zz4=);
+  background-size: 80%;
 }
 main:not(.opti *) header:not(.opti *) {
   display: flex;
-  gap: 20px;
+  gap: 30px;
   flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+main:not(.opti *) header:not(.opti *) section:not(.opti *) {
+  padding: 30px 20px;
+  border-radius: 15px;
 }
 main:not(.opti *) header:not(.opti *) #header-wrap {
   flex-basis: 300px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 30px 20px;
-  border-radius: 15px;
   text-align: center;
-  background-color: #EAEAEA;
-  background-image: linear-gradient(transparent, rgba(0, 0, 0, 0.05));
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.08);
   transition: all 0.2s linear;
+  background-image: linear-gradient(transparent, rgba(221, 221, 221, 0.3));
 }
 main:not(.opti *) header:not(.opti *) #header-wrap #demo-opti {
   margin: 20px auto 10px auto;
@@ -203,56 +215,84 @@ main:not(.opti *) header:not(.opti *) #header-wrap #themeNscheme > div label {
 main:not(.opti *) header:not(.opti *) #header-wrap #themeNscheme > div .opti .surface {
   font-size: inherit;
 }
-main:not(.opti *) header:not(.opti *).opti-scheme-dark #header-wrap {
-  background-color: #222;
-  background-image: linear-gradient(rgba(255, 255, 255, 0.1), transparent);
-  color: white;
-}
-main:not(.opti *) header:not(.opti *).opti-scheme-dark #header-wrap h1:not(.opti *) {
-  color: white;
-}
-main:not(.opti *) header:not(.opti *).opti-scheme-dark #header-wrap h1:not(.opti *) svg:not(.opti *) {
-  stroke: white;
-}
 main:not(.opti *) h3 {
   margin: 0;
   font-weight: 600;
 }
 main:not(.opti *) #control-wrap {
-  flex-basis: min-content;
-  flex-basis: 300px;
-  flex-grow: 1;
-}
-main:not(.opti *) #control-wrap > * {
-  position: relative;
-  padding: 20px;
-  background-color: #F0F0F0;
-  background-image: linear-gradient(transparent, rgba(0, 0, 0, 0.03));
-  border-radius: 15px;
-}
-main:not(.opti *) #control-wrap > * > section:not(.opti *) {
-  margin: 20px 0 0 0;
-}
-main:not(.opti *) #control-wrap > * + * {
-  margin: 15px 0 0 0;
-}
-main:not(.opti *) #control-wrap .flexit {
   display: flex;
-  align-items: center;
-  gap: 5px;
-  margin: 5px 0;
+  flex-direction: column;
+  flex: 1 1 300px;
+  gap: 20px;
+}
+main:not(.opti *) #control-wrap .faintbox {
+  padding: 8px;
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+main:not(.opti *) #control-wrap .faintbox > span {
+  margin: 0 5px;
+}
+main:not(.opti *) #control-wrap .faintbox * + button {
+  margin-left: 10px;
+}
+main:not(.opti *) #control-wrap > div {
+  margin: 20px 0;
+}
+main:not(.opti *) #control-wrap > div > * + div {
+  margin: 25px 0 0 0;
 }
 main:not(.opti *) #control-wrap h5 {
-  margin: 5px 0;
+  margin: 10px 0;
   font-weight: 500;
   font-size: inherit;
 }
 main:not(.opti *) #control-wrap .opti:not(#demo-opti) {
   display: inline-flex;
 }
-main:not(.opti *) #activatedlocked {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  border-top-right-radius: 12px;
+
+body.opti-scheme-dark {
+  --body-bg-col-greyscale: black;
+  --body-bg-col-color: #10181e;
+  color: #DDD;
+}
+body.opti-scheme-dark button:not(.opti *) {
+  outline: 1px solid rgba(255, 255, 255, 0.2);
+  border: none;
+  background-color: #111;
+  color: #888;
+  font-size: 80%;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s linear;
+  min-height: 31px;
+}
+body.opti-scheme-dark button:not(.opti *).on {
+  outline-color: rgba(255, 255, 255, 0.7);
+  background-color: #111;
+  color: white;
+}
+body.opti-scheme-dark button:not(.opti *):hover, body.opti-scheme-dark button:not(.opti *):focus {
+  outline-color: #48B;
+  background-color: #32424E;
+  color: white;
+}
+body.opti-scheme-dark main {
+  background-color: rgba(0, 0, 0, 0.8);
+  outline-color: black;
+}
+body.opti-scheme-dark main > header:not(.opti *) section:not(.opti *) {
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.65);
+}
+body.opti-scheme-dark main > header:not(.opti *) #header-wrap {
+  background-image: linear-gradient(rgba(51, 51, 51, 0.35), rgba(51, 51, 51, 0.17));
+}
+body.opti-scheme-dark main > header:not(.opti *) #header-wrap h1:not(.opti *) {
+  color: white;
+}
+body.opti-scheme-dark main > header:not(.opti *) #header-wrap h1:not(.opti *) svg:not(.opti *) {
+  stroke: white;
+}
+body.opti-scheme-dark main #control-wrap .faintbox {
+  background-color: rgba(255, 255, 255, 0.07);
 }

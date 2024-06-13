@@ -33,23 +33,20 @@ $( document ).ready(function() {
 
 	// Scheme switcher nonsense
 
-	$("body > main > header").addClass("opti-scheme-" + $("#scheme-switch").val());
-	$demoOpti.add("#theme-switch-opti, #scheme-switch-opti").attr("data-scheme", $("#scheme-switch").val());
-	$("#scheme-switch").on(
-		"change.opti",
+	let scheme = $("#scheme-switch-tick").is(":checked") ? "dark" : "light";
+
+	$("body").addClass(`opti-scheme-${scheme}`);
+	$("body > main > header").find(".opti").attr("data-scheme", scheme);
+	$("#scheme-switch-tick").on(
+		"change",
 		e => {
 			$demoOpti = $demo.next(".opti");
-			$demoOpti.add("#theme-switch-opti, #scheme-switch-opti").attr("data-scheme", $(e.target).val());
-			$("body > main > header").attr(
-				"class",
-				(i, attrVal) => {
-					var regex = /\bopti-scheme-\S+\b/g;
-					return attrVal.replace(regex, "");
-				}
-			).addClass("opti-scheme-" + $(e.target).val());
+			scheme = $("#scheme-switch-tick").is(":checked") ? "dark" : "light";
+			$("body > main > header").find(".opti").attr("data-scheme", scheme);
+			$("body").removeClass((index, className) => (className.match (/(^|\s)opti-scheme-\S+/g) || []).join(' ')).addClass("opti-scheme-" + scheme);
 		}
 	);
-	
+
 	
 	// Mutation sandbox
 
@@ -243,7 +240,7 @@ $( document ).ready(function() {
 			);
 			$demoOpti = $demo.next(".opti");
 			$demoOpti.attr("data-theme", $("#theme-switch").val());
-			$demoOpti.attr("data-scheme", $("#scheme-switch").val());
+			$demoOpti.attr("data-scheme", $("#scheme-switch-tick").is(":checked") ? "dark" : "light");
 		}
 	);
 	

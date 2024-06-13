@@ -13,9 +13,12 @@
 </head>
 <body>
 	<main>
-		<div id="scheme-switch-div"><input type="checkbox" id="scheme-switch-tick"><label for="scheme-switch-tick" id="scheme-switch-label"></label></div>
+		<div id="top-controls" class="flexit">
+			<button id="activatedlocked">Hold demo Opti open</button>
+			<div id="scheme-switch-div"><input type="checkbox" id="scheme-switch-tick" checked><label for="scheme-switch-tick" id="scheme-switch-label"></label></div>
+		</div>
 		<header>
-			<div id="header-wrap">
+			<section id="header-wrap">
 				<h1>
 					<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="0.6" stroke-linecap="round" stroke-linejoin="round">
 						<path d="M3 20a1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v1a1 1 0 0 1-1 1Z"></path>
@@ -50,7 +53,7 @@
 					</optgroup>
 					<option value="7">Potato</option>
 				</select>
-				<section id="themeNscheme">
+				<div id="themeNscheme">
 					<div>
 						<label>Theme:
 							<select id="theme-switch" data-theme="minimal">
@@ -64,65 +67,53 @@
 							</select>
 						</label>
 					</div>
+				</div>
+			</section>
+			<div id="control-wrap">
+				<div>
 					<div>
-						<label>Scheme:
-							<select id="scheme-switch" data-theme="minimal">
-								<option value="dark">Dark</option>
-								<option value="light">Light</option>
-							</select>
-						</label>
-					</div>
-				</section>
-			</div>
-			<form id="control-wrap">
-				<section>
-					<button id="activatedlocked">Hold open</button>
-					<h3>Mutations Sandbox</h3>
-					<p>Opti uses mutation observers in an effort to reflect programmatic changes you make to its original <code>select</code>.</p>
-					<p>All of the controls in this box modify the invisible <code>select</code> above, not the Opti directly.</p>
-					<section>
+						<h3>Mutations Sandbox</h3>
+						<p>None of these controls modify the demo Opti directly. It uses mutation observers to stay synched with its <code>select</code>.</p>
 						<h5>Modify node list:</h5>
-						<div class="flexit">
-							<select id="control-append" data-scheme="light">
+						<div class="flexit faintbox">
+							<select id="control-append" data-theme="minimal" data-scheme="light">
 								<option value="append">Append</option>
 								<option value="prepend">Prepend</option>
 								<option value="rmvLast">Remove last</option>
 								<option value="rmvFirst">Remove first</option>
 							</select>
-							<select id="control-append-what" data-scheme="light">
+							<select id="control-append-what" data-theme="minimal" data-scheme="light">
 								<option value="opt">Option</option>
 								<option value="optgroup">Optgroup</option>
 								<option value="optgroupOpt">Opt in last group</option>
 							</select>
 							<button id="doit1">Apply</button>
 						</div>
-						<div class="flexit">
+						<div class="flexit faintbox">
 							<button id="insertoptrandomly">Insert option randomly</button>
 						</div>
-					</section>
-					<section>
+					</div>
+					<div>
 						<h5>Toggle attribute:</h5>
-						<div class="flexit">
-							Select:
+						<div class="flexit faintbox">
+							<span>Select:</span>
 							<button id="togglemultiselect">Multiple</button>
 							<button id="toggledisabselect">Disabled</button>
 						</div>
-						<div class="flexit">
-							Option 2:
+						<div class="flexit faintbox">
+							<span>Option 2:</span>
 							<button id="toggledisabopt">Disabled</button>
 						</div>
-					</section>
-				</section>
-				<section>
+					</div>
+				</div>
+				<div>
 					<h3>Destroy/Instantiate:</h3>
-					<section>
-						<div class="flexit">
-							<button id="destroy">Destroy</button>
-							<button id="reinst">Reinstantiate</button>
-						</div>
-					</section>
-				</section>
-			</form>
+					<div class="flexit faintbox">
+						<button id="destroy">Destroy</button>
+						<button id="reinst">Reinstantiate</button>
+					</div>
+				</div>
+			</div>
 		</header>
 		<p>Opti augments standard select elements with searchable, easily styleable, custom replacements.</p>
 		<p>Select elements are weird. They are notoriously difficult to style consistently across browsers, their search capabilities are inadequate when they contain many options, and the average user doesn't know how to use them in "multiple" mode.</p>

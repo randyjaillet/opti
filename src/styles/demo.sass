@@ -9,11 +9,19 @@ textarea
 	font: 200 14px/1.35 "Open Sans", sans-serif
 	color: #444
 
+.flexit
+	display: flex
+	align-items: center
+	gap: 5px
+	margin: 5px 0
+
 body
+	--body-bg-col-greyscale: white
+	--body-bg-col-color: #{$accent-reallylight}
 	margin: 0
 	padding: 0
-	background-color:$accent-light
-	background-image: radial-gradient(circle at 100% 150%, $accent-light 24%, white 24%, white 28%, $accent-light 28%, $accent-light 36%, white 36%, white 40%, transparent 40%, transparent), radial-gradient(circle at 0    150%, $accent-light 24%, white 24%, white 28%, $accent-light 28%, $accent-light 36%, white 36%, white 40%, transparent 40%, transparent), radial-gradient(circle at 50%  100%, white 10%, $accent-light 10%, $accent-light 23%, white 23%, white 30%, $accent-light 30%, $accent-light 43%, white 43%, white 50%, $accent-light 50%, $accent-light 63%, white 63%, white 71%, transparent 71%, transparent), radial-gradient(circle at 100% 50%, white 5%, $accent-light 5%, $accent-light 15%, white 15%, white 20%, $accent-light 20%, $accent-light 29%, white 29%, white 34%, $accent-light 34%, $accent-light 44%, white 44%, white 49%, transparent 49%, transparent), radial-gradient(circle at 0    50%, white 5%, $accent-light 5%, $accent-light 15%, white 15%, white 20%, $accent-light 20%, $accent-light 29%, white 29%, white 34%, $accent-light 34%, $accent-light 44%, white 44%, white 49%, transparent 49%, transparent)
+	background-color: var(--body-bg-col-color)
+	background-image: radial-gradient(circle at 100% 150%, var(--body-bg-col-color) 24%, var(--body-bg-col-greyscale) 24%, var(--body-bg-col-greyscale) 28%, var(--body-bg-col-color) 28%, var(--body-bg-col-color) 36%, var(--body-bg-col-greyscale) 36%, var(--body-bg-col-greyscale) 40%, transparent 40%, transparent), radial-gradient(circle at 0    150%, var(--body-bg-col-color) 24%, var(--body-bg-col-greyscale) 24%, var(--body-bg-col-greyscale) 28%, var(--body-bg-col-color) 28%, var(--body-bg-col-color) 36%, var(--body-bg-col-greyscale) 36%, var(--body-bg-col-greyscale) 40%, transparent 40%, transparent), radial-gradient(circle at 50%  100%, var(--body-bg-col-greyscale) 10%, var(--body-bg-col-color) 10%, var(--body-bg-col-color) 23%, var(--body-bg-col-greyscale) 23%, var(--body-bg-col-greyscale) 30%, var(--body-bg-col-color) 30%, var(--body-bg-col-color) 43%, var(--body-bg-col-greyscale) 43%, var(--body-bg-col-greyscale) 50%, var(--body-bg-col-color) 50%, var(--body-bg-col-color) 63%, var(--body-bg-col-greyscale) 63%, var(--body-bg-col-greyscale) 71%, transparent 71%, transparent), radial-gradient(circle at 100% 50%, var(--body-bg-col-greyscale) 5%, var(--body-bg-col-color) 5%, var(--body-bg-col-color) 15%, var(--body-bg-col-greyscale) 15%, var(--body-bg-col-greyscale) 20%, var(--body-bg-col-color) 20%, var(--body-bg-col-color) 29%, var(--body-bg-col-greyscale) 29%, var(--body-bg-col-greyscale) 34%, var(--body-bg-col-color) 34%, var(--body-bg-col-color) 44%, var(--body-bg-col-greyscale) 44%, var(--body-bg-col-greyscale) 49%, transparent 49%, transparent), radial-gradient(circle at 0    50%, var(--body-bg-col-greyscale) 5%, var(--body-bg-col-color) 5%, var(--body-bg-col-color) 15%, var(--body-bg-col-greyscale) 15%, var(--body-bg-col-greyscale) 20%, var(--body-bg-col-color) 20%, var(--body-bg-col-color) 29%, var(--body-bg-col-greyscale) 29%, var(--body-bg-col-greyscale) 34%, var(--body-bg-col-color) 34%, var(--body-bg-col-color) 44%, var(--body-bg-col-greyscale) 44%, var(--body-bg-col-greyscale) 49%, transparent 49%, transparent)
 	background-size: 100px 50px
 
 p:not(.opti *)
@@ -70,98 +78,101 @@ main:not(.opti *)
 	max-width: 800px
 	min-height: 100vh
 	margin: 0 auto
-	padding: 30px
+	padding: 10px 30px 30px 30px
 	@media (max-width 450px)
 		padding: 50px 15px
 	// box-shadow: 0 0 50px rgba(black, .25)
 	background-color: rgba(white, .8)
 	outline: 3px solid white
 
-	#scheme-switch-div
-		$g: 4px
-		$h: 31px
-		$w: 65px
-		$s: $h - $g * 2
-		margin: 0 0 10px 0
-		display: flex
-		justify-content: flex-end
+	#top-controls
+		margin-bottom: 15px
+		justify-content: space-between
+		align-items: center
 
-		input
-			position: absolute
-			right: 300vw
+		#scheme-switch-div
+			$g: 7px
+			$h: 31px
+			$w: 55px
+			$s: $h - $g * 2
+			display: flex
+			justify-content: flex-end
 
-		#scheme-switch-label
-			position: relative
-			line-height: 22px
-			display: inline-flex
-			align-items: center
-			
-			&:before
-				content: ''
-				width: $w
-				height: $h
-				text-align: right
-				display: inline-block
-				line-height: $h + 2px
-				background:
-					color: #dc9651
-				border-radius: $h * .5
-				transition: all .2s linear
-
-			&:after
-				content: ''
-				height: $s
-				width: $s
-				border-radius: $s * .5
-				background:
-					color: rgba(white, .2)
-					image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLXN1biI+PGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iNCIvPjxwYXRoIGQ9Ik0xMiAydjIiLz48cGF0aCBkPSJNMTIgMjB2MiIvPjxwYXRoIGQ9Im00LjkzIDQuOTMgMS40MSAxLjQxIi8+PHBhdGggZD0ibTE3LjY2IDE3LjY2IDEuNDEgMS40MSIvPjxwYXRoIGQ9Ik0yIDEyaDIiLz48cGF0aCBkPSJNMjAgMTJoMiIvPjxwYXRoIGQ9Im02LjM0IDE3LjY2LTEuNDEgMS40MSIvPjxwYXRoIGQ9Im0xOS4wNyA0LjkzLTEuNDEgMS40MSIvPjwvc3ZnPg==)
-					position: center
-					repeat: no-repeat
-					size: 60%
+			input
 				position: absolute
-				top: $g
-				left: $g
-				transition: all .1s linear
+				right: 300vw
 
-		input:checked + #scheme-switch-label
+			#scheme-switch-label
+				position: relative
+				line-height: 22px
+				display: inline-flex
+				align-items: center
+				
+				&:before
+					content: ''
+					width: $w
+					height: $h
+					text-align: right
+					display: inline-block
+					line-height: $h + 2px
+					background:
+						color: #dc9651
+					border-radius: $h * .5
+					transition: all .2s linear
 
-			&:before
-				content: ''
-				direction: ltr
-				text-align: left
-				text-indent: 8px
-				color: white
-				text-shadow: 0 0 3px rgba(white,.3)
-				background: 
-					color: #24526a
-				transition: background-color .1s linear
+				&:after
+					content: ''
+					height: $s
+					width: $s
+					border-radius: $s * .5
+					background:
+						image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLXN1biI+PGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iNCIvPjxwYXRoIGQ9Ik0xMiAydjIiLz48cGF0aCBkPSJNMTIgMjB2MiIvPjxwYXRoIGQ9Im00LjkzIDQuOTMgMS40MSAxLjQxIi8+PHBhdGggZD0ibTE3LjY2IDE3LjY2IDEuNDEgMS40MSIvPjxwYXRoIGQ9Ik0yIDEyaDIiLz48cGF0aCBkPSJNMjAgMTJoMiIvPjxwYXRoIGQ9Im02LjM0IDE3LjY2LTEuNDEgMS40MSIvPjxwYXRoIGQ9Im0xOS4wNyA0LjkzLTEuNDEgMS40MSIvPjwvc3ZnPg==)
+						position: center
+						repeat: no-repeat
+					position: absolute
+					top: $g
+					left: $g
+					transition: all .1s linear
 
-			&:after
-				left: $w - $s - $g
-				transition: all .1s ease-out
-				background:
-					color: rgba(white, .3)
-					image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLW1vb24iPjxwYXRoIGQ9Ik0xMiAzYTYgNiAwIDAgMCA5IDkgOSA5IDAgMSAxLTktOVoiLz48L3N2Zz4=)
+			input:checked + #scheme-switch-label
+
+				&:before
+					content: ''
+					direction: ltr
+					text-align: left
+					text-indent: 8px
+					color: white
+					text-shadow: 0 0 3px rgba(white,.3)
+					background: 
+						color: #24526a
+					transition: background-color .1s linear
+
+				&:after
+					left: $w - $s - $g
+					transition: all .1s ease-out
+					background:
+						image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLW1vb24iPjxwYXRoIGQ9Ik0xMiAzYTYgNiAwIDAgMCA5IDkgOSA5IDAgMSAxLTktOVoiLz48L3N2Zz4=)
+						size: 80%
 
 
 	header:not(.opti *)
 		display: flex
-		gap: 20px
+		gap: 30px
 		flex-wrap: wrap
+		margin-bottom: 40px
+
+		section:not(.opti *)
+			padding: 30px 20px
+			border-radius: 15px
 		
 		#header-wrap
 			flex-basis: 300px
 			display: flex
 			flex-direction: column
 			justify-content: space-between
-			padding: 30px 20px
-			border-radius: 15px
 			text-align: center
-			background-color: #EAEAEA
-			background-image: linear-gradient(transparent, rgba(black, .05))
-			box-shadow: 0 0 15px rgba(black, .08)
 			transition: all $dur linear
+			background-image: linear-gradient(transparent, rgba(#DDD, .3))
 
 			#demo-opti
 				margin: 20px auto 10px auto
@@ -190,12 +201,82 @@ main:not(.opti *)
 						.surface
 							font-size: inherit
 
-		&.opti-scheme-dark
+	h3
+		margin: 0
+		font-weight: 600
+
+	#control-wrap
+		display: flex
+		flex-direction: column
+		flex: 1 1 300px
+		gap: 20px
+
+		.faintbox
+			padding: 8px
+			border-radius: 10px
+			background-color: rgba(black, 4%)
+
+			> span
+				margin: 0 5px
+
+			* + button
+				margin-left: 10px
+
+		> div
+			margin: 20px 0
+
+			> * + div
+				margin: 25px 0 0 0
+
+		h5
+			margin: 10px 0
+			font-weight: 500
+			font-size: inherit
+
+		.opti:not(#demo-opti)
+			display: inline-flex
+
+
+
+
+body.opti-scheme-dark
+	--body-bg-col-greyscale: black
+	--body-bg-col-color: #{$accent-reallydark}
+	color: #DDD
+
+	button:not(.opti *)
+		outline: 1px solid rgba(white, .2)
+		border: none
+		background-color: #111
+		color: #888
+		font-size: 80%
+		text-transform: uppercase
+		cursor: pointer
+		transition: all $dur linear
+		min-height: $mh
+
+		&.on
+			outline-color: rgba(white, .7)
+			background-color: #111
+			color: white
+
+		&:hover,
+		&:focus
+			outline-color: $accent
+			background-color: $accent-bg-dark
+			color: white
+
+	main
+		background-color: rgba(black, .8)
+		outline-color: black
+
+		> header:not(.opti *)
+
+			section:not(.opti *)
+				box-shadow: 0 0 5px rgba(black, .65)
 			
 			#header-wrap
-				background-color: #222
-				background-image: linear-gradient(rgba(white, .1), transparent)
-				color: white
+				background-image: linear-gradient(rgba(#333, 35%), rgba(#333, 17%))
 
 				h1:not(.opti *)
 					color: white
@@ -203,44 +284,7 @@ main:not(.opti *)
 					svg:not(.opti *)
 						stroke: white
 
-	h3
-		margin: 0
-		font-weight: 600
+		#control-wrap
 
-	#control-wrap
-		flex-basis: min-content
-		flex-basis: 300px
-		flex-grow: 1
-
-		> *
-			position: relative
-			padding: 20px
-			background-color: #F0F0F0
-			background-image: linear-gradient(transparent, rgba(black, .03))
-			border-radius: 15px
-
-			> section:not(.opti *)
-				margin: 20px 0 0 0
-
-			+ *
-				margin: 15px 0 0 0
-
-		.flexit
-			display: flex
-			align-items: center
-			gap: 5px
-			margin: 5px 0
-
-		h5
-			margin: 5px 0
-			font-weight: 500
-			font-size: inherit
-
-		.opti:not(#demo-opti)
-			display: inline-flex
-
-	#activatedlocked
-		position: absolute
-		top: 5px
-		right: 5px
-		border-top-right-radius: 12px
+			.faintbox
+				background-color: rgba(white, 7%)
