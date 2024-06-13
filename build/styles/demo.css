@@ -118,15 +118,15 @@ main:not(.opti *) header:not(.opti *) #header-wrap {
   padding: 30px 20px;
   border-radius: 15px;
   text-align: center;
-  background-color: #F0F0F0;
-  background-image: linear-gradient(transparent, rgba(0, 0, 0, 0.03));
+  background-color: #EAEAEA;
+  background-image: linear-gradient(transparent, rgba(0, 0, 0, 0.05));
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.08);
   transition: all 0.2s linear;
 }
 main:not(.opti *) header:not(.opti *) #header-wrap #demo-opti {
   margin: 20px auto 10px auto;
   min-width: 200px;
-  max-width: 500px;
+  max-width: min(500px, 100%);
 }
 main:not(.opti *) header:not(.opti *) #header-wrap #themeNscheme {
   display: flex;

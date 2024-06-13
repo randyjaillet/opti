@@ -658,7 +658,7 @@ Opti.prototype.init = function () {
 				in a multiple mode Opti. */
 				case 8:
 					e.preventDefault();
-					if ($removableOpts.length) root.unchooseOption($removableOpts.last());
+					if ($removableOpts.length && !oIsDisabled) root.unchooseOption($removableOpts.last());
 					break;
 
 				// UP ARROW

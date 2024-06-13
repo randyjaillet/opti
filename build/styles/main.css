@@ -92,6 +92,9 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  text-wrap: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .opti .surface .texts .text-grp {
   opacity: 0.35;
@@ -456,7 +459,7 @@
   --dd-col: rgb(var(--dd-col-rgbvals));
   --dd-bg: rgba(238, 238, 238, .95);
   --accent-bg: #C7E3F1;
-  --tag-bg: #DDD;
+  --tag-bg: #D4D4D4;
 }
 .opti[data-scheme=light]:is(:not([disabled=disabled])) .surface:hover, .opti[data-scheme=light]:is(:not([disabled=disabled])) .surface:focus {
   --surface-bg: $accent-light;
@@ -513,20 +516,20 @@
   --tag-shadows: 0 1px 0 rgba(255, 255, 255, .8), inset 0 1px 0 rgba(0, 0, 0, .15);
 }
 .opti[data-theme=glossy][data-scheme=light]:not([disabled=disabled]) .surface {
-  --surface-gradients-decl: radial-gradient(transparent, rgba(238, 238, 238, 0.75)), linear-gradient(transparent 70%, rgba(255, 255, 255, 0.5)), radial-gradient(150% 110% at center top, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.4) 50%, rgba(0, 0, 0, 0.04) 50%);
+  --surface-gradients-decl: radial-gradient(transparent, rgba(238, 238, 238, 0.75)), linear-gradient(transparent 70%, rgba(255, 255, 255, 0.2)), radial-gradient(150% 110% at center top, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.2) 50%, rgba(0, 0, 0, 0.04) 50%);
   --surface-shadow-decl: inset 0 1px white, 0 0 0 500vw transparent, 0 1px 3px rgba(0, 0, 0, .15);
 }
 .opti[data-theme=glossy][data-scheme=light]:not([disabled=disabled]) .surface:hover, .opti[data-theme=glossy][data-scheme=light]:not([disabled=disabled]) .surface:focus {
   --surface-bg: #EEE;
-  --surface-gradients-decl: radial-gradient(transparent, rgba(238, 238, 238, 0.75)), linear-gradient(transparent 70%, rgba(199, 227, 241, 0.5)), radial-gradient(150% 110% at center top, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.4) 50%, rgba(0, 0, 0, 0.04) 50%), radial-gradient(rgba(188, 222, 245, 0.75), transparent);
+  --surface-gradients-decl: radial-gradient(transparent, rgba(238, 238, 238, 0.75)), linear-gradient(transparent 70%, rgba(199, 227, 241, 0.5)), radial-gradient(150% 110% at center top, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.2) 50%, rgba(0, 0, 0, 0.04) 50%), radial-gradient(rgba(188, 222, 245, 0.75), transparent);
 }
 .opti[data-theme=glossy][data-scheme=light]:not([disabled=disabled]):is(.activated, .activatedLocked) .surface {
   --accent: rgba($accent-bg-light, 75%);
-  --surface-gradients-decl: linear-gradient(transparent 70%, rgba(255, 255, 255, 0.5)), linear-gradient(rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.4) 50%, rgba(0, 0, 0, 0.04) 50%);
+  --surface-gradients-decl: linear-gradient(transparent 70%, rgba(255, 255, 255, 0.2)), linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.2) 50%, rgba(0, 0, 0, 0.04) 50%);
   --surface-shadow-decl: inset 0 1px rgba(255, 255, 255, .2), 0 0 0 500vw rgba(0, 0, 0, 0.4), 0 1px 1px transparent;
 }
 .opti[data-theme=glossy][data-scheme=light]:not([disabled=disabled]):is(.activated, .activatedLocked) .surface:hover, .opti[data-theme=glossy][data-scheme=light]:not([disabled=disabled]):is(.activated, .activatedLocked) .surface:focus {
-  --surface-gradients-decl: linear-gradient(transparent 70%, rgba(199, 227, 241, 0.5)), linear-gradient(rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.4) 50%, rgba(0, 0, 0, 0.04) 50%), radial-gradient(rgba(188, 222, 245, 0.75), transparent);
+  --surface-gradients-decl: linear-gradient(transparent 70%, rgba(199, 227, 241, 0.5)), linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.2) 50%, rgba(0, 0, 0, 0.04) 50%), radial-gradient(rgba(188, 222, 245, 0.75), transparent);
 }
 
 .opti[data-theme=gradated] {
@@ -545,7 +548,7 @@
   --tag-shadows: 0 1px 0 rgba(255, 255, 255, .8), inset 0 1px 0 rgba(0, 0, 0, .15);
 }
 .opti[data-theme=gradated][data-scheme=light]:not([disabled=disabled]) .surface {
-  --surface-gradients-decl: linear-gradient(rgba(255, 255, 255, .15), rgba(0, 0, 0, .05));
+  --surface-gradients-decl: linear-gradient(rgba(255, 255, 255, .25), rgba(0, 0, 0, .03));
   --surface-shadow-decl: inset 0 1px rgba(255, 255, 255, .5), 0 0 0 500vw transparent, 0 1px 1px rgba(0, 0, 0, .15);
 }
 .opti[data-theme=gradated][data-scheme=light]:not([disabled=disabled]):is(.activated, .activatedLocked) .surface {
@@ -586,13 +589,13 @@
 
 .opti[data-theme=outline]:not([disabled=disabled], .activated, .activatedLocked) .surface {
   background-color: transparent;
-  outline: 2px solid rgba(255, 255, 255, 0.25);
+  outline: 2px solid rgba(255, 255, 255, 0.15);
 }
 .opti[data-theme=outline]:not([disabled=disabled], .activated, .activatedLocked) .surface:hover, .opti[data-theme=outline]:not([disabled=disabled], .activated, .activatedLocked) .surface:focus {
   outline-color: #48B;
 }
 .opti[data-theme=outline][data-scheme=light]:not([disabled=disabled], .activated, .activatedLocked) .surface {
-  outline-color: rgba(0, 0, 0, 0.15);
+  outline-color: rgba(0, 0, 0, 0.1);
 }
 .opti[data-theme=outline][data-scheme=light]:not([disabled=disabled], .activated, .activatedLocked) .surface:hover, .opti[data-theme=outline][data-scheme=light]:not([disabled=disabled], .activated, .activatedLocked) .surface:focus {
   outline-color: #48B;
