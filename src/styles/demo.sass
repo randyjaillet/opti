@@ -12,10 +12,9 @@ textarea
 body
 	margin: 0
 	padding: 0
-	background-color: #CCC
-	background-image: repeating-linear-gradient(-45deg, transparent 7px, transparent 10px, rgba(0,0,0,.02) 11px, rgba(0,0,0,.02) 16px, transparent 17px), linear-gradient(to right bottom, rgba(black,.4), transparent)
-	background-position: 0 0
-	background-repeat: no-repeat
+	background-color:$accent-light
+	background-image: radial-gradient(circle at 100% 150%, $accent-light 24%, white 24%, white 28%, $accent-light 28%, $accent-light 36%, white 36%, white 40%, transparent 40%, transparent), radial-gradient(circle at 0    150%, $accent-light 24%, white 24%, white 28%, $accent-light 28%, $accent-light 36%, white 36%, white 40%, transparent 40%, transparent), radial-gradient(circle at 50%  100%, white 10%, $accent-light 10%, $accent-light 23%, white 23%, white 30%, $accent-light 30%, $accent-light 43%, white 43%, white 50%, $accent-light 50%, $accent-light 63%, white 63%, white 71%, transparent 71%, transparent), radial-gradient(circle at 100% 50%, white 5%, $accent-light 5%, $accent-light 15%, white 15%, white 20%, $accent-light 20%, $accent-light 29%, white 29%, white 34%, $accent-light 34%, $accent-light 44%, white 44%, white 49%, transparent 49%, transparent), radial-gradient(circle at 0    50%, white 5%, $accent-light 5%, $accent-light 15%, white 15%, white 20%, $accent-light 20%, $accent-light 29%, white 29%, white 34%, $accent-light 34%, $accent-light 44%, white 44%, white 49%, transparent 49%, transparent)
+	background-size: 100px 50px
 
 p:not(.opti *)
 	margin: 15px 0
@@ -74,8 +73,9 @@ main:not(.opti *)
 	padding: 30px
 	@media (max-width 450px)
 		padding: 50px 15px
-	box-shadow: 0 0 50px rgba(black, .25)
-	background-color: rgba(white, .5)
+	// box-shadow: 0 0 50px rgba(black, .25)
+	background-color: rgba(white, .8)
+	outline: 3px solid white
 
 	header:not(.opti *)
 		display: flex
