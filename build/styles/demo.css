@@ -104,6 +104,63 @@ main:not(.opti *) {
     padding: 50px 15px;
   }
 }
+main:not(.opti *) #scheme-switch-div {
+  margin: 0 0 10px 0;
+  display: flex;
+  justify-content: flex-end;
+}
+main:not(.opti *) #scheme-switch-div input {
+  position: absolute;
+  right: 300vw;
+}
+main:not(.opti *) #scheme-switch-div #scheme-switch-label {
+  position: relative;
+  line-height: 22px;
+  display: inline-flex;
+  align-items: center;
+}
+main:not(.opti *) #scheme-switch-div #scheme-switch-label:before {
+  content: "";
+  width: 65px;
+  height: 31px;
+  text-align: right;
+  display: inline-block;
+  line-height: 33px;
+  background-color: #dc9651;
+  border-radius: 15.5px;
+  transition: all 0.2s linear;
+}
+main:not(.opti *) #scheme-switch-div #scheme-switch-label:after {
+  content: "";
+  height: 23px;
+  width: 23px;
+  border-radius: 11.5px;
+  background-color: rgba(255, 255, 255, 0.2);
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLXN1biI+PGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iNCIvPjxwYXRoIGQ9Ik0xMiAydjIiLz48cGF0aCBkPSJNMTIgMjB2MiIvPjxwYXRoIGQ9Im00LjkzIDQuOTMgMS40MSAxLjQxIi8+PHBhdGggZD0ibTE3LjY2IDE3LjY2IDEuNDEgMS40MSIvPjxwYXRoIGQ9Ik0yIDEyaDIiLz48cGF0aCBkPSJNMjAgMTJoMiIvPjxwYXRoIGQ9Im02LjM0IDE3LjY2LTEuNDEgMS40MSIvPjxwYXRoIGQ9Im0xOS4wNyA0LjkzLTEuNDEgMS40MSIvPjwvc3ZnPg==);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 60%;
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  transition: all 0.1s linear;
+}
+main:not(.opti *) #scheme-switch-div input:checked + #scheme-switch-label:before {
+  content: "";
+  direction: ltr;
+  text-align: left;
+  text-indent: 8px;
+  color: white;
+  text-shadow: 0 0 3px rgba(255, 255, 255, 0.3);
+  background-color: #24526a;
+  transition: background-color 0.1s linear;
+}
+main:not(.opti *) #scheme-switch-div input:checked + #scheme-switch-label:after {
+  left: 38px;
+  transition: all 0.1s ease-out;
+  background-color: rgba(255, 255, 255, 0.3);
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLW1vb24iPjxwYXRoIGQ9Ik0xMiAzYTYgNiAwIDAgMCA5IDkgOSA5IDAgMSAxLTktOVoiLz48L3N2Zz4=);
+}
 main:not(.opti *) header:not(.opti *) {
   display: flex;
   gap: 20px;
