@@ -4,9 +4,14 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100;1,100&display=swap" rel="stylesheet">
+	
 	<link href="styles/main.css" rel="stylesheet" />
 	<link href="styles/demo.css" rel="stylesheet" />
+	
 	<script src="scripts/main-min.js"></script>
 
 	<title>Opti</title>
@@ -115,9 +120,73 @@
 				</div>
 			</div>
 		</header>
-		<p>Opti augments standard select elements with searchable, easily styleable, custom replacements.</p>
+
+		<p class="bigtext">Opti augments standard select elements with searchable, easily styleable, custom replacements.</p>
 		<p>Select elements are weird. They are notoriously difficult to style consistently across browsers, their search capabilities are inadequate when they contain many options, and the average user doesn't know how to use them in "multiple" mode.</p>
 		<p>Opti endeavors to remedy this situation.</p>
+		
+		<h3>Feature Overview</h3>
+		<p>Opti elements will reflect the characteristics of their corresponding select elements. They support...</p>
+		<ul>
+			<li>... being disabled or having their options disabled with the <code>disabled</code> attribute</li>
+			<li>... having pre-selected options with the <code>selected</code> attribute</li>
+			<li>... multiple selections with the <code>multiple</code> attribute</li>
+			<li>... optgroups (these become sections in the Opti and their labels H5s)</li>
+		</ul>
+
+		<h3>Mutation Observation</h3>
+		<p>Opti also utilizes mutation observers to reflect programmatic changes made to the original select element. This way you don't need to customize your code to target the Opti element instead of the <code>select</code>; you can keep doing it all to the <code>select</code>.</p>
+		<p>Specifically, Opti watches for...
+		<ul>
+			<li>... changes to the select's <code>disabled</code> status</li>
+			<li>... changes to the select's <code>multiple</code> status</li>
+			<li>... changes to an option's <code>disabled</code> status</li>
+			<li>... addition or removal of options</li>
+		</ul>
+		<p>It doesn't bother watching options' <code>selected</code> status because that only applies on page load anyway.</p>
+
+		<h3>Window Array of Optis</h3>
+		<p>Each time the Opti class is instantiated, the new instance gets pushed onto an <code>optis</code> array on window. If you know the Opti's index, you can access it this way (and every Opti element has a <code>data-opti-index</code> attribute with a value of its index in this array).</p>
+		<div class="example">
+			<p>To access the <code>destroy</code> method of the first Opti that was instantiated, you might use:</p>
+			<code class="codeblock">window.optis[0].destroy()</code>
+		</div>
+		
+		<h3>Customizable Settings</h3>
+		<p>Opti supports the following settings (see "Instantiation Options" for approaches to setting them).</p>
+		<dl>
+			<dt><code>shortModeThreshold</code></dt>
+			<dd>Int - The Opti will be in short mode if it has fewer than this number of options. When in short mode, the search is hidden, though it can still be revealed via typing.</dd>
+			<dt><code>useFirstOptionAsPlaceholder</code></dt>
+			<dd>Bool or string - The intention behind this functionality is to handle the practice common with selects of using the first option not as a choice but as placeholder text that functions either as a prompt ("Please choose one") or a label ("Favorite food"). Such options are not meant to be chosen and when they are, the select is essentially in its zero state. So we might as well move such an option out of the list of choices and into its own unique placeholder feature if this setting is true. You can also pass a string and it will consider it true for selects with a first option of the same value as the passed string. Defaults to false.</dd>
+			<dt><code>classes</code></dt>
+			<dd>String - Use this setting to add custom classes to the Opti's root element. It uses jQuery's .addClass(), so give it a space-separated string of values without leading periods. (For example, "foo bar" will make the Opti be .foo.bar. Defaults to empty.</dd>
+			<dt><code>showClearAll</code></dt>
+			<dd>Bool - If false, the x button that clears the Opti will not be included. This option exists because native select elements don't seem to have a way via their GUI to "unchoose" and return to a blank state (unless they're in multiple mode). So if you want the native select behavior (disallowing the user from clearing the Opti and rendering it blank), set this to false. Defaults to true.</dd>
+			<dt><code>firstOptDefault</code></dt>
+			<dd>Bool - This only takes effect if useFirstOptionAsPlaceholder is false (because the placeholder takes priority) and if no options are set to <code>selected</code>. In that case, the Opti will start on the first option like a native select element when this is true and start out blank when it is false. Defaults to true.</dd>
+		</dl>
+		
+		<h3>Instantiation Options</h3>
+		<p>There are several ways to instantiate an Opti and several ways to set its settings.</p>
+		<p>You can use the <code>new</code> keyword to instantiate the <code>Opti</code> class, passing a jQuery object containing the corresponding select element as the first argument. There is also a jQuery plugin (<code>opti</code>) that works on select elements. Finally, if a select has a <code>data-opti</code> attribute, it will be automatically instantiated.</p>
+		<p>You can pass an object of options to the jQuery plugin as an argument (priority 1) or include JSON in a <code>data-opti-options</code> attribute on the select element (priority 2). Otherwise it uses defaults (priority 3). If you use multiple methods, it will use extend to merge the options, with the higher priority sources taking precedence.</p>
+		<p class="example">
+			<code class="codeblock">new Opti($("#myselect"), {classes : "foo bar"})</code>
+			<code class="codeblock">$("#myselect").opti({classes : "foo bar"})</code>
+			<code class="codeblock">&lt;select data-opti data-opti-options='{classes : "foo bar"}'&gt;</code>
+		</p>
+		
+		<h3>Methods</h3>
+		<p>Opti has the following methods:</p>
+		<dl>
+			<dt><code>destroy([preserveSlot])</code></dt>
+			<dd>
+				<p>Reverses instantiation and returns the <code>select</code> to its original state.</p>
+				<p><code>preserveSlot</code>: Boolean - If true, the Opti's slot in the window.optis array will only be emptied; if false it will be spliced out completely. Useful for if you plan to reinstantiate later and want to keep the same index. Defaults to false.</p>
+			</dd>
+		</dl>
+
 	</main>
 </body>
 </html>

@@ -49,8 +49,38 @@ body {
 }
 
 p:not(.opti *) {
-  margin: 15px 0;
+  margin: 10px 0;
   line-height: 1.35em;
+}
+p:not(.opti *).bigtext {
+  font-size: 120%;
+}
+
+.example {
+  margin: 10px 0;
+  padding: 10px 10px 0 10px;
+  background: rgba(255, 165, 0, 0.07);
+  outline: 1px solid rgba(255, 165, 0, 0.2);
+}
+.example:before {
+  content: "Example";
+  font-size: 80%;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: rgba(153, 117, 51, 0.5);
+}
+
+code.codeblock {
+  margin: 10px 0;
+  padding: 10px;
+  display: block;
+  background: rgba(0, 0, 0, 0.07);
+  outline: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+dt {
+  margin-top: 10px;
+  margin-bottom: 5px;
 }
 
 button:not(.opti *) {
@@ -80,22 +110,28 @@ code:not(.opti *) {
 }
 
 h1:not(.opti *) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   font-weight: 400;
   margin: 0;
+  padding: 0 20px 0 0;
+  width: 150px;
+  height: 150px;
+  font-family: "Noto Sans", sans-serif;
   font-size: 30px;
   line-height: 28px;
   text-align: center;
-  text-transform: uppercase;
+  text-transform: lowercase;
   color: black;
 }
 h1:not(.opti *) svg:not(.opti *) {
+  align-self: firstbaseline;
+  height: 20px;
+  margin: 0 -8px -5px 0;
   stroke: black;
-  stroke-width: 1.2px;
+  stroke-width: 1.1px;
 }
-h1:not(.opti *) span:not(.opti *) {
-  display: block;
-}
-
 main:not(.opti *) {
   display: flex;
   flex-direction: column;
@@ -105,7 +141,7 @@ main:not(.opti *) {
   min-height: 100vh;
   margin: 0 auto;
   padding: 10px 30px 30px 30px;
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(238, 238, 238, 0.7);
   outline: 3px solid white;
 }
 @media (max-width 450px) {
@@ -187,9 +223,12 @@ main:not(.opti *) header:not(.opti *) #header-wrap {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  align-items: center;
   text-align: center;
   transition: all 0.2s linear;
-  background-image: linear-gradient(transparent, rgba(221, 221, 221, 0.3));
+  background-color: rgba(255, 255, 255, 0.1);
+  background-image: radial-gradient(500px circle at left -150px, rgba(255, 255, 0, 0.3), transparent), radial-gradient(400px circle at bottom right, transparent 10%, rgba(0, 128, 0, 0.15) 70%, transparent), radial-gradient(400px circle at left 150px, transparent 10%, rgba(0, 0, 255, 0.2) 70%, transparent), radial-gradient(400px circle at top right, transparent 10%, rgba(255, 0, 0, 0.25) 70%, transparent), radial-gradient(400px circle at right center, transparent 10%, rgba(64, 224, 208, 0.15) 70%, transparent);
+  background-blend-mode: overlay;
 }
 main:not(.opti *) header:not(.opti *) #header-wrap #demo-opti {
   margin: 20px auto 10px auto;
@@ -200,7 +239,10 @@ main:not(.opti *) header:not(.opti *) #header-wrap #themeNscheme {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  justify-content: flex-end;
   gap: 10px;
+  height: 150px;
+  width: 150px;
   font-size: 12px;
   color: #999;
 }
@@ -216,7 +258,7 @@ main:not(.opti *) header:not(.opti *) #header-wrap #themeNscheme > div .opti .su
   font-size: inherit;
 }
 main:not(.opti *) h3 {
-  margin: 0;
+  margin: 15px 0;
   font-weight: 600;
 }
 main:not(.opti *) #control-wrap {
@@ -253,8 +295,12 @@ main:not(.opti *) #control-wrap .opti:not(#demo-opti) {
 
 body.opti-scheme-dark {
   --body-bg-col-greyscale: black;
-  --body-bg-col-color: #10181e;
+  --body-bg-col-color: #0b1014;
   color: #DDD;
+}
+body.opti-scheme-dark code.codeblock {
+  background-color: rgba(255, 255, 255, 0.07);
+  outline-color: rgba(255, 255, 255, 0.15);
 }
 body.opti-scheme-dark button:not(.opti *) {
   outline: 1px solid rgba(255, 255, 255, 0.2);
@@ -285,7 +331,9 @@ body.opti-scheme-dark main > header:not(.opti *) section:not(.opti *) {
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.65);
 }
 body.opti-scheme-dark main > header:not(.opti *) #header-wrap {
-  background-image: linear-gradient(rgba(51, 51, 51, 0.35), rgba(51, 51, 51, 0.17));
+  background-color: rgba(34, 34, 34, 0.6);
+  background-image: radial-gradient(500px circle at left -150px, rgba(255, 255, 0, 0.2), transparent), radial-gradient(400px circle at bottom right, transparent 10%, rgba(0, 128, 0, 0.15) 70%, transparent), radial-gradient(400px circle at left 150px, transparent 10%, rgba(0, 0, 255, 0.2) 70%, transparent), radial-gradient(400px circle at top right, transparent 10%, rgba(255, 0, 0, 0.25) 70%, transparent), radial-gradient(400px circle at right center, transparent 10%, rgba(64, 224, 208, 0.15) 70%, transparent);
+  background-blend-mode: overlay;
 }
 body.opti-scheme-dark main > header:not(.opti *) #header-wrap h1:not(.opti *) {
   color: white;

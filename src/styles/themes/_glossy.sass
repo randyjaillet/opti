@@ -6,34 +6,52 @@
 	--surface-bg: transparent
 	--tag-bg: #373737
 	--tag-shadows: 0 1px 0 rgba(255, 255, 255, .1), inset 0 1px 0 rgba(0, 0, 0, .3)
-	--surface-shadow-decl: inset 0 1px rgba(255, 255, 255, .12), #{$shadowScreenTransp}, 0 1px 3px rgba(0, 0, 0, .35)
+	--surface-shadow-decl: inset 0 1px rgba(255, 255, 255, 7%), #{$shadowScreenTransp}, 0 1px 4px rgba(0, 0, 0, .5)
 
 	&:not([disabled=disabled])
-		$edges: radial-gradient(transparent, rgba(50, 50, 50, .75))
-		$radialWhite: radial-gradient(150% 110% at center top, rgba(white, 18%), rgba(white, 7%) 50%, rgba(black, 5%) 50%)
+		$center: radial-gradient(rgba(white, 60%), rgba(white, 20%) 80%)
+		$radialWhite: radial-gradient(150% 110% at center top, rgba(white, 30%), rgba(white, 12%) 50%, transparent 50%)
 		$linearWhite: linear-gradient(rgba(white, .18), rgba(white, .05) 50%, rgba(black, 5%) 50%)
-		$radialAccent: radial-gradient($accent-bg-dark, transparent)
-		$linearWhiteBounce: linear-gradient(transparent 70%, rgba(white, 2%))
-		$linearAccentBounce: linear-gradient(transparent 70%, rgba($accent-bg-dark, 65%))
+		$linearWhiteBounce: linear-gradient(transparent 50%, rgba(white, 6%))
+		$radialAccent: radial-gradient(rgba($accent, 15%), transparent 80%)
+		$linearAccentBounce: linear-gradient(transparent 70%, rgba($accent, 10%))
 
 		.surface
-			--surface-gradients-decl: #{$linearWhiteBounce}, #{$edges}, #{$radialWhite}
+			-webkit-box-reflect: below 5px linear-gradient(transparent, rgba(white, 15%) 50%, rgba(white, 50%))
 
 			&:hover,
 			&:focus
-				--surface-bg: rgba(0, 0, 0, .3)
-				--surface-gradients-decl: #{$radialWhite}, #{$radialAccent}, #{$linearAccentBounce}
+				--surface-bg: transparent
+				background:
+					image: $radialAccent, $linearAccentBounce
+			
+			&:before
+				content: ''
+				position: absolute
+				top: 0
+				left: 0
+				right: 0
+				bottom: 0
+				background-color: white
+				mask-image: $linearWhiteBounce, $center, $radialWhite
+				mask-mode: luminance
+				mask-composite: add, intersect
+				border-radius: $radius
+
+			.texts,
+			ul,
+			> svg.icon-ex-surf
+				z-index: 1
 
 		&:is(.activated, .activatedLocked)
-			--surface-bg: rgba(0, 0, 0, .3)
-			--surface-gradients-decl: #{$linearWhite}, #{$linearWhiteBounce}
-			--surface-shadow-decl: inset 0 1px rgba(255, 255, 255, .2), #{$shadowScreenDark}, 0 1px 1px transparent
+			--surface-bg: rgba(255, 255, 255, 7%)
+			--surface-shadow-decl: inset 0 1px rgba(255, 255, 255, 7%), #{$shadowScreenDark}, 0 1px 1px transparent
 
 			.surface
 
 				&:hover,
 				&:focus
-					--surface-gradients-decl: #{$linearWhite}, #{$radialAccent}, #{$linearAccentBounce}
+					--surface-bg: rgba(255, 255, 255, 7%)
 
 
 //
@@ -42,33 +60,51 @@
 
 .opti[data-theme=glossy][data-scheme=light]
 	--surface-bg: transparent
-	--tag-bg: #E4E4E4
-	--tag-shadows: 0 1px 0 rgba(255, 255, 255, .8), inset 0 1px 0 rgba(0, 0, 0, .15)
+	--tag-bg: rgba(0, 0, 0, 3%)
+	--tag-shadows: 0 1px 0 rgba(255, 255, 255, .6), inset 0 1px 0 rgba(0, 0, 0, 7%)
+	--surface-shadow-decl: inset 0 1px rgba(255, 255, 255, .3), #{$shadowScreenTransp}, 0 1px 3px rgba(0, 0, 0, 10%)
+	--surface-element-dropshadows-decl: 0 1px 0 rgba(255, 255, 255, .5)
 
 	&:not([disabled=disabled])
-		$edges: radial-gradient(transparent, rgba(#EEE, .75))
-		$radialWhite: radial-gradient(150% 110% at center top, rgba(white, 40%), rgba(white, 20%) 50%, rgba(black, 4%) 50%)
-		$linearWhite: linear-gradient(rgba(white, 40%), rgba(white, 20%) 50%, rgba(black, 4%) 50%)
-		$radialAccent: radial-gradient(rgba($accent-light, 75%), transparent)
-		$linearWhiteBounce: linear-gradient(transparent 70%, rgba(white, 20%))
-		$linearAccentBounce: linear-gradient(transparent 70%, rgba($accent-bg-light, 50%))
+		$center: radial-gradient(rgba(white, 30%), rgba(white, 10%))
+		$radialWhite: radial-gradient(150% 110% at center top, rgba(white, .7) 50%, transparent 50%)
+		$linearWhite: linear-gradient(rgba(white, .18), rgba(white, .05) 50%, rgba(black, 5%) 50%)
+		$linearWhiteBounce: linear-gradient(transparent 80%, rgba(white, .15))
+		$radialAccent: radial-gradient(rgba($accent-light, 55%), transparent 80%)
+		$linearAccentBounce: linear-gradient(transparent 70%, rgba($accent, 10%))
 
 		.surface
-			--surface-gradients-decl: #{$edges}, #{$linearWhiteBounce}, #{$radialWhite}
-			--surface-shadow-decl: inset 0 1px white, #{$shadowScreenTransp}, 0 1px 3px rgba(0, 0, 0, .15)
+			-webkit-box-reflect: below 5px linear-gradient(transparent, rgba(white, 15%) 50%, rgba(white, 50%))
 
 			&:hover,
 			&:focus
-				--surface-bg: #EEE
-				--surface-gradients-decl: #{$edges}, #{$linearAccentBounce}, #{$radialWhite}, #{$radialAccent}
+				--surface-bg: transparent
+				background:
+					image: $radialAccent, $linearAccentBounce
+			
+			&:before
+				content: ''
+				position: absolute
+				top: 0
+				left: 0
+				right: 0
+				bottom: 0
+				background-color: white
+				mask-image: $linearWhiteBounce, $center, $radialWhite
+				mask-composite: add, intersect
+				border-radius: $radius
+
+			.texts,
+			ul,
+			> svg.icon-ex-surf
+				z-index: 1
 
 		&:is(.activated, .activatedLocked)
+			--surface-bg: rgba(255, 255, 255, .3)
+			--surface-shadow-decl: inset 0 1px rgba(255, 255, 255, 7%), #{$shadowScreenLight}, 0 1px 3px transparent
 
 			.surface
-				--accent: rgba($accent-bg-light, 75%)
-				--surface-gradients-decl: #{$linearWhiteBounce}, #{$linearWhite}
-				--surface-shadow-decl: inset 0 1px rgba(255, 255, 255, .2), #{$shadowScreenLight}, 0 1px 1px transparent
 
 				&:hover,
 				&:focus
-					--surface-gradients-decl: #{$linearAccentBounce}, #{$linearWhite}, #{$radialAccent}
+					--surface-bg: rgba(255, 255, 255, .3)

@@ -11,8 +11,8 @@
 	--text-col: rgb(var(--text-col-rgbvals))
 	--surface-bg: rgba(34, 34, 34, .05)
 	--surface-element-dropshadows-rgbvals: 255,255,255
-	--surface-element-dropshadows: rgb(var(--surface-element-dropshadows-rgbvals))
-	--surface-element-dropshadows-decl: 0 1px var(--surface-element-dropshadows)
+	--surface-element-dropshadows: rgba(var(--surface-element-dropshadows-rgbvals), .4)
+	--surface-element-dropshadows-decl: none
 	--dd-col-rgbvals: 68, 68, 68
 	--dd-col: rgb(var(--dd-col-rgbvals))
 	--dd-bg: rgba(238, 238, 238, .95)
@@ -52,10 +52,8 @@
 
 	// Activated - light
 	&:is(.activated, .activatedLocked)
-
-		.surface
-			background-color: rgba(#EEE, .95)
-			--surface-shadow-decl: #{$shadowScreenLight}
+		--surface-bg: rgba(238, 238, 238, .95)
+		--surface-shadow-decl: #{$shadowScreenLight}
 
 	// Neither zerostate nor disabled - light
 	&:not(.zerostate):not([disabled=disabled])

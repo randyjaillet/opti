@@ -33,6 +33,7 @@ $( document ).ready(function() {
 
 	// Scheme switcher nonsense
 
+	localStorage.getItem("opti-scheme") == "light" ? $("#scheme-switch-tick").prop("checked", false) : $("#scheme-switch-tick").prop("checked", true);
 	let scheme = $("#scheme-switch-tick").is(":checked") ? "dark" : "light";
 
 	$("body").addClass(`opti-scheme-${scheme}`);
@@ -42,6 +43,7 @@ $( document ).ready(function() {
 		e => {
 			$demoOpti = $demo.next(".opti");
 			scheme = $("#scheme-switch-tick").is(":checked") ? "dark" : "light";
+			localStorage.setItem("opti-scheme", scheme);
 			$("body > main > header").find(".opti").attr("data-scheme", scheme);
 			$("body").removeClass((index, className) => (className.match (/(^|\s)opti-scheme-\S+/g) || []).join(' ')).addClass("opti-scheme-" + scheme);
 		}
