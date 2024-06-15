@@ -185,6 +185,45 @@
 				<p>Reverses instantiation and returns the <code>select</code> to its original state.</p>
 				<p><code>preserveSlot</code>: Boolean - If true, the Opti's slot in the window.optis array will only be emptied; if false it will be spliced out completely. Useful for if you plan to reinstantiate later and want to keep the same index. Defaults to false.</p>
 			</dd>
+			<dt><code>showMenu([focusOnSearch])</code></dt>
+			<dd>
+				<p>Reveals the Opti's dropdown and search if applicable.</p>
+				<p><code>focusOnSearch</code>: Boolean - Whether to focus on the search box after opening the menu. Defaults to true of the Opti is not in short mode, otherwise false.</p>
+			</dd>
+			<dt><code>hideMenu([focusOnSurface])</code></dt>
+			<dd>
+				<p>Conceals the Opti's dropdown and search.</p>
+				<p><code>focusOnSurface</code>: Boolean - Whether to focus on the Opti's surface after closing the menu. Defaults to true.</p>
+			</dd>
+			<dt><code>chooseOption(vals [, setFocus, noFade])</code></dt>
+			<dd>
+				<p>"Chooses" an option or multiple options, meaning its val is added to the select and represented in the Opti's surface and dropdown. If the Opti is in multiple mode, the new value is added. If not, it replaces any existing value.</p>
+				<p><code>vals</code>: String, Array, jQuery object - The options to choose. This argument can be the value of the option being chosen as a string, it can be an array of such strings, or it can be a jQuery object of the actual dropdown elements (spans with <code>data-value</code> attributes) that should be chosen.</p>
+				<p><code>setFocus</code>: Boolean - Whether to focus on the surface element after choosing and closing the dropdown (single-select Optis only). Defaults to false.</p>
+				<p><code>noFade</code>: Boolean - Whether to supress the fade-out animation on the existing surface text and skip right to setting it to the new value. Defaults to false.</p>
+			</dd>
+			<dt><code>unchooseOption(vals [, callback, callbackArgs, focusTarget, dontUpdateSelect, noFade])</code></dt>
+			<dd>
+				<p>"Unchooses" an option or multiple options, meaning their vals are removed from the select and their surface representations from the surface. Defaults to undefined.</p>
+				<p><code>vals</code>: String, Array, jQuery object - The options to unchoose. This argument can be the value of the option being unchosen as a string, it can be an array of such strings, or it can be a jQuery object of the actual dropdown elements (spans with <code>data-value</code> attributes) that should be unchosen. Defaults to undefined.</p>
+				<p><code>callback</code>: Function - Code to execute after the option has been unchosen and any relevant animations have finished. Defaults to undefined.</p>
+				<p><code>callbackArgs</code>: Object - Some vars that the callback needs access to. Defaults to undefined.</p>
+				<p><code>focusTarget</code>: jQuery object - What to focus on after unchoosing the option. Defaults to undefined which means focus will be removed.</p>
+				<p><code>dontUpdateSelect</code>: Whether to supress the setting of the values in the <code>select</code>. This is mostly used in mutation observers when the select is directly changed rather than using the Opti. In that case, the select already has the new values, so we don't need to set them. Defaults to undefined.</p>
+				<p><code>noFade</code>: Whether to supress the fade animation on the surface text (in the case of a single-select) or on the tags (in the case of a multi-select Opti). Defaults to false.</p>
+			</dd>
+			<dt><code>isBlankOrPlaceholder()</code></dt>
+			<dd>
+				<p>Returns whether or not the Opti is showing either nothing or the placeholder in its surface.</p>
+			</dd>
+			<dt><code>isBlank()</code></dt>
+			<dd>
+				<p>Returns whether or not the Opti is showing nothing in its surface.</p>
+			</dd>
+			<dt><code>isPlaceholder()</code></dt>
+			<dd>
+				<p>Returns whether or not the Opti is showing its placeholder in its surface.</p>
+			</dd>
 		</dl>
 
 	</main>

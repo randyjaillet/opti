@@ -16,7 +16,6 @@
 
 	%textDefaultState
 		height: $leading
-		overflow: visible
 		opacity: 1
 		transform: translate(0px, 0px)
 		transition: color $dur linear, opacity $dur linear, transform $dur linear
@@ -28,17 +27,19 @@
 
 	%textOffState
 		height: 0
-		overflow: hidden
 		opacity: 0
-		text-wrap: nowrap
-		transform: translate(-5px, 0px)
+		// transform: translate(-5px, 0px)
 		transition: opacity $dur linear, transform $dur linear, height 0s linear $dur, flex-basis 0s linear $dur
+		overflow: hidden
+		text-wrap: nowrap
 
 	%textSuperHide
 		height: 0 !important
 		opacity: 0 !important
-		transform: translate(-5px, 0px) !important
+		// transform: translate(-5px, 0px) !important
 		transition: opacity $dur linear, transform $dur linear, height 0s linear $dur, flex-basis 0s linear $dur
+		overflow: hidden
+		text-wrap: nowrap
 
 	.surface
 		display: flex
@@ -73,6 +74,11 @@
 			text-wrap: nowrap
 			overflow: hidden
 			text-overflow: ellipsis
+			transform: none
+			transition: transform $dur linear
+
+			&:has(> .fadingOut)
+				transform: translate(-5px, 0) !important
 
 			.text-grp
 				opacity: .35

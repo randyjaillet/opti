@@ -39,7 +39,6 @@
 }
 .opti .surface .texts .text-op, .opti .surface .texts .text-ph {
   height: 19px;
-  overflow: visible;
   opacity: 1;
   transform: translate(0px, 0px);
   transition: color 0.2s linear, opacity 0.2s linear, transform 0.2s linear;
@@ -51,17 +50,17 @@
 }
 .opti.zerostate .surface .text-op, .opti[multiple=multiple] .surface .text-op, .opti:not(.zerostate) .surface .texts .text-ph {
   height: 0;
-  overflow: hidden;
   opacity: 0;
-  text-wrap: nowrap;
-  transform: translate(-5px, 0px);
   transition: opacity 0.2s linear, transform 0.2s linear, height 0s linear 0.2s, flex-basis 0s linear 0.2s;
+  overflow: hidden;
+  text-wrap: nowrap;
 }
 .opti .surface .texts .text-op.fadingOut, .opti .surface .texts .text-ph.fadingOut {
   height: 0 !important;
   opacity: 0 !important;
-  transform: translate(-5px, 0px) !important;
   transition: opacity 0.2s linear, transform 0.2s linear, height 0s linear 0.2s, flex-basis 0s linear 0.2s;
+  overflow: hidden;
+  text-wrap: nowrap;
 }
 .opti .surface {
   display: flex;
@@ -95,6 +94,11 @@
   text-wrap: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  transform: none;
+  transition: transform 0.2s linear;
+}
+.opti .surface .texts:has(> .fadingOut) {
+  transform: translate(-5px, 0) !important;
 }
 .opti .surface .texts .text-grp {
   opacity: 0.35;

@@ -1,4 +1,6 @@
-$( document ).ready(function() {
+$(document).on(
+	"ready",
+	function() {
 
 	// Instantiation
 
