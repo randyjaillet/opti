@@ -249,8 +249,8 @@ class Opti {
 
 			/* Permanently remove the first option. */
 			$firstOpt.remove();
-			
-			
+
+
 			/* Inject the placeholder text
 			into its element. */
 			
