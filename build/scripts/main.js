@@ -160,95 +160,14 @@ class Opti {
 
 		/* Construct the Opti markup */
 
-		this.o = $('<div/>')
-				.addClass("opti")
-				.attr("id", self.s.attr("id") ? `${self.s.attr("id")}-opti` : null)
-				.attr("data-theme", self.s.data("theme"))
-				.attr("data-scheme", self.s.data("scheme"))
-				.addClass(self.settings.classes)
-		;
-
+		this.o = Opti.#buildAnOpti.bind(this)();
 		const
-
-			$oSurface = $('<a/>')
-					.attr("href", "#")
-					.addClass("surface")
-					.appendTo(this.o),
-
-			$oSurfText = $('<div/>')
-					.addClass("texts")
-					.appendTo($oSurface),
-
-			$oSurfTextOp = $('<span/>')
-					.addClass("text-op")
-					.appendTo($oSurfText),
-
-			$oSurfTextPH = $('<span/>')
-					.addClass("text-ph")
-					.appendTo($oSurfText),
-			
-			$oSurfTextUL = $('<ul/>')
-					.appendTo($oSurfText),
-			
-			$oSurfIconEx = $('<svg class="icon-ex-surf" height="20px" width="20px" stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" viewBox="6.5 6.5 20 20" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" stroke="#000000" stroke-width="1"><path d="M20,13 L13,20" fill="none" opacity="1" stroke-linecap="round" stroke-linejoin="round"/><path d="M13,13 L20,20" fill="none" opacity="1" stroke-linecap="round" stroke-linejoin="round"/></svg>'),
-
-			$oSurfIconChevs = $('<svg xmlns="http://www.w3.org/2000/svg" class="icon-chevs" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg>'),
-
-			$oSurfIconBan = $('<svg xmlns="http://www.w3.org/2000/svg" class="icon-ban" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ban"><circle cx="12" cy="12" r="10"/><path d="m4.9 4.9 14.2 14.2"/></svg>'),
-
-			$oDropdown = $('<div/>')
-					.addClass("dropdown")
-					.appendTo(this.o),
-
-			$oSearch = $('<div/>')
-					.addClass("search")
-					.appendTo($oDropdown),
-
-			$oSearchIcon = $('<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M21 6H3"/><path d="M10 12H3"/><path d="M10 18H3"/><circle cx="17" cy="15" r="3"/><path d="m21 19-1.9-1.9"/></svg>')
-					.appendTo($oSearch),
-
-			$oSearchInput = $('<input/>')
-					.attr("type", "text")
-					.attr("tabindex", -1)
-					.attr("autocomplete", "off")
-					.appendTo($oSearch),
-
-			$oList = $('<section/>')
-					.addClass("list")
-					.appendTo($oDropdown)
-
+			$oSurf = this.o.find(".surface"),
+			$oSearch = this.o.find(".search"),
+			$oSearchInput = this.o.find(".search input"),
+			$oList = this.o.find(".list"),
+			$oLIs = this.o.find(".list span")
 		;
-		
-		this.settings.showClearAll && $oSurfIconEx.appendTo($oSurface);
-		$oSurfIconChevs.appendTo($oSurface);
-		$oSurfIconBan.appendTo($oSurface);
-
-
-		/* Reflect element properties */
-
-		this.s.is("[disabled]") && this.o.attr("disabled", this.s.attr("disabled"));
-		this.s.is("[multiple]") && this.o.attr("multiple", this.s.attr("multiple"));
-		this.s.is("[tabindex]") && $oSurface.attr("tabindex", this.s.attr("tabindex"));
-
-		let
-			oIsDisabled = this.o.is("[disabled=disabled]"),
-			oIsMultiple = this.o.is("[multiple=multiple]")
-		;
-		this.ogTabindex = this.s.attr("tabindex");
-
-
-		/* Construct option list */
-
-		/* Give each optgroup a unique identifier
-		This is mostly so we can identify them
-		when they are removed from the select
-		(which a mutation obsever watches for). */
-		this.s.find("optgroup").attr("data-groupindex", () => self.groupCount++);
-		Opti.#convertOptsAndGroups.bind(self, this.s)().appendTo($oList);
-
-		/* Store the new options in a var for
-		later use. */
-		let $oOpts = $("span", $oList);
 
 
 		// Placeholder text
@@ -276,11 +195,12 @@ class Opti {
 		options are marked to be initially
 		chosen with the "selected"
 		attribute. */
-		
+
 		const
+			$oSurfTextPH = this.o.find(".surface .texts .text-ph"),
 			ufoapSetting = this.settings.useFirstOptionAsPlaceholder,
 			ufoapSettingType = typeof ufoapSetting,
-			$nonDisabledOpts = $oOpts.not("[disabled=disabled]"),
+			$nonDisabledOpts = $oLIs.not("[disabled=disabled]"),
 			$firstOpt = $nonDisabledOpts.first(),
 			firstOptVal = $firstOpt.attr("data-value"),
 			ufoapBool = ufoapSetting === true || ufoapSettingType == "string" && firstOptVal === ufoapSetting
@@ -321,7 +241,7 @@ class Opti {
 		// Initially-selected options
 		//
 		
-		const $initiallySelectedOpts = $oOpts.filter("[selected=selected]").not("[disabled=disabled]");
+		const $initiallySelectedOpts = $oLIs.filter("[selected=selected]").not("[disabled=disabled]");
 
 		/* Choose any options set to be initially
 		selected with the "selected" attribute.
@@ -346,7 +266,7 @@ class Opti {
 				this.#choosePlaceholderOption();
 				this.o.addClass("zerostate");
 			} else {
-				if (this.settings.firstOptDefault && !oIsMultiple) {
+				if (this.settings.firstOptDefault && !this.o.prop("multiple")) {
 					const $firstChoosableListItem = this.o.find(".list span:not([disabled=disabled])").first();
 					this.chooseOption($firstChoosableListItem, false, true);
 				} else {
@@ -403,7 +323,7 @@ class Opti {
 		option is more of an aesthetic
 		suggestion than a hard-and-fast
 		functional rule. */
-		this.isInShortMode = $("span", $oList).length < this.settings.shortModeThreshold;
+		this.isInShortMode = $oLIs.length < this.settings.shortModeThreshold;
 		if (this.isInShortMode) $oSearch.hide();
 
 		/*
@@ -411,7 +331,7 @@ class Opti {
 		Make it so the Opti can't be tabbbed
 		to if it's disabled.
 		*/
-		if (oIsDisabled) $oSurface.attr("tabindex","-1");
+		if (this.o.prop("disabled")) $oSurf.attr("tabindex","-1");
 
 		
 		//
@@ -440,8 +360,10 @@ class Opti {
 			"click",
 			e => {
 				e.preventDefault();
-				const inOpti = $(e.target).closest(".opti").length;
-				oIsDisabled = self.o.is("[disabled=disabled]");
+				const
+					inOpti = $(e.target).closest(".opti").length,
+					oIsDisabled = self.o.is("[disabled=disabled]")
+				;
 				if (!oIsDisabled & !inOpti) self.showMenu();
 			}
 		);
@@ -456,7 +378,7 @@ class Opti {
 			usurping, immediately move focus to the Opti. */
 
 			focus: () => {
-				$oSurface.trigger("focus");
+				$oSurf.trigger("focus");
 			},
 
 			/* The user somehow managed to change the value
@@ -480,11 +402,10 @@ class Opti {
 					Opti options accordingly. (This looks better than just
 					nuking everything and then choosing like we used to.) */
 					const
-						sVal = self.s.val(),
-						$lis = $("span", $oList),
-						$liTargetsToUnchoose = $()
+						sVal = self.s.val()
 					;
-					$lis.each(
+					let $liTargetsToUnchoose = $();
+					$oLIs.each(
 						function (i, v) {
 							if ($.inArray($(v).attr("data-value"), sVal) === -1) {
 								$liTargetsToUnchoose = $liTargetsToUnchoose.add($(v));
@@ -500,12 +421,11 @@ class Opti {
 
 		/* If the surface is clicked (or enter'd),
 		show/hide the dropdown. */
-		$oSurface.on(
+		$oSurf.on(
 			"click",
 			e => {
 				e.preventDefault();
-				oIsDisabled = self.o.is("[disabled=disabled]");
-				if (!oIsDisabled) self.o.is(".activated") ? self.hideMenu() : self.showMenu();
+				if (!self.o.prop("disabled")) self.o.is(".activated") ? self.hideMenu() : self.showMenu();
 			}
 		);
 
@@ -518,7 +438,7 @@ class Opti {
 			}
 		});
 
-		$oSurface.on({
+		$oSurf.on({
 			
 			/* If the user starts typing while the surface
 			is focused (as opposed to the search input),
@@ -548,9 +468,8 @@ class Opti {
 			keypress: e => {
 				
 				const oIsActivated = self.o.hasClass("activated");
-				oIsDisabled = self.o.is("[disabled=disabled]");
 				
-				if (!oIsDisabled) {
+				if (!self.o.prop("disabled")) {
 
 					/* SPACE:
 					Open menu */
@@ -563,7 +482,7 @@ class Opti {
 					Show menu and always focus on search box */
 					else {
 						$oSearchInput.val(null).trigger("change");
-						self.showMenu(true);	
+						self.showMenu(true);
 					}
 
 				}
@@ -579,14 +498,14 @@ class Opti {
 			keypress only fires when a key that
 			produces a visible character is pressed. */
 			keydown: e => {
-				$oOpts = $("span", $oList);
-				oIsDisabled = self.o.is("[disabled=disabled]");
-				oIsMultiple = self.o.is("[multiple=multiple]");
 				const
-					isCurrentlyActivated = self.o.hasClass("activated"),
+					oIsActivated = self.o.hasClass("activated"),
+					oIsDisabled = self.o.is("[disabled=disabled]"),
+					oIsMultiple = self.o.is("[multiple=multiple]"),
 
-					$selectableOpts = $oOpts.not(".opti-hidden,[disabled=disabled]"),
-					$removableOpts = $oOpts.filter(".selected"),
+					$allLIs = self.o.find(".list span"),
+					$selectableOpts = $allLIs.not(".opti-hidden,[disabled=disabled]"),
+					$removableOpts = $allLIs.filter(".selected"),
 
 					$currentlySelected = $selectableOpts.filter(".selected").first(),
 					CSIndex = $selectableOpts.index($currentlySelected),
@@ -608,7 +527,7 @@ class Opti {
 					/* Close the Opti. */
 					case 27:
 						e.preventDefault();
-						isCurrentlyActivated && self.hideMenu();
+						oIsActivated && self.hideMenu();
 						break;
 
 					// TAB
@@ -616,7 +535,7 @@ class Opti {
 					with the arrow keys, choose that
 					option upon tab out of the Opti. */
 					case 9:
-						if ($currentlyFocused.length && !$currentlyFocused.is($currentlySelected) && !oIsDisabled && isCurrentlyActivated && !oIsMultiple) {
+						if ($currentlyFocused.length && !$currentlyFocused.is($currentlySelected) && !oIsDisabled && oIsActivated && !oIsMultiple) {
 							self.chooseOption($currentlyFocused);
 						}
 						self.hideMenu();
@@ -638,7 +557,7 @@ class Opti {
 
 						if (!oIsDisabled) {
 
-							if (isCurrentlyActivated) {
+							if (oIsActivated) {
 
 								// If an option is fake focused...
 								// (If none are, we don't care about enter key presses.)
@@ -675,7 +594,7 @@ class Opti {
 					around to the last option if we're
 					at the beginning. */
 					case 38:
-						if (isCurrentlyActivated) {
+						if (oIsActivated) {
 							e.preventDefault();
 							let $t = $CFPrevAll.last();
 
@@ -708,7 +627,7 @@ class Opti {
 					around to the first option if we're
 					at the end. */
 					case 40:
-						if (isCurrentlyActivated) {
+						if (oIsActivated) {
 							e.preventDefault();
 							let $t = $CFNextAll.first();
 
@@ -740,7 +659,7 @@ class Opti {
 					instead move fake focus to the first
 					focusable option in the list. */
 					case 36:
-						if (isCurrentlyActivated) {
+						if (oIsActivated) {
 							e.preventDefault();
 
 							const $t = $selectableOpts.first();
@@ -759,7 +678,7 @@ class Opti {
 					instead move fake focus to the last
 					focusable option in the list. */
 					case 35:
-						if (isCurrentlyActivated) {
+						if (oIsActivated) {
 							e.preventDefault();
 
 							const $t = $selectableOpts.last();
@@ -777,16 +696,16 @@ class Opti {
 		an open Opti. */
 		$oSearchInput.on({
 			keydown: e => {
-				$oOpts = $("span", $oList);
-				oIsDisabled = self.o.is("[disabled=disabled]");
-				oIsMultiple = self.o.is("[multiple=multiple]");
 				const
-					isCurrentlyActivated = self.o.hasClass("activated"),
+					oIsActivated = self.o.hasClass("activated"),
+					oIsDisabled = self.o.is("[disabled=disabled]"),
+					oIsMultiple = self.o.is("[multiple=multiple]"),
+					$allLIs = self.o.find(".list span"),
 
-					searchIsBlank = this.o.find(".search input").val() === "",
+					searchIsBlank = $oSearchInput.val() === "",
 
-					$selectableOpts = $oOpts.not(".opti-hidden,[disabled=disabled]"),
-					$removableOpts = $oOpts.filter(".selected"),
+					$selectableOpts = $allLIs.not(".opti-hidden,[disabled=disabled]"),
+					$removableOpts = $allLIs.filter(".selected"),
 
 					$currentlySelected = $selectableOpts.filter(".selected").first(),
 					
@@ -823,7 +742,7 @@ class Opti {
 					Edit: We're now only doing this
 					in single-select Optis. */
 					case 9:
-						if ($currentlyFocused.length && !$currentlyFocused.is($currentlySelected) && !oIsDisabled && isCurrentlyActivated && !oIsMultiple) {
+						if ($currentlyFocused.length && !$currentlyFocused.is($currentlySelected) && !oIsDisabled && oIsActivated && !oIsMultiple) {
 							self.chooseOption($currentlyFocused);
 						}
 						self.hideMenu();
@@ -951,9 +870,9 @@ class Opti {
 
 			/* Search any time the value of the
 			search input changes. */
-			"input change": e => {
-				if (this.o.find(".search input").val()) {
-					self.#searchMenu(this.o.find(".search input").val());
+			"input change": () => {
+				if ($oSearchInput.val()) {
+					self.#searchMenu($oSearchInput.val());
 				} else {
 					self.#unsearchMenu();
 				}
@@ -973,7 +892,7 @@ class Opti {
 		/* Clicking on tags removes them and
 		unchooses the corresponding option
 		(assuming nothing involved is disabled). */
-		$oSurfTextUL.on(
+		this.o.find(".surface .texts ul").on(
 			"click",
 			".tag",
 			e => {
@@ -983,7 +902,7 @@ class Opti {
 					$tag = $(e.target).is(".tag") ? $(e.target) : $(e.target).closest(".tag"),
 					nothingsDisabled = !($tag.is("[disabled=disabled]") || self.o.is("[disabled=disabled]"))
 				;
-				if (nothingsDisabled) self.unchooseOption($tag.attr("data-value"), false, false, $oSurface);
+				if (nothingsDisabled) self.unchooseOption($tag.attr("data-value"), false, false, $oSurf);
 			}
 		);
 
@@ -991,7 +910,7 @@ class Opti {
 		/* This button unchooses all options that can be.
 		It works in single-select optis as well unless
 		the button is hidden with the setting. */
-		$oSurfIconEx.on({
+		this.o.find(".surface .icon-ex-surf").on({
 			click: e => {
 				e.preventDefault();
 				e.stopPropagation();
@@ -1002,12 +921,12 @@ class Opti {
 				;
 
 				/* Unchoose everything and focus on the surface. */
-				if (oIsNotDisabled) self.unchooseOption($targets, false, false, $oSurface);
+				if (oIsNotDisabled) self.unchooseOption($targets, false, false, $oSurf);
 			},
-			mouseenter: e => {
+			mouseenter: () => {
 				this.o.addClass("highlightRemovables");
 			},
-			mouseleave: e => {
+			mouseleave: () => {
 				this.o.removeClass("highlightRemovables");
 			}
 		});
@@ -1048,7 +967,7 @@ class Opti {
 
 		const config = { attributes: true, childList : true, subtree : true, attributeOldValue : true };
 
-		const callback = (mutationList, observer) => {
+		const callback = (mutationList) => {
 			for (const mutation of mutationList) {
 				if (mutation.type == "attributes") {
 
@@ -1131,9 +1050,9 @@ class Opti {
 						// Node addition
 						
 						mutation.addedNodes.forEach(
-							function (currentValue, currentIndex, listObj) {
+							function (currentValue) {
 								const
-									$list = self.o.find(".list"),
+									$list = $oList,
 									$addedNode = $(currentValue),
 									$newTree = Opti.#convertOptsAndGroups.bind(self, $addedNode)(),
 									addedNodeIsOptgroup = $addedNode.is("optgroup"),
@@ -1193,7 +1112,7 @@ class Opti {
 							}
 						);
 						/* Recalculate shortmode based on the original setting. */
-						self.isInShortMode = $("span", $oList).length < self.settings.shortModeThreshold;
+						self.isInShortMode = $oLIs.length < self.settings.shortModeThreshold;
 						if (self.isInShortMode) $oSearch.hide();
 					} else if (mutation.removedNodes.length) {
 
@@ -1214,7 +1133,7 @@ class Opti {
 									let $listItemTargets = $();
 									$selectedOptsToUnchoose.each(
 										function (i, v) {
-											$listItemTargets = $listItemTargets.add(`span[data-value="${$(v).val()}"]`, self.o.find(".list"));
+											$listItemTargets = $listItemTargets.add(`span[data-value="${$(v).val()}"]`, $oList);
 										}
 									);
 									self.unchooseOption($listItemTargets, false, true);
@@ -1222,7 +1141,7 @@ class Opti {
 								$nukeTarget.remove();
 							}
 						);
-						self.isInShortMode = $("span", $oList).length < self.settings.shortModeThreshold;
+						self.isInShortMode = $oLIs.length < self.settings.shortModeThreshold;
 						if (!self.isInShortMode) $oSearch.show();
 					}
 				}
@@ -1237,6 +1156,61 @@ class Opti {
 		configured mutations */
 		this.observer.observe(this.s.get(0), config);
 
+
+	}
+
+
+
+
+	static #buildAnOpti () {
+
+		const
+			$oOpti = $(`<div class="opti" data-theme="${this.s.data("theme")}" data-scheme="${this.s.data("scheme")}">`)
+					.attr("id", this.s.attr("id") ? `${this.s.attr("id")}-opti` : null)
+					.addClass(this.settings.classes)
+					.append(
+						$(`
+							<a href="#" class="surface">
+								<div class="texts">
+									<span class="text-op"></span>
+									<span class="text-ph"></span>
+									<ul></ul>
+								</div>
+								<svg class="icon-ex-surf" height="20px" width="20px" stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" viewBox="6.5 6.5 20 20" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" stroke="#000000" stroke-width="1"><path d="M20,13 L13,20" fill="none" opacity="1" stroke-linecap="round" stroke-linejoin="round"/><path d="M13,13 L20,20" fill="none" opacity="1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+								<svg xmlns="http://www.w3.org/2000/svg" class="icon-chevs" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg>
+								<svg xmlns="http://www.w3.org/2000/svg" class="icon-ban" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ban"><circle cx="12" cy="12" r="10"/><path d="m4.9 4.9 14.2 14.2"/></svg>
+							</a>
+							<div class="dropdown">
+								<div class="search">
+									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M21 6H3"/><path d="M10 12H3"/><path d="M10 18H3"/><circle cx="17" cy="15" r="3"/><path d="m21 19-1.9-1.9"/></svg>
+									<input type="text" tabindex="-1" autocomplete="off">
+								</div>
+								<div class="list"></div>
+							</div>
+						`)
+					)
+		;
+
+		/* Reflect element properties */
+
+		this.s.is("[disabled]") && $oOpti.attr("disabled", this.s.attr("disabled"));
+		this.s.is("[multiple]") && $oOpti.attr("multiple", this.s.attr("multiple"));
+		this.s.is("[tabindex]") && $oOpti.find(".surface").attr("tabindex", this.s.attr("tabindex"));
+
+		this.ogTabindex = this.s.attr("tabindex");
+
+		!this.settings.showClearAll && $oOpti.find(".surface .icon-ex-surf").remove();
+
+		/* Construct option list */
+
+		/* Give each optgroup a unique identifier
+		This is mostly so we can identify them
+		when they are removed from the select
+		(which a mutation obsever watches for). */
+		this.s.find("optgroup").attr("data-groupindex", () => this.groupCount++);
+		Opti.#convertOptsAndGroups.bind(this, this.s)().appendTo($oOpti.find(".dropdown .list"));
+
+		return $oOpti;
 
 	}
 
@@ -1506,8 +1480,7 @@ class Opti {
 			Opti.#unchoosePlaceholderOption.bind(self)();
 
 			const
-				wasBlank = this.isBlank(),
-				isPlaceholder = self.isPlaceholder()
+				wasBlank = this.isBlank()
 			;
 
 			// Multiple-select Optis
@@ -1636,7 +1609,7 @@ class Opti {
 						$newTag.insertAfter($targTag);
 					}
 
-					const foo = $newTag.outerHeight();
+					$newTag.outerHeight();
 
 					$newTag.removeClass("initial");
 
@@ -1661,7 +1634,7 @@ class Opti {
 				const
 					$oSearch = self.o.find(".search"),
 					$oSearchInput = $oSearch.find("input"),
-					$oSurf = self.o.find(".surface"),
+					$oSurf = $oSurf,
 					$focusTarget = self.isInShortMode && $oSearch.is(":hidden") ? $oSurf : $oSearchInput
 				;
 				$focusTarget.trigger("focus");
@@ -2028,14 +2001,14 @@ class Opti {
 		/* Force redraw of the transitioning element.
 		Otherwise browsers try to be too clever
 		and ruin our transitions. */
-		const foo = $t.outerWidth();
+		window.getComputedStyle($t.get(0)).top;
 
 		$t.addClass("fadingOut");
 
 		/* Force redraw of the transitioning element.
 		Otherwise browsers try to be too clever
 		and ruin our transitions. */
-		const foo2 = $t.outerWidth();
+		window.getComputedStyle($t.get(0)).top;
 
 		$t.on(
 			"transitionend",
@@ -2089,19 +2062,19 @@ class Opti {
 		is the list. 
 		*/
 		const
-			$list = this.o.find(".list"),
+			$oList = this.o.find(".list"),
 			$prevH5 = $option.prev("h5"),
 			$topTarget = $prevH5.length ? $prevH5 : $option,
 			offsetTop = $topTarget.position().top,
 			offsetBot = $option.position().top + $option.outerHeight(),
 			isAboveFold = offsetTop < 0,
-			isBelowFold = offsetBot > $list.innerHeight()
+			isBelowFold = offsetBot > $oList.innerHeight()
 		;
 
 		if (isAboveFold) {
-			$list.scrollTop($list.scrollTop() + offsetTop);
+			$oList.scrollTop($oList.scrollTop() + offsetTop);
 		} else if (isBelowFold) {
-			$list.scrollTop($list.scrollTop() + offsetBot - $list.innerHeight());
+			$oList.scrollTop($oList.scrollTop() + offsetBot - $oList.innerHeight());
 		}
 
 	};
@@ -2151,7 +2124,6 @@ class Opti {
 
 	static #convertOptsAndGroups ($tree) {
 
-		const self = this;
 		const isSelect = $tree.is("select");
 
 		/* We wrap it in a div becaue jQuery's replaceWith
@@ -2373,7 +2345,7 @@ $("body").addClass(`opti-scheme-${scheme}`);
 $("body > main > header").find(".opti").attr("data-scheme", scheme);
 $("#scheme-switch-tick").on(
 	"change",
-	e => {
+	() => {
 		$demoOpti = $demo.next(".opti");
 		scheme = $("#scheme-switch-tick").is(":checked") ? "dark" : "light";
 		localStorage.setItem("opti-scheme", scheme);
@@ -2396,7 +2368,6 @@ const
 	}
 ;
 let countOpt = $demo.find("option").length + 1;
-let countGrp = $demo.find("optgroup").length + 1;
 
 $("#doit1").on(
 	"click",
@@ -2407,7 +2378,6 @@ $("#doit1").on(
 		const
 			whichAction = $("#control-append").val(),
 			whichTarget = $("#control-append-what").val(),
-			phEnabled = window.optis[0].placeholderTextEnabled,
 			$firstOpt = $demo.find(`option:not([value="${window.optis[0].placeholderValue}"])`).first(),
 			$firstOptgroup = $demo.find("optgroup").first(),
 			$lastOpt = $demo.find(`option:not([value="${window.optis[0].placeholderValue}"])`).last(),

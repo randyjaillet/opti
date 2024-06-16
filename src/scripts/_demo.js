@@ -38,7 +38,7 @@ $("body").addClass(`opti-scheme-${scheme}`);
 $("body > main > header").find(".opti").attr("data-scheme", scheme);
 $("#scheme-switch-tick").on(
 	"change",
-	e => {
+	() => {
 		$demoOpti = $demo.next(".opti");
 		scheme = $("#scheme-switch-tick").is(":checked") ? "dark" : "light";
 		localStorage.setItem("opti-scheme", scheme);
@@ -61,7 +61,6 @@ const
 	}
 ;
 let countOpt = $demo.find("option").length + 1;
-let countGrp = $demo.find("optgroup").length + 1;
 
 $("#doit1").on(
 	"click",
@@ -72,7 +71,6 @@ $("#doit1").on(
 		const
 			whichAction = $("#control-append").val(),
 			whichTarget = $("#control-append-what").val(),
-			phEnabled = window.optis[0].placeholderTextEnabled,
 			$firstOpt = $demo.find(`option:not([value="${window.optis[0].placeholderValue}"])`).first(),
 			$firstOptgroup = $demo.find("optgroup").first(),
 			$lastOpt = $demo.find(`option:not([value="${window.optis[0].placeholderValue}"])`).last(),
