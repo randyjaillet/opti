@@ -1583,18 +1583,15 @@ class Opti {
 
 			if (wasPlaceholder && !noFade) {
 
-				const fadeOutBound = self.#fadeOut.bind(self);
-				fadeOutBound($pht, Opti.#chooseAfter.bind(self, fadeOutCallbackArgs, true), false);
+				self.#fadeOut.bind(self)($pht, Opti.#chooseAfter.bind(self, fadeOutCallbackArgs, true), false);
 
 			} else if (wasBlank || noFade || self.o.is("[multiple=multiple]")) {
 
-				const gutsbound = Opti.#chooseAfter.bind(self);
-				gutsbound(fadeOutCallbackArgs, true);
+				Opti.#chooseAfter.bind(self)(fadeOutCallbackArgs, true);
 
 			} else {
 
-				const fadeOutBound = self.#fadeOut.bind(self);
-				fadeOutBound($txt, Opti.#chooseAfter.bind(self, fadeOutCallbackArgs, false), false);
+				self.#fadeOut.bind(self)($txt, Opti.#chooseAfter.bind(self, fadeOutCallbackArgs), false);
 
 			}
 		}
