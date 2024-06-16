@@ -8,11 +8,25 @@ class Opti {
 	i; 			// Index of this instance
 	s; 			// Select element as a jQuery object
 	l; 			// Select's label if present (either as a parent or using the 'for' attribute)
-	o; 			// The actualy Opti div as a jQuery object
+	o; 			// The actual Opti div as a jQuery object
 	groupCount; // This will enumerate the indexes of the select's optgroups so that we can identify which ones are removed if they are removed from the original select.
 	ogTabindex; // The tabindex on the original select before we nuke it, so that we can restore it if Opti is destroyed.
+	ufoap;		// Compouted "user first option as placeholder"
+
+	// Convenience selectors assigned after Opti markup is built (in the constructor)
+	surface;
+	ph;
+	search;
+	searchInput;
+	list;
+	opts;
 
 	constructor($s, options) {
+
+
+		//
+		// Settings
+		//
 
 		/* If there are no options, create an empty object
 		so we can still use it in the extend code below. */
@@ -88,6 +102,10 @@ class Opti {
 		);
 
 
+		//
+		// Storage array
+		//
+
 		/* If this select is already instantiated as
 		an Opti, destroy the old one and
 		reinstantiate. The new instance will
@@ -116,6 +134,10 @@ class Opti {
 			}
 		}
 
+		
+		//
+		// Properties
+		//
 
 		/* Store each Opti's index relative to one another
 		for unique identifiers such as in event listeners.
@@ -126,51 +148,55 @@ class Opti {
 		being replaced. Note: It's not just discarded; a
 		relationship is maintained between it and the
 		Opti. Changes made via the Opti are stored in the
-		original select. This way the location of the form
+		original select. This way the source of the form
 		data doesn't change when you use Opti.
-
-		Note: Opti also listens for external changes to
-		the select and will update accordingly. Beware
-		however: select elements don't fire change events
-		automatically when updated programmatically. Opti
-		won't notice if its select's value is updated
-		programmatically without the change event being
-		manually triggered. */
+		Also, if the user changes the select's val or
+		properties, Opti tries to reflect the udpates.
+		Beware however: select elements don't fire change
+		events automatically when their values are changed
+		programmatically. If a change event is not triggered,
+		Opti won't notice the change and the Opti and select
+		could become desynchronized. */
 		this.s = $s;
 
-		/* Any labels that might reference the original
-		select element. */
+		/* Any labels that reference the original select. */
 		this.l = $(`label[for="${this.s.attr("id")}"]`).add(this.s.closest("label"));
 
 		/* We're going to number our optgroups so we have
-		a way to target them (specifically when one is 
-		removed from the select, we need to be able to find
-		the corresponding list item in the Opti). */
+		unique identifiers to target them with.
+		(Specifically when one is removed from the select,
+		we need to be able to find the corresponding
+		section in the Opti. (We can't simply count its
+		index among the optgroups because by the time the
+		mutation is observed, the optgroup is already
+		detached from the DOM.)) */
 		this.groupCount = 1;
-
-
 
 
 		/* Keep a reference to the root class
 		for use within closures where the
-		meaning of the this keyword
+		meaning of the "this" keyword
 		changes. */
 		const self = this;
 
 
-		/* Construct the Opti markup */
+		//
+		// Construct the Opti markup
+		//
 
 		this.o = Opti.#buildAnOpti.bind(this)();
-		const
-			$oSurf = this.o.find(".surface"),
-			$oSearch = this.o.find(".search"),
-			$oSearchInput = this.o.find(".search input"),
-			$oList = this.o.find(".list"),
-			$oLIs = this.o.find(".list span")
-		;
+
+		this.surface = this.o.find(".surface");
+		this.ph = this.surface.find(".text-ph");
+		this.search = this.o.find(".search");
+		this.searchInput = this.search.find("input");
+		this.list = this.o.find(".list");
+		this.opts = this.list.find("span");
 
 
+		//
 		// Placeholder text
+		//
 		
 		/* According to the setting
 		useFirstOptionAsPlaceholder, we will
@@ -196,22 +222,18 @@ class Opti {
 		chosen with the "selected"
 		attribute. */
 
+		/* This property represents whether the
+		placeholder feature is enabled for this
+		Opti. (Not if the actual placeholder is
+		active, just the feature that potentially
+		activates it.)*/
+		this.ufoap = this.getUFOAP;
 		const
-			$oSurfTextPH = this.o.find(".surface .texts .text-ph"),
-			ufoapSetting = this.settings.useFirstOptionAsPlaceholder,
-			ufoapSettingType = typeof ufoapSetting,
-			$nonDisabledOpts = $oLIs.not("[disabled=disabled]"),
-			$firstOpt = $nonDisabledOpts.first(),
-			firstOptVal = $firstOpt.attr("data-value"),
-			ufoapBool = ufoapSetting === true || ufoapSettingType == "string" && firstOptVal === ufoapSetting
+			$nonDisabledOpts = this.opts.not("[disabled=disabled]"),
+			$firstOpt = $nonDisabledOpts.first()
 		;
 
-		/* Store the placeholder usage setting
-		so we don't have to repeat all that
-		logic.*/
-		this.placeholderTextEnabled = ufoapBool;
-
-		if (ufoapBool) {
+		if (this.ufoap) {
 
 			/* Store the placeholder text (which is
 			the text of the first option). */
@@ -232,7 +254,7 @@ class Opti {
 			/* Inject the placeholder text
 			into its element. */
 			
-			$oSurfTextPH.text(this.placeholderText);
+			this.ph.text(this.placeholderText);
 
 		}
 
@@ -241,7 +263,7 @@ class Opti {
 		// Initially-selected options
 		//
 		
-		const $initiallySelectedOpts = $oLIs.filter("[selected=selected]").not("[disabled=disabled]");
+		const $initiallySelectedOpts = this.opts.filter("[selected=selected]").not("[disabled=disabled]");
 
 		/* Choose any options set to be initially
 		selected with the "selected" attribute.
@@ -256,7 +278,7 @@ class Opti {
 			this.chooseOption($initiallySelectedOpts, false, true);
 		}
 		else {
-			if (ufoapBool) {
+			if (this.ufoap) {
 				/* Show the placeholder and choose
 				its original-select option. This
 				takes precedence over the defaults
@@ -323,15 +345,15 @@ class Opti {
 		option is more of an aesthetic
 		suggestion than a hard-and-fast
 		functional rule. */
-		this.isInShortMode = $oLIs.length < this.settings.shortModeThreshold;
-		if (this.isInShortMode) $oSearch.hide();
+		this.isInShortMode = this.opts.length < this.settings.shortModeThreshold;
+		if (this.isInShortMode) this.search.hide();
 
 		/*
 		DISABLED
 		Make it so the Opti can't be tabbbed
 		to if it's disabled.
 		*/
-		if (this.o.prop("disabled")) $oSurf.attr("tabindex","-1");
+		if (this.o.prop("disabled")) this.surface.attr("tabindex","-1");
 
 		
 		//
@@ -378,7 +400,7 @@ class Opti {
 			usurping, immediately move focus to the Opti. */
 
 			focus: () => {
-				$oSurf.trigger("focus");
+				self.surface.trigger("focus");
 			},
 
 			/* The user somehow managed to change the value
@@ -405,7 +427,7 @@ class Opti {
 						sVal = self.s.val()
 					;
 					let $liTargetsToUnchoose = $();
-					$oLIs.each(
+					self.opts.each(
 						function (i, v) {
 							if ($.inArray($(v).attr("data-value"), sVal) === -1) {
 								$liTargetsToUnchoose = $liTargetsToUnchoose.add($(v));
@@ -421,7 +443,7 @@ class Opti {
 
 		/* If the surface is clicked (or enter'd),
 		show/hide the dropdown. */
-		$oSurf.on(
+		this.surface.on(
 			"click",
 			e => {
 				e.preventDefault();
@@ -438,7 +460,7 @@ class Opti {
 			}
 		});
 
-		$oSurf.on({
+		this.surface.on({
 			
 			/* If the user starts typing while the surface
 			is focused (as opposed to the search input),
@@ -481,7 +503,7 @@ class Opti {
 					/* Anything else that inserts a character:
 					Show menu and always focus on search box */
 					else {
-						$oSearchInput.val(null).trigger("change");
+						self.searchInput.val(null).trigger("change");
 						self.showMenu(true);
 					}
 
@@ -610,7 +632,7 @@ class Opti {
 						} else {
 							if (!oIsMultiple) {
 								e.preventDefault();
-								const shouldWeFade = !self.isBlankOrPlaceholder();
+								const shouldWeFade = !self.isZeroState;
 								const $optionTarget = $CSPrevAll.length ? $CSPrevAll.last() : $selectableOpts.last();
 								self.chooseOption($optionTarget, false, shouldWeFade);
 							}
@@ -643,7 +665,7 @@ class Opti {
 						} else {
 							if (!oIsMultiple) {
 								e.preventDefault();
-								const shouldWeFade = !self.isBlankOrPlaceholder();
+								const shouldWeFade = !self.isZeroState;
 								const $optionTarget = $CSNextAll.length ? $CSNextAll.first() : $selectableOpts.first();
 								self.chooseOption($optionTarget, false, shouldWeFade);
 							}
@@ -694,7 +716,7 @@ class Opti {
 
 		/* Keydown in the search input that's within
 		an open Opti. */
-		$oSearchInput.on({
+		this.searchInput.on({
 			keydown: e => {
 				const
 					oIsActivated = self.o.hasClass("activated"),
@@ -702,7 +724,7 @@ class Opti {
 					oIsMultiple = self.o.is("[multiple=multiple]"),
 					$allLIs = self.o.find(".list span"),
 
-					searchIsBlank = $oSearchInput.val() === "",
+					searchIsBlank = self.searchInput.val() === "",
 
 					$selectableOpts = $allLIs.not(".opti-hidden,[disabled=disabled]"),
 					$removableOpts = $allLIs.filter(".selected"),
@@ -871,8 +893,8 @@ class Opti {
 			/* Search any time the value of the
 			search input changes. */
 			"input change": () => {
-				if ($oSearchInput.val()) {
-					self.#searchMenu($oSearchInput.val());
+				if (self.searchInput.val()) {
+					self.#searchMenu(self.searchInput.val());
 				} else {
 					self.#unsearchMenu();
 				}
@@ -880,7 +902,7 @@ class Opti {
 		});
 
 		/* Choosing/unchoosing options with mouse/touch */
-		$oList.on(
+		this.list.on(
 			"click",
 			"span",
 			e => {
@@ -902,7 +924,7 @@ class Opti {
 					$tag = $(e.target).is(".tag") ? $(e.target) : $(e.target).closest(".tag"),
 					nothingsDisabled = !($tag.is("[disabled=disabled]") || self.o.is("[disabled=disabled]"))
 				;
-				if (nothingsDisabled) self.unchooseOption($tag.attr("data-value"), false, false, $oSurf);
+				if (nothingsDisabled) self.unchooseOption($tag.attr("data-value"), false, false, self.surface);
 			}
 		);
 
@@ -921,7 +943,7 @@ class Opti {
 				;
 
 				/* Unchoose everything and focus on the surface. */
-				if (oIsNotDisabled) self.unchooseOption($targets, false, false, $oSurf);
+				if (oIsNotDisabled) self.unchooseOption($targets, false, false, self.surface);
 			},
 			mouseenter: () => {
 				this.o.addClass("highlightRemovables");
@@ -991,7 +1013,7 @@ class Opti {
 						if (mutation.attributeName == "multiple") {
 							const
 								currentVal = self.s.val(),
-								targetVal = $.isArray(currentVal) ? currentVal[0] : currentVal,
+								targetVal = Array.isArray(currentVal) ? currentVal[0] : currentVal,
 								$targetOpt = self.o.find(`.list span[data-value="${targetVal}"]`),
 								$nonDisabledOpts = self.o.find(".list span:not([disabled=disabled])"),
 								callbackArgs = {
@@ -1027,7 +1049,7 @@ class Opti {
 								$correspondingListItem.attr("disabled", "disabled");
 								if ($correspondingListItem.is(".selected")) {
 									self.unchooseOption($correspondingListItem, () => {
-										if (self.isBlank() && !self.placeholderTextEnabled && self.settings.firstOptDefault) {
+										if (self.isBlank && !self.placeholderTextEnabled && self.settings.firstOptDefault) {
 											self.chooseOption(self.o.find(".list span:not([disabled=disabled])").first());
 										} else {
 											self.handleZeroStateText();
@@ -1052,7 +1074,6 @@ class Opti {
 						mutation.addedNodes.forEach(
 							function (currentValue) {
 								const
-									$list = $oList,
 									$addedNode = $(currentValue),
 									$newTree = Opti.#convertOptsAndGroups.bind(self, $addedNode)(),
 									addedNodeIsOptgroup = $addedNode.is("optgroup"),
@@ -1063,11 +1084,11 @@ class Opti {
 									$addedNode.attr("data-groupindex", () => self.groupCount++);
 									const
 										$sValidAll = self.s.children(`option:not([value="${self.placeholderValue}"]), optgroup`),
-										$oValidAll = $list.children(`span, section`),
+										$oValidAll = self.list.children(`span, section`),
 										ind = $sValidAll.index($addedNode) - 1
 									;
 									if (ind == -1) {
-										$newTree.prependTo($list);
+										$newTree.prependTo(self.list);
 									} else {
 										const
 											$listItemAtInd = $oValidAll.eq(ind)
@@ -1079,16 +1100,16 @@ class Opti {
 										if (optAddedToOptgroup) {
 											const
 												opGrpInd = self.s.find("optgroup").index($addedNodeParent),
-												$grp = $list.children("section").eq(opGrpInd)
+												$grp = self.list.children("section").eq(opGrpInd)
 											;
 											$newTree.insertAfter($grp.children("h5").first());
 										} else {
-											$newTree.prependTo($list);
+											$newTree.prependTo(self.list);
 										}
 									} else {
 										const
 											$sValidOpts = self.s.find(`option:not([value="${self.placeholderValue}"])`),
-											$oValidOpts = $list.find("span"),
+											$oValidOpts = self.list.find("span"),
 											ind = $sValidOpts.index($addedNode) - 1,
 											$spanAtInd = $oValidOpts.eq(ind)
 										;
@@ -1112,8 +1133,8 @@ class Opti {
 							}
 						);
 						/* Recalculate shortmode based on the original setting. */
-						self.isInShortMode = $oLIs.length < self.settings.shortModeThreshold;
-						if (self.isInShortMode) $oSearch.hide();
+						self.isInShortMode = self.opts.length < self.settings.shortModeThreshold;
+						if (self.isInShortMode) self.search.hide();
 					} else if (mutation.removedNodes.length) {
 
 						// Node removal
@@ -1133,7 +1154,7 @@ class Opti {
 									let $listItemTargets = $();
 									$selectedOptsToUnchoose.each(
 										function (i, v) {
-											$listItemTargets = $listItemTargets.add(`span[data-value="${$(v).val()}"]`, $oList);
+											$listItemTargets = $listItemTargets.add(`span[data-value="${$(v).val()}"]`, self.list);
 										}
 									);
 									self.unchooseOption($listItemTargets, false, true);
@@ -1141,8 +1162,8 @@ class Opti {
 								$nukeTarget.remove();
 							}
 						);
-						self.isInShortMode = $oLIs.length < self.settings.shortModeThreshold;
-						if (!self.isInShortMode) $oSearch.show();
+						self.isInShortMode = self.opts.length < self.settings.shortModeThreshold;
+						if (!self.isInShortMode) self.search.show();
 					}
 				}
 			}
@@ -1162,9 +1183,76 @@ class Opti {
 
 
 
+	get isPlaceholder() {
+
+		const
+			val = this.s.val(),
+			phv = this.placeholderValue,
+			valIsString = typeof val == "string",
+			valIsArray = Array.isArray(val),
+			valIsInArray = valIsArray && val.length == 1 && $.inArray(phv, val) >= 0,
+			valIsInString = valIsString && phv == val
+		;
+
+		return this.getUFOAP && (valIsInArray || valIsInString);
+
+	}
+
+
+
+
+	get isBlank() {
+
+		const
+			val = this.s.val(),
+			valIsFalseOrNull = val === null || val === false,
+			valIsString = typeof val == "string",
+			valIsArray = Array.isArray(val),
+			stringIsFalsy = valIsString && !val,
+			arrayIsFalsy = valIsArray && !val.length
+		;
+
+		return valIsFalseOrNull || stringIsFalsy || arrayIsFalsy;
+
+	}
+
+
+
+
+	get isZeroState() {
+
+		return this.isBlank || this.isPlaceholder;
+
+	}
+
+
+
+
+	get getUFOAP() {
+
+		const
+			ufoapSetting = this.settings.useFirstOptionAsPlaceholder,
+			ufoapSettingType = typeof ufoapSetting,
+			$nonDisabledOpts = this.opts.not("[disabled=disabled]"),
+			$firstOpt = $nonDisabledOpts.first(),
+			firstOptVal = $firstOpt.attr("data-value"),
+			ufoapBool = ufoapSetting === true || ufoapSettingType == "string" && firstOptVal === ufoapSetting
+		;
+
+		return ufoapBool;
+
+	}
+
+
+
+
 	static #buildAnOpti () {
 
 		const
+			svgExSurf 	= `<svg class="icon-ex-surf" 	width="20" height="20" viewBox="6.5 6.5 20 20" 	stroke="currentColor" stroke-width="1" 		stroke-linecap="round" stroke-linejoin="round" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20,13 L13,20" fill="none" opacity="1" stroke-linecap="round" stroke-linejoin="round"/><path d="M13,13 L20,20" fill="none" opacity="1" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+			svgChevs 	= `<svg class="icon-chevs" 		width="16" height="16" viewBox="0 0 24 24" 		stroke="currentColor" stroke-width="1" 		stroke-linecap="round" stroke-linejoin="round" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg>`,
+			svgBan 		= `<svg class="icon-ban" 		width="13" height="13" viewBox="0 0 24 24" 		stroke="currentColor" stroke-width="1.5" 	stroke-linecap="round" stroke-linejoin="round" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10"/><path d="m4.9 4.9 14.2 14.2"/></svg>`,
+			svgSearch 	= `<svg class="icon-search" 	width="16" height="16" viewBox="0 0 24 24" 		stroke="currentColor" stroke-width="1" 		stroke-linecap="round" stroke-linejoin="round" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 6H3"/><path d="M10 12H3"/><path d="M10 18H3"/><circle cx="17" cy="15" r="3"/><path d="m21 19-1.9-1.9"/></svg>`,
 			$oOpti = $(`<div class="opti" data-theme="${this.s.data("theme")}" data-scheme="${this.s.data("scheme")}">`)
 					.attr("id", this.s.attr("id") ? `${this.s.attr("id")}-opti` : null)
 					.addClass(this.settings.classes)
@@ -1176,13 +1264,13 @@ class Opti {
 									<span class="text-ph"></span>
 									<ul></ul>
 								</div>
-								<svg class="icon-ex-surf" height="20px" width="20px" stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" viewBox="6.5 6.5 20 20" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" stroke="#000000" stroke-width="1"><path d="M20,13 L13,20" fill="none" opacity="1" stroke-linecap="round" stroke-linejoin="round"/><path d="M13,13 L20,20" fill="none" opacity="1" stroke-linecap="round" stroke-linejoin="round"/></svg>
-								<svg xmlns="http://www.w3.org/2000/svg" class="icon-chevs" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg>
-								<svg xmlns="http://www.w3.org/2000/svg" class="icon-ban" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ban"><circle cx="12" cy="12" r="10"/><path d="m4.9 4.9 14.2 14.2"/></svg>
+								${svgExSurf}
+								${svgChevs}
+								${svgBan}
 							</a>
 							<div class="dropdown">
 								<div class="search">
-									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M21 6H3"/><path d="M10 12H3"/><path d="M10 18H3"/><circle cx="17" cy="15" r="3"/><path d="m21 19-1.9-1.9"/></svg>
+									${svgSearch}
 									<input type="text" tabindex="-1" autocomplete="off">
 								</div>
 								<div class="list"></div>
@@ -1221,12 +1309,7 @@ class Opti {
 
 		if (this.o.is(":not(.activated)")) {
 
-			const
-				$oSurface = $(".surface", this.o),
-				$oSearch = $(".search", this.o),
-				$oSearchInput = $oSearch.find("input"),
-				$focusTarget = focusOnSearch ? $oSearchInput : $oSurface
-			;
+			const $focusTarget = focusOnSearch ? this.searchInput : this.surface;
 
 			/* Add the "activated" class to the Opti. This class does
 			the heavy lifting in terms of visbility and transitions. */
@@ -1236,7 +1319,7 @@ class Opti {
 			argument is true. We might have to show the search
 			input first if it was hidden due to short mode being
 			enabled. */
-			if (focusOnSearch) $($oSearch).filter(":hidden").show();
+			if (focusOnSearch) $(this.search).filter(":hidden").show();
 
 			$focusTarget.trigger("focus");
 
@@ -1254,9 +1337,7 @@ class Opti {
 		if (this.o.is(".activated")) {
 
 			const
-				$oSearch = $(".search", this.o),
-				$oSearchInput = $oSearch.find("input"),
-				$oSurface = $(".surface", this.o),
+				self = this,
 				$currentlyFocused = $(".fakefocus", this.o)
 			;
 
@@ -1273,7 +1354,7 @@ class Opti {
 			/* In some cases we want to place focus on
 			the surface (the always-visible part of
 			the Opti) after it closes. */
-			focusOnSurface && $oSurface.trigger("focus");
+			focusOnSurface && this.surface.trigger("focus");
 
 			/* If the Opti is in short mode, hide the
 			search if needed. It might be visible even
@@ -1281,7 +1362,7 @@ class Opti {
 			show the search input no matter what if
 			the user types while the surface is
 			focused. */
-			if (this.isInShortMode && $oSearch.is(":visible")) $oSearch.hide();
+			if (this.isInShortMode && this.search.is(":visible")) this.search.hide();
 
 			this.o.trigger("optihide");
 
@@ -1290,7 +1371,7 @@ class Opti {
 				function (e) {
 					if (e.originalEvent.propertyName == "left") {
 						$(e.target).off("transitionend");
-						$oSearchInput.val(null).trigger("change");
+						self.searchInput.val(null).trigger("change");
 					}
 				}
 			);
@@ -1378,10 +1459,8 @@ class Opti {
 
 	/* Reset all existing filtering. */
 	#unsearchMenu () {
-		
-		const $list = this.o.find(".list");
 
-		$list.find(".opti-hidden").removeClass("opti-hidden");
+		this.list.find(".opti-hidden").removeClass("opti-hidden");
 
 	};
 
@@ -1443,7 +1522,7 @@ class Opti {
 			self = this,
 			$pht = this.o.find(".surface .texts .text-ph"),
 			$txt = this.o.find(".surface .texts .text-op"),
-			wasPlaceholder = this.isPlaceholder()
+			wasPlaceholder = this.isPlaceholder
 		;
 		
 		/* Initialize a jQuery object that will
@@ -1455,7 +1534,7 @@ class Opti {
 		vals argument and build a jQuery object
 		of the target option elements
 		accordingly. */
-		if ($.isArray(vals)) {
+		if (Array.isArray(vals)) {
 			/* An array of values was passed in. */
 			$.each(
 				vals,
@@ -1480,7 +1559,7 @@ class Opti {
 			Opti.#unchoosePlaceholderOption.bind(self)();
 
 			const
-				wasBlank = this.isBlank()
+				wasBlank = this.isBlank
 			;
 
 			// Multiple-select Optis
@@ -1631,12 +1710,7 @@ class Opti {
 			self.o.find(".search input").val(null).trigger("change");
 
 			if (args.setFocus) {
-				const
-					$oSearch = self.o.find(".search"),
-					$oSearchInput = $oSearch.find("input"),
-					$oSurf = $oSurf,
-					$focusTarget = self.isInShortMode && $oSearch.is(":hidden") ? $oSurf : $oSearchInput
-				;
+				const $focusTarget = self.isInShortMode && self.search.is(":hidden") ? self.surface : self.searchInput;
 				$focusTarget.trigger("focus");
 			}
 		}
@@ -1698,11 +1772,6 @@ class Opti {
 			changes. */
 			self = this,
 
-			/* Convenience selectors. */
-			$oSurface = this.o.find(".surface"),
-			$oList = this.o.find(".list"),
-			$oSearchInput = this.o.find(".search input"),
-
 			oIsMulti = this.o.is("[multiple=multiple]"),
 			sIsMulti = this.s.is("[multiple=multiple]")
 		;
@@ -1712,18 +1781,18 @@ class Opti {
 		of the target option elements
 		accordingly. */
 		let $options = $();
-		if ($.isArray(vals)) {
+		if (Array.isArray(vals)) {
 			/* An array of values was passed in. */
 			$.each(
 				vals,
 				(_ind, currVal) => {
-					const $target = $("[data-value='" + currVal + "']", $oList);
+					const $target = $("[data-value='" + currVal + "']", this.list);
 					$options = $options.add($target);
 				}
 			);
 		} else if (typeof vals == "string") {
 			/* A single value was passed in. */
-			$options = $oList.find(`[data-value="${vals}"]`);
+			$options = this.opts.filter(`[data-value="${vals}"]`);
 		} else if (typeof vals == "object" && vals instanceof jQuery) {
 			/* A jQuery object was (probably) passed in. */
 			$options = $options.add(vals);
@@ -1791,8 +1860,7 @@ class Opti {
 
 		} else {
 
-
-			self.#fadeOut.bind(self, $oSurface.find(".text-op"), callback, false)();
+			self.#fadeOut.bind(self, self.surface.find(".text-op"), callback, false)();
 
 		}
 
@@ -1802,7 +1870,7 @@ class Opti {
 
 		/* If the search box has content entered,
 		clear it. */
-		$oSearchInput.val() && $oSearchInput.val("").trigger("change");
+		this.searchInput.val() && this.searchInput.val("").trigger("change");
 
 		/* If focustarget is defined and is a jQuery
 		object, focus on that object's element. */
@@ -1826,7 +1894,7 @@ class Opti {
 		if (args.$targetOpt.length) {
 			self.chooseOption(args.$targetOpt, false, true);
 		} else {
-			if (self.isBlank() && !self.placeholderTextEnabled && self.settings.firstOptDefault && args.$nonDisabledOpts.length) {
+			if (self.isBlank && !self.placeholderTextEnabled && self.settings.firstOptDefault && args.$nonDisabledOpts.length) {
 				self.chooseOption(args.$nonDisabledOpts.first(), false);
 			} else {
 				self.handleZeroStateText();
@@ -1839,18 +1907,17 @@ class Opti {
 
 	#choosePlaceholderOption () {
 
-
 		/* If ufoap, set the select's val to the
 		previously stored placeholder value.
 		This is slightly different between multi-
 		and single-select Optis. */
-		if (this.placeholderTextEnabled) {
-
+		if (this.getUFOAP) {
 
 			if (this.o.is("[multiple=multiple]")) this.s.val([this.placeholderValue]);
 			else this.s.val(this.placeholderValue);
 
 		}
+
 	};
 
 
@@ -1858,12 +1925,12 @@ class Opti {
 
 	static #unchoosePlaceholderOption () {
 
-		if (this.isPlaceholder()) {
-			if ($.isArray(this.s.val())) {
+		if (this.isPlaceholder) {
+			if (Array.isArray(this.s.val())) {
 				const needle = this.placeholderValue;
 				this.s.val(
 					(i, v) => {
-						return $.isArray(v) ? v.toSpliced($.inArray(needle, v), 1) : false;
+						return Array.isArray(v) ? v.toSpliced($.inArray(needle, v), 1) : false;
 					}
 				);
 			} else if (typeof this.s.val() == "string") {
@@ -1877,9 +1944,9 @@ class Opti {
 
 
 	handleZeroStateText () {
-		if (this.isBlankOrPlaceholder()) {
+		if (this.isZeroState) {
 			this.o.addClass("zerostate");
-			if (this.placeholderTextEnabled) {
+			if (this.getUFOAP) {
 				this.#choosePlaceholderOption.bind(this)();
 			} else {
 				this.o.find(".surface .text-op").text(null);
@@ -2078,46 +2145,6 @@ class Opti {
 		}
 
 	};
-
-
-
-
-	isBlankOrPlaceholder () {
-
-		return this.isBlank() || this.isPlaceholder();
-
-	}
-
-
-
-
-	isBlank () {
-		const
-			val = this.s.val(),
-			valIsFalseOrNull = val === null || val === false,
-			valIsString = typeof val == "string",
-			valIsArray = $.isArray(val)
-		;
-
-		return valIsFalseOrNull || valIsString && !val || valIsArray && !val.length;
-
-	}
-
-
-
-
-	isPlaceholder () {
-		
-		const
-			val = this.s.val(),
-			valIsString = typeof val == "string",
-			valIsArray = $.isArray(val),
-			phv = this.placeholderValue
-		;
-
-		return this.placeholderTextEnabled && (valIsArray && val.length == 1 && $.inArray(phv, val) >= 0 || valIsString && phv == val);
-		
-	}
 
 
 
