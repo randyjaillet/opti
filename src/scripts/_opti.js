@@ -224,13 +224,13 @@ class Opti {
 		$oSurfIconBan.appendTo($oSurface);
 
 
-		/* Mimic element properties */
+		/* Reflect element properties */
 
 		this.s.is("[disabled]") && this.o.attr("disabled", this.s.attr("disabled"));
 		this.s.is("[multiple]") && this.o.attr("multiple", this.s.attr("multiple"));
 		this.s.is("[tabindex]") && $oSurface.attr("tabindex", this.s.attr("tabindex"));
 
-		var
+		let
 			oIsDisabled = this.o.is("[disabled=disabled]"),
 			oIsMultiple = this.o.is("[multiple=multiple]")
 		;
@@ -321,7 +321,7 @@ class Opti {
 		// Initially-selected options
 		//
 		
-		var $initiallySelectedOpts = $oOpts.filter("[selected=selected]").not("[disabled=disabled]");
+		const $initiallySelectedOpts = $oOpts.filter("[selected=selected]").not("[disabled=disabled]");
 
 		/* Choose any options set to be initially
 		selected with the "selected" attribute.
@@ -479,7 +479,7 @@ class Opti {
 					Read the new value of the select and choose & unchoose
 					Opti options accordingly. (This looks better than just
 					nuking everything and then choosing like we used to.) */
-					var
+					const
 						sVal = self.s.val(),
 						$lis = $("span", $oList),
 						$liTargetsToUnchoose = $()
@@ -547,7 +547,7 @@ class Opti {
 			in which case we want it to open the Opti. */
 			keypress: e => {
 				
-				var oIsActivated = self.o.hasClass("activated");
+				const oIsActivated = self.o.hasClass("activated");
 				oIsDisabled = self.o.is("[disabled=disabled]");
 				
 				if (!oIsDisabled) {
@@ -780,19 +780,16 @@ class Opti {
 				$oOpts = $("span", $oList);
 				oIsDisabled = self.o.is("[disabled=disabled]");
 				oIsMultiple = self.o.is("[multiple=multiple]");
-				var
+				const
 					isCurrentlyActivated = self.o.hasClass("activated"),
-					
+
 					searchIsBlank = this.o.find(".search input").val() === "",
 
 					$selectableOpts = $oOpts.not(".opti-hidden,[disabled=disabled]"),
 					$removableOpts = $oOpts.filter(".selected"),
 
 					$currentlySelected = $selectableOpts.filter(".selected").first(),
-					CSIndex = $selectableOpts.index($currentlySelected),
-					$CSPrevAll = $currentlySelected.length ? $selectableOpts.slice(0,CSIndex) : $selectableOpts,
-					$CSNextAll = $currentlySelected.length ? $selectableOpts.slice(CSIndex+1) : $selectableOpts,
-
+					
 					$currentlyFocused = $selectableOpts.filter(".fakefocus"),
 					CFIndex = $selectableOpts.index($currentlyFocused),
 					$CFPrevAll = $currentlyFocused.length ? $selectableOpts.slice(0,CFIndex) : $selectableOpts,
@@ -1021,7 +1018,7 @@ class Opti {
 		$(document).on(
 			"click.opti-" + self.i,
 			e => {
-				var
+				const
 					clickIsInOpti = $(e.target).closest(self.o).length,
 					clickIsInLinkedLabel = $(e.target).closest(`[for=${self.s.attr("id")}]`)
 							.add($(e.target).closest("label").has(self.s))
@@ -1203,15 +1200,10 @@ class Opti {
 						// Node removal
 
 						mutation.removedNodes.forEach(
-							function (currentValue, currentIndex, listObj) {
-								var
-									removedNodeIsOpt = $(currentValue).is("option"),
-									removedNodeIsOptgroup = $(currentValue).is("optgroup"),
-									$removedNodeParent = $(currentValue).parent(),
-									optRemovedFromOptgroup = $removedNodeParent.is("optgroup"),
-									$nukeTarget,
-									$selectedOptsToUnchoose = $(currentValue).find(":selected").addBack(":selected")
-								;
+							currentValue => {
+								const
+									removedNodeIsOpt = $(currentValue).is("option"), removedNodeIsOptgroup = $(currentValue).is("optgroup"), $selectedOptsToUnchoose = $(currentValue).find(":selected").addBack(":selected");
+								let $nukeTarget;
 								if (removedNodeIsOpt) {
 									$nukeTarget = self.o.find(`.list [data-value="${$(currentValue).val()}"]`);
 								} else if (removedNodeIsOptgroup) {
@@ -1219,7 +1211,7 @@ class Opti {
 									$nukeTarget = self.o.find(`.list section[data-groupindex=${opGrpInd}]`);
 								}
 								if ($selectedOptsToUnchoose.length) {
-									var $listItemTargets = $();
+									let $listItemTargets = $();
 									$selectedOptsToUnchoose.each(
 										function (i, v) {
 											$listItemTargets = $listItemTargets.add(`span[data-value="${$(v).val()}"]`, self.o.find(".list"));
@@ -1466,7 +1458,7 @@ class Opti {
 	val, because that's how jQuery returns a
 	select's value (string or array of them).
 
-	 */
+	*/
 	chooseOption (vals, setFocus, noFade = false) {
 		
 		/* Keep a reference to the root class
@@ -1751,8 +1743,8 @@ class Opti {
 			/* An array of values was passed in. */
 			$.each(
 				vals,
-				(ind, currVal) => {
-					var $target = $("[data-value='" + currVal + "']", $oList);
+				(_ind, currVal) => {
+					const $target = $("[data-value='" + currVal + "']", $oList);
 					$options = $options.add($target);
 				}
 			);

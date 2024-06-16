@@ -553,7 +553,7 @@
   right: 0;
   bottom: 0;
   background-color: white;
-  mask-image: linear-gradient(transparent 80%, rgba(255, 255, 255, 0.15)), radial-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1)), radial-gradient(150% 110% at center top, rgba(255, 255, 255, 0.7) 50%, transparent 50%);
+  mask-image: linear-gradient(transparent 60%, rgba(255, 255, 255, 0.2)), radial-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.3)), radial-gradient(150% 110% at center top, rgba(255, 255, 255, 0.9) 50%, transparent 50%);
   mask-composite: add, intersect;
   border-radius: 7px;
 }
