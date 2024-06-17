@@ -47,8 +47,8 @@
 		align-items: center
 		// width: 100%
 		position: relative
-		margin: 0 var(--surface-horzmar)
-		padding: var(--surface-vertpad) var(--surface-horzpad)
+		margin: 0 var(--surface-rightmar) 0 var(--surface-leftmar)
+		padding: var(--surface-vertpad) var(--surface-rightpad) var(--surface-vertpad) var(--surface-leftpad)
 		background-color: var(--surface-bg)
 		background-image: var(--surface-gradients-decl)
 		background-repeat: no-repeat
@@ -170,7 +170,7 @@
 			--text-col-faded: rgba(var(--text-col-rgbvals), .8)
 			display: none
 			flex: 0 0 auto
-			margin-left: $horzPad
+			margin-left: var(--surface-rightpad)
 			order: 2
 			stroke: var(--text-col-faded)
 			stroke-width: 1px
@@ -468,7 +468,7 @@
 							opacity: 1
 
 		&:not(.zerostate)
-			--surface-horzpad: var(--surface-vertpad)
+			--surface-leftpad: var(--surface-vertpad)
 
 
 	&:not([multiple=multiple])

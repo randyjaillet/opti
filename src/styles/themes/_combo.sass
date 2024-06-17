@@ -2,30 +2,40 @@
 
 	&[data-theme=compact],
 	&[data-theme=minimal]
-		--surface-horzpad: 0
 		--surface-bg: transparent
 		--tag-horzpad: 0
 		--tag-bg: transparent
 
 		&:not([disabled=disabled])
-			--surface-horzmar: #{math.round($horzPad*1.2)}
+			--surface-leftmar: #{math.round($leftPad*1.2)}
+			--surface-rightmar: #{math.round($rightPad*1.2)}
 
 			.surface
+				--surface-leftpad: 0
+				--surface-rightpad: 0
 
 				&:hover,
 				&:focus
-					--surface-horzmar: 0
-					--surface-horzpad: #{math.round($horzPad*1.2)}
+					--surface-leftmar: 0
+					--surface-rightmar: 0
+					--surface-leftpad: #{math.round($leftPad*1.2)}
+					--surface-rightpad: #{math.round($rightPad*1.2)}
 
 				.texts ul
 					gap: 10px
 
+				> svg
+					margin-left: $rightPad
+
 			&:is(.activated, .activatedLocked) .surface
-				--surface-horzmar: 0
-				--surface-horzpad: #{math.round($horzPad*1.2)}
+				--surface-leftmar: 0
+				--surface-rightmar: 0
+				--surface-leftpad: #{math.round($leftPad*1.2)}
+				--surface-rightpad: #{math.round($rightPad*1.2)}
 
 			&[multiple=multiple]
-				--surface-horzpad: 0
+				--surface-leftpad: 0
+				--surface-rightpad: 0
 
 			.surface .texts ul .tag:hover,
 			&.highlightRemovables .surface .texts ul .tag

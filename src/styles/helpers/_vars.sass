@@ -19,7 +19,9 @@ $dur: .2s
 //
 
 $vertPad: math.round(6px * $oscale)
-$horzPad: math.round($vertPad * 1.5)
+$leftPad: math.round($vertPad * 1.5)
+$rightPad: math.round($vertPad * 1.5)
+$pad: $vertPad $rightPad $vertPad $leftPad
 $fontSize: math.round(14px * $oscale)
 $leading: math.round(19px * $oscale)
 $mh: $vertPad * 2 + $leading
@@ -105,9 +107,12 @@ $accent-bg-light: #C7E3F1
 	--accent-bg: #32424E
 	--surface-shadow-decl: #{$shadowScreenTransp}
 	--surface-gradients-decl: null
-	--surface-horzmar: 0
+	--surface-leftmar: 0
+	--surface-rightmar: 0
 	--surface-vertpad: #{$vertPad}
-	--surface-horzpad: #{$horzPad}
+	--surface-leftpad: #{$leftPad}
+	--surface-rightpad: #{$rightPad}
+	--surface-pad: var(--surface-vertpad) var(--surface-rightpad) var(--surface-vertpad) var(--surface-leftpad)
 	--surface-radius-decl: #{$radius}
 	--tag-horzpad: 5px
 	--tag-bg: rgba(255, 255, 255, .07)
