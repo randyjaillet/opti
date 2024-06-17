@@ -1,6 +1,2 @@
-opti.sublime-project
-config.codekit3
-package-lock.json
-*.sublime-workspace
-*.DS_Store
-.vscode/launch.json
+*
+!.gitignore

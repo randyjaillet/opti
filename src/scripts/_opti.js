@@ -3,7 +3,6 @@ we need to manipulate them later */
 window.optis = [];
 
 class Opti {
-
 	settings; 	// Parsed options
 	i; 			// Index of this instance
 	s; 			// Select element as a jQuery object
@@ -15,14 +14,14 @@ class Opti {
 
 	// Convenience selectors assigned after Opti markup is built (in the constructor)
 	surface;
-	ph;
+	pht;
+	txt;
 	search;
 	searchInput;
 	list;
 	opts;
 
 	constructor($s, options) {
-
 
 		//
 		// Settings
@@ -187,7 +186,8 @@ class Opti {
 		this.o = Opti.#buildAnOpti.bind(this)();
 
 		this.surface = this.o.find(".surface");
-		this.ph = this.surface.find(".text-ph");
+		this.pht = this.surface.find(".text-ph");
+		this.txt = this.surface.find(".text-op");
 		this.search = this.o.find(".search");
 		this.searchInput = this.search.find("input");
 		this.list = this.o.find(".list");
@@ -254,7 +254,7 @@ class Opti {
 			/* Inject the placeholder text
 			into its element. */
 			
-			this.ph.text(this.placeholderText);
+			this.pht.text(this.placeholderText);
 
 		}
 
@@ -1520,7 +1520,6 @@ class Opti {
 		changes. */
 		const
 			self = this,
-			$pht = this.o.find(".surface .texts .text-ph"),
 			$txt = this.o.find(".surface .texts .text-op"),
 			wasPlaceholder = this.isPlaceholder
 		;
@@ -1627,7 +1626,7 @@ class Opti {
 
 			if (wasPlaceholder && !noFade) {
 
-				self.#fadeOut.bind(self)($pht, Opti.#chooseAfter.bind(self, fadeOutCallbackArgs, true), false);
+				self.#fadeOut.bind(self)(self.pht, Opti.#chooseAfter.bind(self, fadeOutCallbackArgs, true), false);
 
 			} else if (wasBlank || noFade || self.o.is("[multiple=multiple]")) {
 
