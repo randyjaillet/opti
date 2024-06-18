@@ -1,5 +1,7 @@
 @use '../abstracts' as *
 
+// ANCHOR Global
+
 .opti-hidden
 	display: none !important
 
@@ -9,80 +11,52 @@
 .opti *:after
 	box-sizing: border-box
 
+
+// SECTION States
+
 .opti
-	display: block
 
-	.surface >
 
-		.icon-chevs,
-		.icon-ban,
-		.icon-ex-surf
-			width: 0
-			opacity: 0
-			margin: 0
+	// ANCHOR Off states
 
-	&:not([disabled=disabled]) .icon-chevs,
-	&[disabled=disabled] .icon-ban,
-	&:not(.zerostate, [disabled=disabled]) .icon-ex-surf
-		opacity: 1
-
-	&:not([disabled=disabled]) .icon-chevs
-		width: 16px * $oscale
-
-	&[disabled=disabled] .icon-ban
-		width: 13px * $oscale
-
-	&:not(.zerostate, [disabled=disabled]) .icon-ex-surf
-		width: 18px * $oscale
+	.icon-chevs,
+	.icon-ban-surf,
+	.icon-ex-surf
+		@include hideEl()
 
 	.icon-ex
 		display: none
 
-	&:not([disabled=disabled])
-		
-		.icon-ex
-			display: inline-flex
-
-		.icon-chevs
-			display: block
-
 	&.zerostate .text-op,
 	&[multiple=multiple] .text-op
-		@extend %textOffState
+		@include hideEl($height: true)
 		flex: 0 1 0
 		width: 0
+		transition: opacity $dur linear, transform $dur linear, height 0s linear $dur, flex-basis 0s linear $dur
 
 		.text-grp
 			display: none
 
+	.text-ph,
+	.text-op
+		
+		&.fadingOut
+			@include hideEl($important: true, $width: false, $height: true)
+
+	&:not(.zerostate) .surface .texts .text-ph
+		@include hideEl($height: true, $width: false)
+
 	.text-ul
-		margin: 0
-		padding: 0
 		height: 0
-	
-	&[multiple=multiple] .text-ul:not(:empty)
-		min-height: $tagLeading
-		height: auto
 
 	.tag.initial,
 	.tag.fadingOut,
 	&:not([multiple=multiple]) .tag
-		opacity: 0 !important
-		height: 0
-		width: 0 !important
+		@include hideEl($important: true, $height: true, $flexbasis: true, $margin: true, $padding: true)
 		max-width: 0
-		flex-basis: 0 !important
-		margin: 0
-		padding: 0 !important
 
 	.dropdown
 		left: -200vw
-
-	&:is(.activated, .activatedLocked) .dropdown
-		left: 0
-
-	.search-input:focus
-		display: block !important
 
 	.list h5:only-child
 		display: none
@@ -90,22 +64,39 @@
 	.list span svg
 		display: none
 
-	$size: 16px
 
-	.list .icon-arrow,
-	.list .icon-tick
+	// ANCHOR On states
+
+	&:not([disabled=disabled]) .icon-ex
 		display: inline-flex
-		width: 0
-		height: 0
-		margin-left: 0
 
-	.list span.fakefocus .icon-arrow,
-	.list span.selected .icon-tick
-		width: $size
-		height: $size
+	&:not([disabled=disabled]) .icon-chevs,
+	&[disabled=disabled] .icon-ban-surf,
+	&:not(.zerostate, [disabled=disabled]) .icon-ex-surf
+		opacity: 1
 
-	.list span.fakefocus .icon-arrow
-		margin-left: -10px
+	&:not([disabled=disabled]) .icon-chevs
+		width: 16px * $oscale
+		display: block
+
+	&[disabled=disabled] .icon-ban-surf
+		width: 13px * $oscale
+
+	&:not(.zerostate, [disabled=disabled]) .icon-ex-surf
+		width: 18px * $oscale
+
+	&[multiple=multiple] .text-ul:not(:empty)
+		min-height: $tagLeading
+		height: auto
+
+	&:is(.activated, .activatedLocked) .dropdown
+		left: 0
+
+	.search-input:focus
+		display: block !important
 
 	.list span[disabled=disabled] .icon-ban
 		display: inline-flex
+
+
+	// !SECTION

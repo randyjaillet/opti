@@ -1,4 +1,4 @@
-@use 'sass:math'
+@use 'sass:math' as *
 
 
 // Product by which to size just about everything
@@ -18,32 +18,32 @@ $dur: .2s
 // Surface
 //
 
-$vertPad: math.round(6px * $oscale)
-$leftPad: math.round($vertPad * 1.5)
-$rightPad: math.round($vertPad * 1.5)
+$vertPad: round(6px * $oscale)
+$leftPad: round($vertPad * 1.5)
+$rightPad: round($vertPad * 1.5)
 $pad: $vertPad $rightPad $vertPad $leftPad
-$fontSize: math.round(14px * $oscale)
-$leading: math.round(19px * $oscale)
+$fontSize: round(14px * $oscale)
+$leading: round(19px * $oscale)
 $mh: $vertPad * 2 + $leading
-$radius: math.round(7px * $oscale)
+$radius: round(7px * $oscale)
 
 //
 // Search
 //
 
-$marginsXSearch: math.round(-8px * $oscale)
+$marginsXSearch: round(-8px * $oscale)
 
 //
 // Tags
 //
 
-$tagVertPad: math.round(5px * $oscale)
-$tagHorzPad: math.round(5px * $oscale)
-$tagBGSize: math.round(7px * $oscale)
-$tagMarg: math.round(2px * $oscale)
-$tagFontSize: math.round(11px * $oscale)
+$tagVertPad: round(5px * $oscale)
+$tagHorzPad: round(5px * $oscale)
+$tagBGSize: round(7px * $oscale)
+$tagMarg: round(2px * $oscale)
+$tagFontSize: round(11px * $oscale)
 $tagLeading: $leading - 2px
-$tagRadius: math.round(3px * $oscale)
+$tagRadius: round(3px * $oscale)
 $iconstrokewidth: .6px
 
 

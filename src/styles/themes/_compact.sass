@@ -5,27 +5,53 @@
 //
 
 .opti[data-theme=compact]
+	--surface-bg: transparent
+	--tag-horzpad: 0
+	--tag-bg: transparent
 
 	&:not([disabled=disabled])
+		--surface-leftmar: #{round($leftPad*1.2)}
+		--surface-rightmar: #{round($rightPad*1.2)}
 		--surface-shadow-decl: 0 1px 0 rgba(255, 255, 255, .4), #{$shadowScreenTransp}
 		--surface-radius-decl: #{$radius} #{$radius} 0 0
 
 		.surface
+			--surface-leftpad: 0
+			--surface-rightpad: 0
 
 			&:hover,
 			&:focus
+				--surface-leftmar: 0
+				--surface-rightmar: 0
+				--surface-leftpad: #{round($leftPad*1.2)}
+				--surface-rightpad: #{round($rightPad*1.2)}
 				--surface-bg: transparent
 				--surface-shadow-decl: 0 1px 0 #{$accent}, #{$shadowScreenTransp}
+				
+		.text-ul
+			gap: 10px
 
 		&:is(.activated, .activatedLocked)
 			--surface-shadow-decl: 0 0 0 transparent, #{$shadowScreenDark}
 			--surface-radius-decl: #{$radius}
 
 			.surface
+				--surface-leftmar: 0
+				--surface-rightmar: 0
+				--surface-leftpad: #{round($leftPad*1.2)}
+				--surface-rightpad: #{round($rightPad*1.2)}
 
 				&:hover,
 				&:focus
 					--surface-shadow-decl: 0 0 0 transparent, #{$shadowScreenDark}
+
+		&[multiple=multiple]
+			--surface-leftpad: 0
+			--surface-rightpad: 0
+
+		.surface .texts ul .tag:hover,
+		&.highlightRemovables .surface .texts ul .tag
+			background-color: inherit
 
 	//
 	// Light

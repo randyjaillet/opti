@@ -1,46 +1,104 @@
 @use '../abstracts' as *
 
+// Instances where we delay a transition that has 0s duration
+// is a way to delay that property's change until after the
+// other properties have finished transitioning. For example,
+// off states often hide the element with width or left, but
+// that shouldn't happen until after opacity finishes—else we
+// won't see opacity's transition.
+
+
 .opti
 
+	// ANCHOR Defaults for everything
+	*
+		transition-duration: $dur
+		transition-timing-function: linear
+
+
+	// SECTION States
+
+	// ANCHOR Default/both states
+
+	// Surface default state: transition everything
 	.surface
-		transition: all $dur linear
+		transition-property: all
 
+	// Only transition the subtle translateX effect.
+	// Other properties are transitioned on children.
 	.texts
-			transition: transform $dur linear
+		transition-property: transform
 
+	// These are both for the button's hover (stroke,
+	// background-color) and its reveal and conceal (margin,
+	// opacity, width).
+	// TODO Don't want to trans width... need to separate
+	// into off and on states.
+	.icon-ex-surf
+		transition-property: margin, opacity, stroke, background-color, width
+
+	// max-width is kind of a hack since we can't easily
+	// transition to an auto width... Since a tag probably
+	// won't reach the max-width we roughly estimate a
+	// longer duration for max-width's transition so that it
+	// happens at closer to the right pace.
+	// TODO: Use JS to transition to auto width instead of
+	// the clunky max-width hack.
+	.tag
+		transition-property: all, max-width
+		transition-duration: $dur, $dur*1.5
+
+	// Clear buttons within tags. (See .icon-ex-surf for the
+	// one on the surface.)
+	.icon-ex
+		transition-property: stroke
+
+	.list-item
+		transition-property: all, padding-left, padding-right
+		transition-duration: $dur, $dur*.5, $dur*.5
+
+	.icon-arrow
+		transition-property: width, height, margin-left
+
+
+	// ANCHOR Off states
+
+	// If the placeholder is empty, disable transitions so
+	// it vanishes instantly.
 	.text-ph
 
 		&:empty
-			transition: none
+			transition-property: none
 
-	.icon-ex-surf
-		transition: margin $dur linear, opacity $dur linear, stroke $dur linear, background-color $dur linear, width $dur linear
+	.text-ph,
+	.text-op
+		transition-property: color, opacity, transform
+		transition-duration: $dur
+		transition-timing-function: linear
 
-		&:hover
-			stroke: pink
-			background-color: rgba(crimson, .3)
-			filter: none
+		&.fadingOut
+			transition: opacity $dur linear, height 0s linear $dur
 
-	.tag
-		transition: all $dur linear, max-width ($dur*1.5) linear
-
-	.icon-ex
-		transition: stroke $dur linear
-
+	// Dropdown transition to off state; delay moving 
+	// off-screen with left until other properties are done.
+	// Also, the fade out can be slower than the fade in.
 	.dropdown
-		transition: opacity $dur*2 linear, transform $dur*2 linear, left 0s linear $dur*2
+		transition-property: opacity, transform, left
+		transition-duration: $dur*2, $dur*2, 0s
+		transition-delay: 0s, 0s, $dur*2
 
-	&:is(.activated, .activatedLocked) .dropdown
-		transition: opacity $dur linear, transform $dur linear
-
-	.search
-		transition: transform $dur linear
-
+	.search,
 	.list
-		transition: transform $dur linear
+		transition-property: transform
 
-		span
-			transition: all $dur linear, padding-left .1s linear, padding-right .1s linear
 
-			.icon-arrow
-				transition: width $dur linear, height $dur linear, margin-left $dur linear
+	// ANCHOR On states
+
+	// Dropdown transition to on state. Left can happen
+	// immediately here so we don't even need it in the
+	// transition property.
+	&:is(.activated, .activatedLocked) .dropdown
+		transition-property: opacity, transform
+		transition-duration: $dur
+
+	// !SECTION

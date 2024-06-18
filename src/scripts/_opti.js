@@ -447,7 +447,9 @@ class Opti {
 			"click",
 			e => {
 				e.preventDefault();
-				if (!self.o.prop("disabled")) self.o.is(".activated") ? self.hideMenu() : self.showMenu();
+				if (self.o.attr("disabled") != "disabled") {
+					self.o.is(".activated") ? self.hideMenu() : self.showMenu();
+				}
 			}
 		);
 
@@ -1251,7 +1253,7 @@ class Opti {
 		const
 			svgExSurf 	= `<svg class="icon-ex-surf" 	width="20" height="20" viewBox="6.5 6.5 20 20" 	stroke="currentColor" stroke-width="1" 		stroke-linecap="round" stroke-linejoin="round" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20,13 L13,20" fill="none" opacity="1" stroke-linecap="round" stroke-linejoin="round"/><path d="M13,13 L20,20" fill="none" opacity="1" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
 			svgChevs 	= `<svg class="icon-chevs" 		width="16" height="16" viewBox="0 0 24 24" 		stroke="currentColor" stroke-width="1" 		stroke-linecap="round" stroke-linejoin="round" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg>`,
-			svgBan 		= `<svg class="icon-ban" 		width="13" height="13" viewBox="0 0 24 24" 		stroke="currentColor" stroke-width="1.5" 	stroke-linecap="round" stroke-linejoin="round" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10"/><path d="m4.9 4.9 14.2 14.2"/></svg>`,
+			svgBan 		= `<svg class="icon-ban-surf"	width="13" height="13" viewBox="0 0 24 24" 		stroke="currentColor" stroke-width="1.5" 	stroke-linecap="round" stroke-linejoin="round" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10"/><path d="m4.9 4.9 14.2 14.2"/></svg>`,
 			svgSearch 	= `<svg class="icon-search" 	width="16" height="16" viewBox="0 0 24 24" 		stroke="currentColor" stroke-width="1" 		stroke-linecap="round" stroke-linejoin="round" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 6H3"/><path d="M10 12H3"/><path d="M10 18H3"/><circle cx="17" cy="15" r="3"/><path d="m21 19-1.9-1.9"/></svg>`,
 			$oOpti = $(`<div class="opti" data-theme="${this.s.data("theme")}" data-scheme="${this.s.data("scheme")}">`)
 					.attr("id", this.s.attr("id") ? `${this.s.attr("id")}-opti` : null)
@@ -2185,6 +2187,7 @@ class Opti {
 					val = $(this).val(),
 					contents = $(this).html(),
 					$newEle = $("<span/>")
+							.addClass("list-item")
 							.attr("selected", sel)
 							.attr("disabled", dis)
 							.attr("data-value", val)

@@ -1,6 +1,7 @@
 @use '../abstracts' as *
 
 .opti
+	display: block
 	position: relative
 
 	&:not(.zerostate)
@@ -37,13 +38,9 @@
 
 	.text-ph,
 	.text-op
-		@extend %textDefaultState
-		
-		&.fadingOut
-			@extend %textSuperHide
-
-	&:not(.zerostate) .surface .texts .text-ph
-		@extend %textOffState
+		height: $leading
+		display: block
+		order: 0
 
 	.text-ul
 		display: flex
@@ -51,6 +48,8 @@
 		flex: 1 1 auto
 		gap: 5px
 		align-items: center
+		margin: 0
+		padding: 0
 
 	&[multiple=multiple] .text-ul:not(:empty)
 		min-height: $tagLeading
@@ -77,13 +76,13 @@
 		margin-right: $tagHorzPad * .6
 
 	.icon-chevs,
-	.icon-ban,
+	.icon-ban-surf,
 	.icon-ex-surf
 		flex: 0 0 auto
 		order: 2
 
 	&:not([disabled=disabled]) .icon-chevs,
-	&[disabled=disabled] .icon-ban,
+	&[disabled=disabled] .icon-ban-surf,
 	&:not(.zerostate, [disabled=disabled]) .icon-ex-surf
 		display: block
 		margin-left: $rightPad
@@ -92,17 +91,20 @@
 
 		.icon-chevs
 			height: 16px * $oscale
-			margin-right: -3px * $oscale
 
-		.icon-ban
+		.icon-ban-surf
 			height: 13px * $oscale
 
 		.icon-ex-surf
 			height: 18px * $oscale
-			margin-right: -8px
+			display: inline-flex
+
+	&:not([disabled=disabled]) .icon-chevs
+		margin-right: -3px * $oscale
 
 	&:not([disabled=disabled], .zerostate) .icon-ex-surf
 		opacity: 1
+		margin-right: -8px
 
 	.dropdown
 		position: absolute
@@ -166,13 +168,26 @@
 				flex: 0 0 auto
 				margin-left: 3px
 
+			.icon-arrow,
+			.icon-tick
+				display: inline-flex
+				width: 0
+				height: 0
+				margin-left: 0
+
 			&:not([disabled=disabled])
 
-				&.fakefocus .icon-arrow
+				&.fakefocus .icon-arrow,
+				&.selected .icon-tick
 					$size: 16px
 					width: $size
 					height: $size
+
+				&.fakefocus .icon-arrow
 					margin-left: -10px
+
+				&[disabled=disabled] .icon-ban
+					display: inline-flex
 
 		section span
 			padding-left: $indentation * 2

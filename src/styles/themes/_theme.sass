@@ -47,6 +47,11 @@
 	.text-ph
 		opacity: .35
 
+	.text-op,
+	.text-ph
+		opacity: 1
+		transform: translate(0px, 0px)
+
 	.text-ul
 		list-style: none
 
@@ -82,12 +87,17 @@
 	.icon-chevs
 		border-radius: 50%
 	
-	.surface > .icon-ban
+	.surface > .icon-ban-surf
 		stroke-width: 1.2px
 	
 	.surface > .icon-ex-surf
 		stroke-width: .7px
 		border-radius: 50%
+
+		&:hover
+			stroke: pink
+			background-color: rgba(crimson, .3)
+			filter: none
 
 	.dropdown
 		transform: translateY(5px)

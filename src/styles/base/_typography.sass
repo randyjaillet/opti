@@ -10,7 +10,7 @@
 		color: var(--text-col)
 
 	.texts
-		@extend %ellipsis
+		@include ellipsis()
 
 	.text-grp
 		font-weight: 400
@@ -18,6 +18,10 @@
 		&:after
 			margin-left: .35em
 			content: "/"
+
+	.text-ph,
+	.text-op
+		@include ellipsis()
 
 	.text-ph
 		font-style: italic
@@ -35,7 +39,7 @@
 		text-decoration: none
 
 	.tag-text
-		@extend %ellipsis
+		@include ellipsis()
 		line-height: $tagLeading
 
 	.surface > svg
