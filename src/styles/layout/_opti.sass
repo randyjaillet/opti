@@ -80,22 +80,26 @@
 	.icon-ban,
 	.icon-ex-surf
 		flex: 0 0 auto
-		margin-left: var(--surface-rightpad)
 		order: 2
 
-	.icon-chevs
-		height: 16px * $oscale
-		width: 16px * $oscale
-		margin-right: -3px * $oscale
+	&:not([disabled=disabled]) .icon-chevs,
+	&[disabled=disabled] .icon-ban,
+	&:not(.zerostate, [disabled=disabled]) .icon-ex-surf
+		display: block
+		margin-left: $rightPad
 
-	.icon-ban
-		height: 13px * $oscale
-		width: 13px * $oscale
+	.surface >
 
-	.icon-ex-surf
-		width: 18px * $oscale
-		height: 18px * $oscale
-		margin-right: -8px
+		.icon-chevs
+			height: 16px * $oscale
+			margin-right: -3px * $oscale
+
+		.icon-ban
+			height: 13px * $oscale
+
+		.icon-ex-surf
+			height: 18px * $oscale
+			margin-right: -8px
 
 	&:not([disabled=disabled], .zerostate) .icon-ex-surf
 		opacity: 1
