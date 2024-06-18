@@ -1,0 +1,31 @@
+@use 'variables' as *
+	
+%textDefaultState
+	height: $leading
+	opacity: 1
+	transform: translate(0px, 0px)
+	transition: color $dur linear, opacity $dur linear, transform $dur linear
+	display: block
+	order: 0
+	text-wrap: nowrap
+	overflow: hidden
+	text-overflow: ellipsis
+
+%textOffState
+	height: 0
+	opacity: 0
+	transition: opacity $dur linear, transform $dur linear, height 0s linear $dur, flex-basis 0s linear $dur
+	overflow: hidden
+	text-wrap: nowrap
+
+%textSuperHide
+	height: 0 !important
+	opacity: 0 !important
+	transition: opacity $dur linear, transform $dur linear, height 0s linear $dur, flex-basis 0s linear $dur
+	overflow: hidden
+	text-wrap: nowrap
+
+%ellipsis
+	text-wrap: nowrap
+	overflow: hidden
+	text-overflow: ellipsis

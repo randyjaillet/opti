@@ -1,0 +1,46 @@
+@use '../abstracts' as *
+
+.opti
+
+	.surface
+		transition: all $dur linear
+
+	.texts
+			transition: transform $dur linear
+
+	.text-ph
+
+		&:empty
+			transition: none
+
+	.icon-ex-surf
+		transition: margin $dur linear, opacity $dur linear, stroke $dur linear, background-color $dur linear, width $dur linear
+
+		&:hover
+			stroke: pink
+			background-color: rgba(crimson, .3)
+			filter: none
+
+	.tag
+		transition: all $dur linear, max-width ($dur*1.5) linear
+
+	.icon-ex
+		transition: stroke $dur linear
+
+	.dropdown
+		transition: opacity $dur*2 linear, transform $dur*2 linear, left 0s linear $dur*2
+
+	&:is(.activated, .activatedLocked) .dropdown
+		transition: opacity $dur linear, transform $dur linear
+
+	.search
+		transition: transform $dur linear
+
+	.list
+		transition: transform $dur linear
+
+		span
+			transition: all $dur linear, padding-left .1s linear, padding-right .1s linear
+
+			.icon-arrow
+				transition: width $dur linear, height $dur linear, margin-left $dur linear

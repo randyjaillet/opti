@@ -1,3 +1,6 @@
+@use 'sass:math'
+@use '../abstracts' as *
+	
 .opti
 
 	&[data-theme=compact],
@@ -23,9 +26,6 @@
 
 				.texts ul
 					gap: 10px
-
-				> svg
-					margin-left: $rightPad
 
 			&:is(.activated, .activatedLocked) .surface
 				--surface-leftmar: 0

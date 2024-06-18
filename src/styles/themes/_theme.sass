@@ -1,0 +1,170 @@
+@use '../abstracts' as *
+	
+.opti
+
+	.surface
+		background-color: var(--surface-bg)
+		background-image: var(--surface-gradients-decl)
+		background-repeat: no-repeat
+		border-radius: var(--surface-radius-decl)
+		outline: none
+		box-shadow: var(--surface-shadow-decl)
+		stroke-width: $iconstrokewidth
+		cursor: pointer
+
+	&[disabled=disabled] .surface
+		cursor: not-allowed
+		background-color: transparent
+		background-image: none
+		box-shadow: none
+		border: none
+
+	&:not([disabled=disabled])
+		
+		.surface
+
+			&:hover,
+			&:focus
+				--surface-bg: var(--accent-bg)
+
+		&:is(.activated, .activatedLocked)
+			--surface-bg: rgba(34, 34, 34, .95)
+			--surface-shadow-decl: #{$shadowScreenDark}
+
+			.surface
+				outline: none
+
+				&:hover,
+				&:focus
+					--surface-bg: var(--accent-bg)
+
+	.texts
+
+		&:has(> .fadingOut)
+			transform: translate(-5px, 0) !important
+
+	.text-grp,
+	.text-ph
+		opacity: .35
+
+	.text-ul
+		list-style: none
+
+	.tag
+		list-style: none
+		opacity: 0
+		background-color: var(--tag-bg)
+		color: var(--text-col)
+		border: none
+		border-radius: $tagRadius
+		box-shadow: var(--tag-shadows)
+
+	&:not([multiple=multiple]) .tag
+		opacity: 0
+
+	&[multiple=multiple] .text-ul:not(:empty) .tag
+		opacity: 1
+
+	&:not([disabled=disabled]) .tag:hover,
+	&.highlightRemovables .tag
+		background-color: rgba(crimson, .3)
+		color: pink
+
+	.icon-ex
+		stroke-width: $iconstrokewidth
+		stroke: var(--text-col)
+
+	.surface > svg
+		stroke: var(--text-col-faded)
+		stroke-width: 1px
+		filter: drop-shadow(var(--surface-element-dropshadows-decl))
+
+	.icon-chevs
+		border-radius: 50%
+	
+	.surface > .icon-ban
+		stroke-width: 1.2px
+	
+	.surface > .icon-ex-surf
+		stroke-width: .7px
+		border-radius: 50%
+
+	.dropdown
+		transform: translateY(5px)
+		opacity: 0
+
+	&:is(.activated, .activatedLocked)
+
+		.dropdown
+			opacity: 1
+			transform: translateY(0)
+
+		.list
+			transform: translateY(0)
+
+	.search
+		appearance: none
+		background-color: var(--dd-bg)
+		border-radius: 100px
+
+	&.flip-v .search
+		transform: translateY(0)
+	
+	.icon-search
+		stroke: var(--dd-col)
+
+	.search-input
+		background-color: transparent
+		border: none
+
+		&:focus
+			outline: none
+
+	.list
+		background-color: var(--dd-bg)
+		border-radius: $radius
+		transform: translateY(10px)
+
+		span
+			list-style: none
+			cursor: pointer
+
+			&:hover,
+			&.fakefocus
+				outline: none
+
+			&.selected
+				color: $accent
+
+			svg
+				stroke-width: 1px
+
+			.icon-arrow,
+			.icon-tick
+				stroke: $accent
+
+			.icon-ban
+				stroke: var(--dd-col)
+
+			&:not([disabled=disabled])
+
+				&:hover,
+				&.fakefocus
+					background-color: var(--accent-bg)
+					color: $accent
+
+			&[disabled=disabled]
+				cursor: not-allowed
+				opacity: .7
+
+	&.flip-v
+		
+		.list
+			transform: translateY(-5px)
+
+		&.activated,
+		&.activatedLocked
+
+			.dropdown,
+			.list
+				transform: translateY(0)

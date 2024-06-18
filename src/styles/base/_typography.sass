@@ -1,0 +1,59 @@
+@use '../abstracts' as *
+
+.opti
+	text-align: left
+
+	.surface
+		font-size: $fontSize
+		line-height: $leading
+		text-decoration: none
+		color: var(--text-col)
+
+	.texts
+		@extend %ellipsis
+
+	.text-grp
+		font-weight: 400
+
+		&:after
+			margin-left: .35em
+			content: "/"
+
+	.text-ph
+		font-style: italic
+
+	.text-op
+		text-shadow: var(--surface-element-dropshadows-decl)
+
+	&.highlightRemovables .surface .texts .text-op
+		color: pink
+
+	.text-ul
+		font-size: $tagFontSize
+	
+	.tag
+		text-decoration: none
+
+	.tag-text
+		@extend %ellipsis
+		line-height: $tagLeading
+
+	.surface > svg
+		--text-col-faded: rgba(var(--text-col-rgbvals), .8)
+
+	.dropdown
+		color: var(--dd-col)
+
+	.search-input
+		font-size: 14px * $oscale
+		color: var(--dd-col)
+
+	.list
+		font-size: 14px * $oscale
+		line-height: 1.15em
+
+		h5
+			font:
+				size: inherit
+				weight: 700
+				color: rgba(var(--dd-col-rgbvals),.35)

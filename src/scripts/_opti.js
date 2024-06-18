@@ -1262,7 +1262,7 @@ class Opti {
 								<div class="texts">
 									<span class="text-op"></span>
 									<span class="text-ph"></span>
-									<ul></ul>
+									<ul class="text-ul"></ul>
 								</div>
 								${svgExSurf}
 								${svgChevs}
@@ -1271,7 +1271,7 @@ class Opti {
 							<div class="dropdown">
 								<div class="search">
 									${svgSearch}
-									<input type="text" tabindex="-1" autocomplete="off">
+									<input type="text" class="search-input" tabindex="-1" autocomplete="off">
 								</div>
 								<div class="list"></div>
 							</div>
