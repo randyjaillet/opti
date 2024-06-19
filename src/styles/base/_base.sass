@@ -19,6 +19,8 @@
 
 	// ANCHOR Off states
 
+	// Let's default to hiding the icons and show them later.
+
 	.icon-chevs,
 	.icon-ban-surf,
 	.icon-ex-surf
@@ -26,6 +28,11 @@
 
 	.icon-ex
 		display: none
+
+	// Hide the element containing the text of the selected
+	// option when nothing is selected or when in multiple
+	// mode (we use a different element then, a UL). Hide
+	// the optgroup text as well in these conditions.
 
 	&.zerostate .text-op,
 	&[multiple=multiple] .text-op
@@ -37,34 +44,52 @@
 		.text-grp
 			display: none
 
+	// The off state we transition the placeholder and option
+	// text elements to.
+
 	.text-ph,
 	.text-op
 		
 		&.fadingOut
 			@include hideEl($important: true, $width: false, $height: true)
 
+	// Hide the placeholder if we're not in the zero state.
+
 	&:not(.zerostate) .surface .texts .text-ph
 		@include hideEl($height: true, $width: false)
 
-	.text-ul
-		// height: 0
+	// This class sets the height, width, and padding to
+	// what they'll look like in their on state so that JS
+	// can quickly measure them. Then we set those attributes
+	// so we have something to transition to. The user won't
+	// see this state.
 
 	.tag.pre-initial
 		height: auto
 		width: auto
 		padding: 0 var(--tag-horzpad)
 
+	// The initial class and the fading out class are both
+	// off states; a new tag starts with .initial so it can
+	// transition from hidden, and a tag being removed gets
+	// .fadingOut so it can transition TO hidden.
+
 	.tag.initial,
 	.tag.fadingOut,
 	&:not([multiple=multiple]) .tag
 		@include hideEl($important: true, $height: true, $flexbasis: false, $margin: true, $padding: true)
-		// max-width: 0
+
+	// Hide the dropdown offscreen by default.
 
 	.dropdown
 		left: -200vw
 
+	// Hide the header of empty optgroup sections.
+
 	.list h5:only-child
 		display: none
+
+	// Default to hiding the list item icons; show later.
 
 	.list-item svg
 		display: none
@@ -72,13 +97,27 @@
 
 	// ANCHOR On states
 
+	// Show the clear buttons on tags as long as we're not
+	// disabled.
+
 	&:not([disabled=disabled]) .icon-ex
 		display: inline-flex
+
+	// Conditions for showing each of the surface icons.
+	// • Chevrons: As long as not disabled
+	// • Ban: Only when disabled
+	// • Clear all ex: Not disabled and something is chosen
 
 	&:not([disabled=disabled]) .icon-chevs,
 	&[disabled=disabled] .icon-ban-surf,
 	&:not(.zerostate, [disabled=disabled]) .icon-ex-surf
 		opacity: 1
+
+	// Dimensions of the surface icons. Same conditions as
+	// for the above rule, but we need to break them out
+	// because each icon has different dimensions. And we
+	// do need the conditions because we set width to 0 when
+	// the icons are hidden.
 
 	&:not([disabled=disabled]) .icon-chevs
 		width: 16px * $oscale
@@ -90,15 +129,26 @@
 	&:not(.zerostate, [disabled=disabled]) .icon-ex-surf
 		width: 18px * $oscale
 
+	// ???
+
 	&[multiple=multiple] .text-ul:not(:empty)
 		min-height: $tagLeading
 		height: auto
 
+	// Position the dropdown into the viewport.
+
 	&:is(.activated, .activatedLocked) .dropdown
 		left: 0
 
+	// No matter what, even if the Opti is hiding the search
+	// because of few items, show the search if it gets
+	// focused. This happens when the user types on the
+	// surface.
+
 	.search-input:focus
 		display: block !important
+
+	// Show the ban icon on disabled list items.
 
 	.list span[disabled=disabled] .icon-ban
 		display: inline-flex

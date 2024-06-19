@@ -21,6 +21,8 @@ class Opti {
 	list;
 	opts;
 
+	// ANCHOR Constructor
+
 	constructor($s, options) {
 
 		//
@@ -1184,6 +1186,9 @@ class Opti {
 
 
 
+	// SECTION Methods
+	
+	// ANCHOR Getters
 
 	get isPlaceholder() {
 
@@ -1247,6 +1252,7 @@ class Opti {
 
 
 
+	// ANCHOR Markup construction
 
 	static #buildAnOpti () {
 
@@ -1305,6 +1311,65 @@ class Opti {
 	}
 
 
+
+
+	static #convertOptsAndGroups ($tree) {
+
+		const isSelect = $tree.is("select");
+
+		/* We wrap it in a div becaue jQuery's replaceWith
+		method doesn't work if the element has no parent.
+		Wrap() returns the original contents, so we then
+		need to traverse to the new wrapper. */
+		let $newTree = $tree.clone().wrap("<div/>").parent();
+		
+		/* Select element parent */
+		if (isSelect) $newTree.children("select").contents().unwrap();
+		
+		/* Groups */
+		$newTree.find("optgroup").replaceWith(
+			function () {
+				const
+					lab = $(this).attr("label"),
+					contents = $(this).html(),
+					$newEle = $("<section/>")
+							.attr("data-groupindex", $(this).attr("data-groupindex"))
+							.html(contents)
+							.prepend(`<h5>${lab}</h5>`)
+				;
+				return $newEle;
+			}
+		);
+
+		/* Options */
+		$newTree.find("option").replaceWith(
+			function () {
+				const
+					sel = $(this).attr("selected") || false,
+					dis = $(this).attr("disabled") || false,
+					val = $(this).val(),
+					contents = $(this).html(),
+					$newEle = $("<span/>")
+							.addClass("list-item")
+							.attr("selected", sel)
+							.attr("disabled", dis)
+							.attr("data-value", val)
+							.html(contents)
+							.prepend($('<svg xmlns="http://www.w3.org/2000/svg" class="icon-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>'))
+							.append($('<svg xmlns="http://www.w3.org/2000/svg" class="icon-tick" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>'))
+							.append($('<svg xmlns="http://www.w3.org/2000/svg" class="icon-ban" width="15" height="12" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m4.9 4.9 14.2 14.2"/></svg>'))
+				;
+				return $newEle;
+			}
+		);
+		
+		return $newTree.contents();
+
+	}
+
+
+
+	// ANCHOR Menu visibility
 
 
 	showMenu (focusOnSearch = !this.isInShortMode) {
@@ -1416,6 +1481,8 @@ class Opti {
 
 
 
+	// ANCHOR Searching
+
 
 	/* Search and filter the list of options
 	based on the string argument. This
@@ -1468,50 +1535,35 @@ class Opti {
 
 
 
-
-
-
+	// ANCHOR Option selection
 
 	/*
 
 	"Chooses" an option, which means it...
-	...sets the value in the select
-	element.
-	...injects a representation of the
-	choice into the surface of the Opti.
+	...sets the value in the select element.
+	...injects a representation of the choice into the
+	surface of the Opti.
 
-	Both of these processes are quite
-	different between single- and
-	multi-choice selects and Optis:
+	Both of these processes are quite different between
+	single- and multi-choice selects and Optis:
 
-	jQuery's val method for a single-choice
-	select element expects a string when
-	setting its value. A single-choice Opti
-	simply displays the text of the chosen
-	option as a text node in its surface.
+	A single-choice select element's val expects a string
+	when setting its value. A single-choice Opti simply
+	displays the text of the chosen option as a text node in
+	its surface.
 
-	jQuery's val method for a select in
-	multiple mode expects an array. We're
-	either giving it the old array with our
-	new val pushed onto it or we're creating
-	a new one if there is no value. We can't
-	rely on the "push onto the existing
-	array" code for both cases because in
-	jQuery versions less than 3.0, .val()
-	returns null, not an empty array, if
-	there are no values, so there's nothing
-	to push onto.
+	In multiple mode, selects expect arrays. We're either
+	giving it the old array with our new val pushed onto it
+	or we're creating a new one if there is no value.
 
-	The vals argument can be a string equal
-	to the value of the option being chosen,
-	it can be an array of such strings, or it
-	can be a jQuery object of the actual
-	elements that should be chosen. The last
-	method is usually used, but it's easier
-	to use the string or array of strings if
-	we're updating the Opti from the select's
-	val, because that's how jQuery returns a
-	select's value (string or array of them).
+	For flexibility's sake, the vals argument can be several
+	types:
+	* A STRING that is the VALUE of the option being chosen
+	* An ARRAY of such strings
+	* A jQuery object of the actual Opti list elements
+	The last method is usually used, but it's easier to use
+	the string or array of strings if we're updating the
+	Opti from the select's val which is of those types.
 
 	*/
 	chooseOption (vals, setFocus, noFadeOut = false, noFadeIn = false) {
@@ -1557,6 +1609,9 @@ class Opti {
 
 		if ($options.length) {
 
+			// This method has a check for whether it's
+			// currently placeholder, so we don't need one
+			// here.
 			Opti.#unchoosePlaceholderOption.bind(self)();
 
 			const
@@ -1567,7 +1622,7 @@ class Opti {
 			if (this.s.is("[multiple=multiple]")) {
 
 				$options.each(
-					(i, v) => {
+					(_i, v) => {
 
 						/* Add the value of the chosen option
 						to the original select.
@@ -1579,20 +1634,9 @@ class Opti {
 						submission data will still come
 						from the select element. Opti is
 						really just an interface for that
-						native element.
-						
-						jQuery's val method for a select in
-						multiple mode expects an array.
-						We're either giving it the old array
-						with our new val pushed onto it or
-						we're creating a new one if there is
-						no value. We can't rely on the
-						"push onto the existing array" code
-						for both cases because jQuery's val
-						method returns null, not an empty
-						array, if there are no values. */
+						native element. */
 						self.s.val(
-							(i2, v2) => {
+							(_i2, v2) => {
 								v2.push($(v).attr("data-value"));
 								return v2;
 							}
@@ -1935,6 +1979,49 @@ class Opti {
 
 
 
+	// Figure out what to do when an option is chosen.
+
+	#selectionAction ($t) {
+
+		/* If the target argument isn't a span, it's probably
+		because a click event target was passed in and it's
+		a child element of the span we want (like an svg),
+		so find the closest span ancestor in that case. */
+		if ($t.is(":not(span)")) $t = $t.closest("span");
+
+		const
+			anythingIsDisabled = this.o.add($t).is("[disabled=disabled]"),
+			optIsSelected = $t.is(".selected"),
+			oIsMultiple = this.o.is("[multiple=multiple]")
+		;
+		
+		if (!anythingIsDisabled) {
+
+			/* If the clicked option is already selected... */
+			if (optIsSelected) {
+				/* If this is a multiple-select Opti,
+				unselect the option. */
+				if (oIsMultiple) {
+					const $focusTarget = this.isInShortMode ? this.o.find(".surface") : this.o.find(".search input");
+					this.unchooseOption($t, $focusTarget);
+				}
+				/* (We're not allowing un-choosing in a single-select Opti.
+				Instead just close the menu and let the user think
+				they chose the option that was already chosen.) */
+				else this.hideMenu();
+			}
+
+			/* If the clicked option is not selected, select it
+			no matter what kind of Opti this is. */
+			else this.chooseOption($t, true);
+
+		}
+
+	}
+
+
+
+
 	#choosePlaceholderOption () {
 
 		/* If ufoap, set the select's val to the
@@ -1987,6 +2074,8 @@ class Opti {
 	}
 
 
+
+	// ANCHOR Helpers
 	
 	
 	#fadeOut ($t, callback, removeTarget) {
@@ -2124,6 +2213,7 @@ class Opti {
 
 
 
+	// ANCHOR List item stuff
 
 	#fakeFocusOn ($t) {
 
@@ -2180,104 +2270,7 @@ class Opti {
 
 
 
-	static #convertOptsAndGroups ($tree) {
-
-		const isSelect = $tree.is("select");
-
-		/* We wrap it in a div becaue jQuery's replaceWith
-		method doesn't work if the element has no parent.
-		Wrap() returns the original contents, so we then
-		need to traverse to the new wrapper. */
-		let $newTree = $tree.clone().wrap("<div/>").parent();
-		
-		/* Select element parent */
-		if (isSelect) $newTree.children("select").contents().unwrap();
-		
-		/* Groups */
-		$newTree.find("optgroup").replaceWith(
-			function () {
-				const
-					lab = $(this).attr("label"),
-					contents = $(this).html(),
-					$newEle = $("<section/>")
-							.attr("data-groupindex", $(this).attr("data-groupindex"))
-							.html(contents)
-							.prepend(`<h5>${lab}</h5>`)
-				;
-				return $newEle;
-			}
-		);
-
-		/* Options */
-		$newTree.find("option").replaceWith(
-			function () {
-				const
-					sel = $(this).attr("selected") || false,
-					dis = $(this).attr("disabled") || false,
-					val = $(this).val(),
-					contents = $(this).html(),
-					$newEle = $("<span/>")
-							.addClass("list-item")
-							.attr("selected", sel)
-							.attr("disabled", dis)
-							.attr("data-value", val)
-							.html(contents)
-							.prepend($('<svg xmlns="http://www.w3.org/2000/svg" class="icon-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>'))
-							.append($('<svg xmlns="http://www.w3.org/2000/svg" class="icon-tick" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>'))
-							.append($('<svg xmlns="http://www.w3.org/2000/svg" class="icon-ban" width="15" height="12" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m4.9 4.9 14.2 14.2"/></svg>'))
-				;
-				return $newEle;
-			}
-		);
-		
-		return $newTree.contents();
-
-	}
-
-
-
-
-	#selectionAction ($t) {
-
-		/* If the target argument isn't a span, it's probably
-		because a click event target was passed in and it's
-		a child element of the span we want (like an svg),
-		so find the closest span ancestor in that case. */
-		if ($t.is(":not(span)")) $t = $t.closest("span");
-
-		const
-			anythingIsDisabled = this.o.add($t).is("[disabled=disabled]"),
-			optIsSelected = $t.is(".selected"),
-			oIsMultiple = this.o.is("[multiple=multiple]")
-		;
-		
-		if (!anythingIsDisabled) {
-
-			/* If the clicked option is already selected... */
-			if (optIsSelected) {
-				/* If this is a multiple-select Opti,
-				unselect the option. */
-				if (oIsMultiple) {
-					const $focusTarget = this.isInShortMode ? this.o.find(".surface") : this.o.find(".search input");
-					this.unchooseOption($t, $focusTarget);
-				}
-				/* (We're not allowing un-choosing in a single-select Opti.
-				Instead just close the menu and let the user think
-				they chose the option that was already chosen.) */
-				else this.hideMenu();
-			}
-
-			/* If the clicked option is not selected, select it
-			no matter what kind of Opti this is. */
-			else this.chooseOption($t, true);
-
-		}
-
-	}
-
-
-
-
+	// ANCHOR Destruction
 	/* Undo whatever we did:
 	- Remove Opti element
 	- Un-hide the select
@@ -2307,6 +2300,7 @@ class Opti {
 };
 
 
+// !SECTION
 
 
 

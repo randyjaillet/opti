@@ -1,6 +1,10 @@
 @use 'sass:math' as *
 
 
+//
+// ANCHOR Global settings
+//
+
 // Product by which to size just about everything
 $oscale: 1
 
@@ -10,12 +14,12 @@ $dur: .2s
 
 //
 //
-// Dimensions
+// SECTION Dimensions
 //
 //
 
 //
-// Surface
+// ANCHOR Surface
 //
 
 $vertPad: round(6px * $oscale)
@@ -28,13 +32,13 @@ $mh: $vertPad * 2 + $leading
 $radius: round(7px * $oscale)
 
 //
-// Search
+// ANCHOR Search
 //
 
 $marginsXSearch: round(-8px * $oscale)
 
 //
-// Tags
+// ANCHOR Tags
 //
 
 $tagVertPad: round(5px * $oscale)
@@ -46,37 +50,41 @@ $tagLeading: $leading - 2px
 $tagRadius: round(3px * $oscale)
 $iconstrokewidth: .6px
 
+// !SECTION
+
 
 //
 //
-// Whole declarations
+// ANCHOR Declarations
 //
 //
 
-// What's up with these? When Opti is activated, it creates the effect of a
+//
+// Shadow screens
+// NOTE What's up with these? When Opti is activated, it creates the effect of a
 // partially transparent black/white screen over the page. This is done via
 // the oversized box-shadows below, applied to .surface. It's a nice solution
 // because we don't need a separate element, and the elements on the page
 // beneath the screen can still be clicked on. It's just an aesthetic thing
 // to make the Opti a little more prominent when activated and the background
 // a little less cluttered.
-//
-// So why the completely transparent one? Including it in the inactive state
+
+$shadowScreenDark: 0 0 0 500vw rgba(255, 255, 255, .4)
+$shadowScreenLight: 0 0 0 500vw rgba(0, 0, 0, .4)
+
+// NOTE So why the completely transparent one? Including it in the inactive state
 // prevents animating the shadow's spread when the Opti is activated.
 // If we don't have a transparent version of the screen in the inactive state,
 // the size of the box-shadow transitions, spreading out from and in to the
 // surface element like a cute little exploding death star.
 // So this way the shadow is already "there" (just invisible) so the browser
 // doesn't see a change in its size to transition, just its color.
-
-$shadowScreenDark: 0 0 0 500vw rgba(255, 255, 255, .4)
-$shadowScreenLight: 0 0 0 500vw rgba(0, 0, 0, .4)
 $shadowScreenTransp: 0 0 0 500vw transparent
 
 
 //
 //
-// Colors
+// ANCHOR Colors
 //
 //
 
@@ -90,7 +98,7 @@ $accent-bg-light: #C7E3F1
 
 //
 //
-// CSS vars
+// ANCHOR CSS vars
 //
 //
 

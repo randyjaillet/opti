@@ -1,11 +1,20 @@
 @use '../abstracts' as *
 
+
+// ANCHOR Root element
+
 .opti
 	display: block
 	position: relative
 
-	&:not(.zerostate)
-		// --surface-leftpad: var(--surface-vertpad)
+	$indentation: 20px * $oscale
+	$arrowSize: 5px * $oscale
+
+	&[multiple=multiple]:not(.zerostate)
+		--surface-leftpad: #{$vertPad}
+
+
+	// ANCHOR Surface and its states
 
 	.surface
 		display: flex
@@ -21,8 +30,11 @@
 		padding: 0
 		min-height: 0
 
-	&:not([disabled=disabled]):is(.activated, .activatedLocked) .surface
+	&:is(.activated, .activatedLocked):not([disabled=disabled]) .surface
 		z-index: 101
+
+
+	// ANCHOR Textual surface elements
 
 	.texts
 		flex: 1 1 auto
@@ -61,7 +73,6 @@
 		flex-wrap: nowrap
 		flex: 0 1 auto
 		width: 0
-		// max-width: 150px
 		margin: 0
 		padding: 0 var(--tag-horzpad)
 
@@ -74,6 +85,9 @@
 		height: $tagBGSize
 		margin: 0
 		margin-right: $tagHorzPad * .6
+
+
+	// ANCHOR Surface icons
 
 	.icon-chevs,
 	.icon-ban-surf,
@@ -106,6 +120,9 @@
 		opacity: 1
 		margin-right: -8px
 
+
+	// ANCHOR Dropdown
+
 	.dropdown
 		position: absolute
 		width: 100%
@@ -120,6 +137,9 @@
 		top: auto
 		bottom: calc(100% + 2px)
 		transform: translateY(-5px)
+
+
+	// ANCHOR Search
 
 	.search
 		$hpad: 7px * $oscale
@@ -139,6 +159,9 @@
 		width: 100%
 		flex-grow: 1
 
+
+	// ANCHOR Dropdown list
+
 	.list
 		margin: 2px 0 0 0
 		padding: 12px 0
@@ -146,48 +169,48 @@
 		position: relative
 		overflow: scroll
 
-		$indentation: 20px * $oscale
-		$arrowSize: 5px * $oscale
-
 		h5
 			margin: (10px * $oscale) 0 (10px * $oscale) $indentation
 			padding: 0
 
-		span
-			display: flex
-			align-items: center
-			justify-content: flex-start
-			position: relative
-			margin: 0
-			padding: (5px * $oscale) ($indentation * .5) (5px * $oscale) $indentation
+	.list-item
+		display: flex
+		align-items: center
+		justify-content: flex-start
+		position: relative
+		margin: 0
+		padding: (5px * $oscale) ($indentation * .5) (5px * $oscale) $indentation
 
-			> *
-				flex: 1 1 auto
+		> *
+			flex: 1 1 auto
 
-			svg
-				flex: 0 0 auto
-				margin-left: 3px
+		svg
+			flex: 0 0 auto
+			margin-left: 3px
 
-			.icon-arrow,
-			.icon-tick
-				display: inline-flex
-				width: 0
-				height: 0
-				margin-left: 0
+	.list section .list-item
+		padding-left: $indentation * 2
 
-			&:not([disabled=disabled])
+	
+	// ANCHOR List item icons
 
-				&.fakefocus .icon-arrow,
-				&.selected .icon-tick
-					$size: 16px
-					width: $size
-					height: $size
+	.icon-arrow,
+	.icon-tick
+		display: inline-flex
+		width: 0
+		height: 0
+		margin-left: 0
 
-				&.fakefocus .icon-arrow
-					margin-left: -10px
+	&:not([disabled=disabled])
 
-				&[disabled=disabled] .icon-ban
-					display: inline-flex
+		&.fakefocus .icon-arrow,
+		&.selected .icon-tick
+			$size: 16px
+			width: $size
+			height: $size
 
-		section .list-item
-			padding-left: $indentation * 2
+		&.fakefocus .icon-arrow
+			margin-left: -10px
+
+		.list-item[disabled=disabled] .icon-ban
+			display: inline-flex
