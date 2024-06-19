@@ -35,7 +35,7 @@
 
 			&:hover,
 			&:focus
-				--surface-bg: $accent-light
+				--surface-bg: #{$accent-light}
 
 		.dropdown
 
@@ -75,9 +75,9 @@
 		color: crimson
 
 	// Disabled - light
-	&:not([disabled=disabled]) .surface .texts ul .tag:hover,
-	&.highlightRemovables .surface .texts ul .tag
-		background-color: rgba(pink, .6)
+	&:not([disabled=disabled]) .tag:hover,
+	&.highlightRemovables .tag
+		--tag-bg: rgba(255,192,203,.6)
 
 		svg
 			stroke: crimson

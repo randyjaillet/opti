@@ -275,7 +275,7 @@ class Opti {
 		Priority 3: first option (based on FOD setting)
 		else blank */
 		if ($initiallySelectedOpts.length) {
-			this.chooseOption($initiallySelectedOpts, false, true);
+			this.chooseOption($initiallySelectedOpts, false, true, true);
 		}
 		else {
 			if (this.ufoap) {
@@ -1514,7 +1514,7 @@ class Opti {
 	select's value (string or array of them).
 
 	*/
-	chooseOption (vals, setFocus, noFade = false) {
+	chooseOption (vals, setFocus, noFadeOut = false, noFadeIn = false) {
 		
 		/* Keep a reference to the root class
 		for use within closures where the
@@ -1622,15 +1622,16 @@ class Opti {
 				fadeOutCallbackArgs = {
 					$options : $options,
 					setFocus : setFocus,
-					wasPlaceholder : wasPlaceholder
+					wasPlaceholder : wasPlaceholder,
+					noFadeIn : noFadeIn
 				}
 			;
 
-			if (wasPlaceholder && !noFade) {
+			if (wasPlaceholder && !noFadeOut) {
 
 				self.#fadeOut.bind(self)(self.pht, Opti.#chooseAfter.bind(self, fadeOutCallbackArgs, true), false);
 
-			} else if (wasBlank || noFade || self.o.is("[multiple=multiple]")) {
+			} else if (wasBlank || noFadeOut || self.o.is("[multiple=multiple]")) {
 
 				Opti.#chooseAfter.bind(self)(fadeOutCallbackArgs, true);
 
@@ -1672,7 +1673,7 @@ class Opti {
 					un-chooses their corresponding
 					options again. */
 					let $newTag = $("<li/>")
-							.addClass("tag initial")
+							.addClass("tag")
 							.attr("data-value", $(v).attr("data-value"))
 							.append('<svg class="icon-ex" height="7px" width="7px" stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" viewBox="0 0 7 7" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" stroke="#000000" stroke-width="1"><path d="M6.5 0.5L0.5 6.5" fill="none" opacity="1" stroke-linecap="round" stroke-linejoin="round"/><path d="M0.5 0.5L6.5 6.5" fill="none" opacity="1" stroke-linecap="round" stroke-linejoin="round"/></svg>')
 							.append($('<span/>').addClass("tag-text").text($(v).text()))
@@ -1689,9 +1690,37 @@ class Opti {
 						$newTag.insertAfter($targTag);
 					}
 
-					$newTag.outerHeight();
+					if (!args.noFadeIn) {
 
-					$newTag.removeClass("initial");
+						$newTag.addClass("pre-initial");
+						const actualWidth = $newTag.outerWidth();
+						const actualHeight = $newTag.outerHeight();
+						$newTag.addClass("initial");
+						$newTag.removeClass("pre-initial");
+
+						$newTag.outerHeight();
+
+						$newTag.css(
+							{
+								width: actualWidth,
+								height: actualHeight,
+								opacity: 1
+							}
+						);
+
+						$newTag.outerHeight();
+
+						$newTag.on(
+							"transitionend",
+							function (e) {
+								if (e.originalEvent.propertyName == "opacity") {
+									$newTag.removeAttr("style");
+								}
+							}
+						);
+						
+						$newTag.removeClass("initial");
+					}
 
 				}
 
@@ -2060,7 +2089,8 @@ class Opti {
 		$t.css(
 			{
 				width: function () { return $(this).outerWidth() },
-				"flex-basis": function () { return $(this).outerWidth() },
+				// "flex-basis": function () { return $(this).outerWidth() },
+				height: function () { return $(this).outerHeight() },
 				opacity: 1,
 				transform: "translate(0px, 0px)"
 			}

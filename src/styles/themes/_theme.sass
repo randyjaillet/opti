@@ -40,17 +40,16 @@
 
 	.texts
 
-		&:has(> .fadingOut)
-			transform: translate(-5px, 0) !important
+		&:has(> .fadingOut),
+		&:has(.tag):not(:has(.tag:not(.fadingOut)))
+			transform: translate(-5px, 0)
 
 	.text-grp,
 	.text-ph
 		opacity: .35
 
-	.text-op,
-	.text-ph
+	.text-op
 		opacity: 1
-		transform: translate(0px, 0px)
 
 	.text-ul
 		list-style: none
@@ -72,12 +71,12 @@
 
 	&:not([disabled=disabled]) .tag:hover,
 	&.highlightRemovables .tag
-		background-color: rgba(crimson, .3)
+		--tag-bg: rgba(crimson, .3)
 		color: pink
 
 	.icon-ex
 		stroke-width: $iconstrokewidth
-		stroke: var(--text-col)
+		stroke: currentColor
 
 	.surface > svg
 		stroke: var(--text-col-faded)

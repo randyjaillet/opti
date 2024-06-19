@@ -5,7 +5,7 @@
 	position: relative
 
 	&:not(.zerostate)
-		--surface-leftpad: var(--surface-vertpad)
+		// --surface-leftpad: var(--surface-vertpad)
 
 	.surface
 		display: flex
@@ -34,7 +34,7 @@
 
 	.text-grp
 		display: inline-block
-		margin: 0 5px
+		margin: 0 5px 0 0
 
 	.text-ph,
 	.text-op
@@ -61,7 +61,7 @@
 		flex-wrap: nowrap
 		flex: 0 1 auto
 		width: 0
-		max-width: 150px
+		// max-width: 150px
 		margin: 0
 		padding: 0 var(--tag-horzpad)
 
@@ -189,5 +189,5 @@
 				&[disabled=disabled] .icon-ban
 					display: inline-flex
 
-		section span
+		section .list-item
 			padding-left: $indentation * 2

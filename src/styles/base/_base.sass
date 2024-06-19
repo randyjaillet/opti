@@ -47,13 +47,18 @@
 		@include hideEl($height: true, $width: false)
 
 	.text-ul
-		height: 0
+		// height: 0
+
+	.tag.pre-initial
+		height: auto
+		width: auto
+		padding: 0 var(--tag-horzpad)
 
 	.tag.initial,
 	.tag.fadingOut,
 	&:not([multiple=multiple]) .tag
-		@include hideEl($important: true, $height: true, $flexbasis: true, $margin: true, $padding: true)
-		max-width: 0
+		@include hideEl($important: true, $height: true, $flexbasis: false, $margin: true, $padding: true)
+		// max-width: 0
 
 	.dropdown
 		left: -200vw
@@ -61,7 +66,7 @@
 	.list h5:only-child
 		display: none
 
-	.list span svg
+	.list-item svg
 		display: none
 
 

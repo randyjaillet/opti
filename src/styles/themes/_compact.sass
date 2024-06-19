@@ -10,8 +10,8 @@
 	--tag-bg: transparent
 
 	&:not([disabled=disabled])
-		--surface-leftmar: #{round($leftPad*1.2)}
-		--surface-rightmar: #{round($rightPad*1.2)}
+		--surface-leftmar: #{$leftPad}
+		--surface-rightmar: #{$rightPad}
 		--surface-shadow-decl: 0 1px 0 rgba(255, 255, 255, .4), #{$shadowScreenTransp}
 		--surface-radius-decl: #{$radius} #{$radius} 0 0
 
@@ -23,8 +23,8 @@
 			&:focus
 				--surface-leftmar: 0
 				--surface-rightmar: 0
-				--surface-leftpad: #{round($leftPad*1.2)}
-				--surface-rightpad: #{round($rightPad*1.2)}
+				--surface-leftpad: #{$leftPad}
+				--surface-rightpad: #{$rightPad}
 				--surface-bg: transparent
 				--surface-shadow-decl: 0 1px 0 #{$accent}, #{$shadowScreenTransp}
 				
@@ -32,14 +32,16 @@
 			gap: 10px
 
 		&:is(.activated, .activatedLocked)
+			--surface-bg: rgba(34, 34, 34, .95)
 			--surface-shadow-decl: 0 0 0 transparent, #{$shadowScreenDark}
 			--surface-radius-decl: #{$radius}
 
 			.surface
+				--surface-bg: rgba(34, 34, 34, .95)
 				--surface-leftmar: 0
 				--surface-rightmar: 0
-				--surface-leftpad: #{round($leftPad*1.2)}
-				--surface-rightpad: #{round($rightPad*1.2)}
+				--surface-leftpad: #{$leftPad}
+				--surface-rightpad: #{$rightPad}
 
 				&:hover,
 				&:focus
@@ -60,13 +62,15 @@
 	&[data-scheme=light]
 
 		&:not([disabled=disabled])
-			--surface-shadow-decl: 0 1px 0 rgba(black, .4), $shadowScreenTransp
+			--surface-shadow-decl: 0 1px 0 rgba(0, 0, 0, .4), #{$shadowScreenTransp}
 
-			.surface
+			&:not(.activated, .activatedLocked) .surface
 
 				&:hover,
 				&:focus
-					--surface-shadow-decl: 0 1px 0 $accent, $shadowScreenTransp
+					--surface-shadow-decl: 0 1px 0 #{$accent}, #{$shadowScreenTransp}
 
-			&:is(.activated, .activatedLocked)
-				--surface-shadow-decl: 0 0 0 transparent, $shadowScreenLight
+			&:is(.activated, .activatedLocked),
+			&:is(.activated, .activatedLocked) .surface
+				--surface-bg: rgba(238, 238, 238, .95)
+				--surface-shadow-decl: 0 0 0 transparent, #{$shadowScreenLight}

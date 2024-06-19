@@ -42,11 +42,17 @@
 	// won't reach the max-width we roughly estimate a
 	// longer duration for max-width's transition so that it
 	// happens at closer to the right pace.
-	// TODO: Use JS to transition to auto width instead of
-	// the clunky max-width hack.
 	.tag
-		transition-property: all, max-width
-		transition-duration: $dur, $dur*1.5
+		transition-property: opacity, width, height, margin, padding, color, background-color
+
+		&.pre-initial,
+		&.initial
+			transition: none
+
+	// .tag.initial,
+	// .tag.fadingOut,
+	// &:not([multiple=multiple]) .tag
+	// 	transition-property: all
 
 	// Clear buttons within tags. (See .icon-ex-surf for the
 	// one on the surface.)
