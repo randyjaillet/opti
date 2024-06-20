@@ -1,194 +1,142 @@
 doctype html
 html
+
 	head
-		meta(charset="utf-8")
-		meta(name="viewport" content="width=device-width, initial-scale=1")
-
-		link(rel="preconnect" href="https://fonts.googleapis.com")
-		link(rel="preconnect" href="https://fonts.gstatic.com" crossorigin)
-		link(href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet")
-		link(href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100;1,100&display=swap" rel="stylesheet")
-
-		link(href="styles/main.css" rel="stylesheet")
-
-		script(src="https://code.jquery.com/jquery-3.7.1.slim.min.js" integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous")
-
-		title Opti
+		include ./includes/_meta.pug
+		include ./includes/_assets-head.pug
+		title Opti Select Interface
 
 	body
-		main
-			div(id="top-controls" class="flexit")
-				button(id="activatedlocked") Hold demo Opti open
-				div(id="scheme-switch-div")
-					input(type="checkbox" id="scheme-switch-tick" checked)
-					label(for="scheme-switch-tick" id="scheme-switch-label")
+
+		#frame
+			
+
+			include ./includes/_topcontrols.pug
+
 
 			header
-				section(id="header-wrap")
-					h1
-						svg(xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="0.6" stroke-linecap="round" stroke-linejoin="round")
-							path(d="M3 20a1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v1a1 1 0 0 1-1 1Z")
-							path(d="M20 16a8 8 0 1 0-16 0")
-							path(d="M12 4v4")
-							path(d="M10 4h4")
-						span Opti
-					select(id="demo")
-						option(value="0") Choose foods
-						option(value="1") Bread
-						optgroup(label="Fruits")
-							option(value="2.0") Apples
-							option(value="2.1") Oranges
-							option(value="2.2") Grapes
-							option(value="2.3") Mango
-							option(value="2.4") Kumquat
-							option(value="2.5") Dragonfruit
-						option(value="3") Eggs
-						optgroup(label="Leafy greens")
-							option(value="4.0") Iceburg lettuce
-							option(value="4.1") Romaine lettuce
-							option(value="4.2" disabled="disabled") Spinach
-							option(value="4.3") Kale
-						option(value="5") Carrot
-						optgroup(label="Herbs")
-							option(value="6.0") Basil
-							option(value="6.1") Oregano
-							option(value="6.2") Parsely
-						option(value="7") Potato
-					div(id="themeNscheme")
-						div
-							label
-								| Theme:
-								select(id="theme-switch" data-theme="minimal")
-									option(value="glossy") Glossy
-									option(value="gradated") Gradated
-									option(value="standard") Standard
-									option(value="outline") Outline
-									option(value="compact") Compact
-									option(value="minimal") Minimal
+				
+				include ./includes/_demo-sel.pug
 
-				div(id="control-wrap")
-					div
-						div
-							h3 Mutations Sandbox
-							p None of these controls modify the demo Opti directly. It uses mutation observers to stay synched with its #[code select].
-							h5 Modify node list:
-							div(class="flexit faintbox")
-								select(id="control-append" data-theme="minimal" data-scheme="light")
-									option(value="append") Append
-									option(value="prepend") Prepend
-									option(value="rmvLast") Remove last
-									option(value="rmvFirst") Remove first
-								select(id="control-append-what" data-theme="minimal" data-scheme="light")
-									option(value="opt") Option
-									option(value="optgroup") Optgroup
-									option(value="optgroupOpt") Opt in last group
-								button(id="doit1") Apply
-							div(class="flexit faintbox")
-								button(id="insertoptrandomly") Insert option randomly
-						div
-							h5 Toggle attribute:
-							div(class="flexit faintbox")
-								span Select:
-								button(id="togglemultiselect") Multiple
-								button(id="toggledisabselect") Disabled
-							div(class="flexit faintbox")
-								span Option 2:
-								button(id="toggledisabopt") Disabled
-					div
-						h3 Destroy/Instantiate:
-						div(class="flexit faintbox")
-							button(id="destroy") Destroy
-							button(id="reinst") Reinstantiate
+				include ./includes/_mutation-controls.pug
 
-			p(class="bigtext") Opti augments standard select elements with searchable, easily styleable, custom replacements.
-			p Select elements are weird. They are notoriously difficult to style consistently across browsers, their search capabilities are inadequate when they contain many options, and the average user doesn't know how to use them in "multiple" mode.
-			p Opti endeavors to remedy this situation.
-			
-			h3 Feature Overview
-			p Opti elements will reflect the characteristics of their corresponding select elements. They support...
-			ul
-				li ... being disabled or having their options disabled with the #[code disabled] attribute
-				li ... having pre-selected options with the #[code selected] attribute
-				li ... multiple selections with the #[code multiple] attribute
-				li ... optgroups (these become sections in the Opti and their labels H5s)
+			main
 
-			h3 Mutation Observation
-			p Opti also utilizes mutation observers to reflect programmatic changes made to the original select element. This way you don't need to customize your code to target the Opti element instead of the #[code select]; you can keep doing it all to the #[code select].
-			p Specifically, Opti watches for...
-			ul
-				li ... changes to the select's #[code disabled] status
-				li ... changes to the select's #[code multiple] status
-				li ... changes to an option's #[code disabled] status
-				li ... addition or removal of options
-			p It doesn't bother watching options' #[code selected] status because that only applies on page load anyway.
+				h1 Opti Select Interface
+				p(class="bigtext") Opti augments standard select elements with searchable, easily styleable, custom interfaces.
+				p Select elements are weird. They are notoriously difficult to style consistently across browsers, their search capabilities are inadequate when they contain many options, and the average user doesn't know how to use them in "multiple" mode.
+				p Opti endeavors to remedy this situation.
+				
+				h2 Features
 
-			h3 Window Array of Optis
-			p Each time the Opti class is instantiated, the new instance gets pushed onto an #[code optis] array on window. If you know the Opti's index, you can access it this way (and every Opti element has a #[code data-opti-index] attribute with a value of its index in this array).
-			div(class="example")
-				p To access the #[code destroy] method of the first Opti that was instantiated, you might use:
-				code(class="codeblock") window.optis[0].destroy()
-			
-			h3 Customizable Settings
-			p Opti supports the following settings (see "Instantiation Options" for approaches to setting them).
-			dl
-				dt: code shortModeThreshold
-				dd Int - The Opti will be in short mode if it has fewer than this number of options. When in short mode, the search is hidden, though it can still be revealed via typing.
-				dt: code useFirstOptionAsPlaceholder
-				dd Bool or string - The intention behind this functionality is to handle the practice common with selects of using the first option not as a choice but as placeholder text that functions either as a prompt ("Please choose one") or a label ("Favorite food"). Such options are not meant to be chosen and when they are, the select is essentially in its zero state. So we might as well move such an option out of the list of choices and into its own unique placeholder feature if this setting is true. You can also pass a string and it will consider it true for selects with a first option of the same value as the passed string. Defaults to false.
-				dt: code classes
-				dd String - Use this setting to add custom classes to the Opti's root element. It uses jQuery's .addClass(), so give it a space-separated string of values without leading periods. (For example, "foo bar" will make the Opti be .foo.bar. Defaults to empty.
-				dt: code showClearAll
-				dd Bool - If false, the x button that clears the Opti will not be included. This option exists because native select elements don't seem to have a way via their GUI to "unchoose" and return to a blank state (unless they're in multiple mode). So if you want the native select behavior (disallowing the user from clearing the Opti and rendering it blank), set this to false. Defaults to true.
-				dt: code firstOptDefault
-				dd Bool - This only takes effect if useFirstOptionAsPlaceholder is false (because the placeholder takes priority) and if no options are set to #[code selected]. In that case, the Opti will start on the first option like a native select element when this is true and start out blank when it is false. Defaults to true.
-			
-			h3 Instantiation Options
-			p There are several ways to instantiate an Opti and several ways to set its settings.
-			p You can use the #[code new] keyword to instantiate the #[code Opti] class, passing a jQuery object containing the corresponding select element as the first argument. There is also a jQuery plugin (#[code opti]) that works on select elements. Finally, if a select has a #[code data-opti] attribute, it will be automatically instantiated.
-			p You can pass an object of options to the jQuery plugin as an argument (priority 1) or include JSON in a #[code data-opti-options] attribute on the select element (priority 2). Otherwise it uses defaults (priority 3). If you use multiple methods, it will use extend to merge the options, with the higher priority sources taking precedence.
-			p(class="example")
-				code(class="codeblock") new Opti($("#myselect"), {classes : "foo bar"})
-				code(class="codeblock") $("#myselect").opti({classes : "foo bar"})
-				code(class="codeblock") &lt;select data-opti data-opti-options='{classes : "foo bar"}'&gt;
-			
-			h3 Methods
-			p Opti has the following methods:
-			dl
-				dt: code destroy([preserveSlot])
-				dd
-					p Reverses instantiation and returns the #[code select] to its original state.
-					p #[code preserveSlot]: Boolean - If true, the Opti's slot in the window.optis array will only be emptied; if false it will be spliced out completely. Useful for if you plan to reinstantiate later and want to keep the same index. Defaults to false.
-				dt: code showMenu([focusOnSearch])
-				dd
-					p Reveals the Opti's dropdown and search if applicable.
-					p #[code focusOnSearch]: Boolean - Whether to focus on the search box after opening the menu. Defaults to true of the Opti is not in short mode, otherwise false.
-				dt: code hideMenu([focusOnSurface])
-				dd
-					p Conceals the Opti's dropdown and search.
-					p #[code focusOnSurface]: Boolean - Whether to focus on the Opti's surface after closing the menu. Defaults to true.
-				dt: code chooseOption(vals [, setFocus, noFade])]
-				dd
-					p "Chooses" an option or multiple options, meaning its val is added to the select and represented in the Opti's surface and dropdown. If the Opti is in multiple mode, the new value is added. If not, it replaces any existing value.
-					p #[code vals]: String, Array, jQuery object - The options to choose. This argument can be the value of the option being chosen as a string, it can be an array of such strings, or it can be a jQuery object of the actual dropdown elements (spans with #[code data-value] attributes) that should be chosen.
-					p #[code setFocus]: Boolean - Whether to focus on the surface element after choosing and closing the dropdown (single-select Optis only). Defaults to false.
-					p #[code noFade]: Boolean - Whether to supress the fade-out animation on the existing surface text and skip right to setting it to the new value. Defaults to false.
-				dt: code unchooseOption(vals [, callback, callbackArgs, focusTarget, dontUpdateSelect, noFade])
-				dd
-					p "Unchooses" an option or multiple options, meaning their vals are removed from the select and their surface representations from the surface. Defaults to undefined.
-					p #[code vals]: String, Array, jQuery object - The options to unchoose. This argument can be the value of the option being unchosen as a string, it can be an array of such strings, or it can be a jQuery object of the actual dropdown elements (spans with #[code data-value] attributes) that should be unchosen. Defaults to undefined.
-					p #[code callback]: Function - Code to execute after the option has been unchosen and any relevant animations have finished. Defaults to undefined.
-					p #[code callbackArgs]: Object - Some vars that the callback needs access to. Defaults to undefined.
-					p #[code focusTarget]: jQuery object - What to focus on after unchoosing the option. Defaults to undefined which means focus will be removed.
-					p #[code dontUpdateSelect]: Whether to supress the setting of the values in the #[code select]. This is mostly used in mutation observers when the select is directly changed rather than using the Opti. In that case, the select already has the new values, so we don't need to set them. Defaults to undefined.
-					p #[code noFade]: Whether to supress the fade animation on the surface text (in the case of a single-select) or on the tags (in the case of a multi-select Opti). Defaults to false.
-				dt: code isBlankOrPlaceholder()
-				dd
-					p Returns whether or not the Opti is showing either nothing or the placeholder in its surface.
-				dt: code isBlank()
-				dd
-					p Returns whether or not the Opti is showing nothing in its surface.
-				dt: code isPlaceholder()
-				dd
-					p Returns whether or not the Opti is showing its placeholder in its surface.
+				p Opti elements will reflect the characteristics of their corresponding select elements. They support...
+				ul
+					li ... being disabled or having their options disabled with the #[code disabled] attribute
+					li ... having pre-selected options with the #[code selected] attribute
+					li ... multiple selections with the #[code multiple] attribute
+					li ... optgroups (these become sections in the Opti and their labels H5s)
+				
+				h3 Keyboard Accessibility
+				p Opti is navigable via the keyboard. The following keys are supported.
+				dl
+					dt Space or enter (when focused on surface)
+					dd Open the Opti
+					dt Up and down arrows (when focused on surface)
+					dd Choose the previous/next option in the Opti without opening it
+					dt Up arrow, down arrow, home, and end (when Opti is open)
+					dd Navigate the dropdown items by moving "fake focus"
+					dt Enter (when an option is fake-focused)
+					dd Choose the option
+					dt Tab (when an option is fake-focused)
+					dd Choose the option (only in single-select Optis) and move focus to the next element
+					dt Backspace (when focused on the surface)
+					dd Unchoose last chosen option
+					dt Backspace (when focused on an empty search input)
+					dd Unchoose last chosen option
+					dt Escape (when Opti is open)
+					dd Close the Opti
+					dt Keys that produce characters (when focused on the surface or search input)
+					dd Filter the dropdown
 
-		script(src="scripts/main.js")
+				h3 Mutation Observation
+				p Opti also utilizes mutation observers to reflect programmatic changes made to the original select element. This way you don't need to customize your code to target the Opti element instead of the #[code select]; you can keep doing it all to the #[code select].
+				p Specifically, Opti watches for...
+				ul
+					li ... changes to the select's #[code disabled] status
+					li ... changes to the select's #[code multiple] status
+					li ... changes to an option's #[code disabled] status
+					li ... addition or removal of options
+				p It doesn't bother watching options' #[code selected] status because that only applies on page load anyway.
+
+				h3 Window Array of Optis
+				p Each time the Opti class is instantiated, the new instance gets pushed onto an #[code optis] array on window. If you know the Opti's index, you can access it this way (and every Opti element has a #[code data-opti-index] attribute with a value of its index in this array).
+				div(class="example")
+					p To access the #[code destroy] method of the first Opti that was instantiated, you might use:
+					code(class="codeblock") window.optis[0].destroy()
+
+				h2 Instantiation
+				
+				h3 Customizable Settings
+				p Opti supports the following settings (see "Instantiation Options" for approaches to setting them).
+				dl
+					dt: code shortModeThreshold
+					dd Int - The Opti will be in short mode if it has fewer than this number of options. When in short mode, the search is hidden, though it can still be revealed via typing.
+					dt: code useFirstOptionAsPlaceholder
+					dd Bool or string - The intention behind this functionality is to handle the practice common with selects of using the first option not as a choice but as placeholder text that functions either as a prompt ("Please choose one") or a label ("Favorite food"). Such options are not meant to be chosen and when they are, the select is essentially in its zero state. So we might as well move such an option out of the list of choices and into its own unique placeholder feature if this setting is true. You can also pass a string and it will consider it true for selects with a first option of the same value as the passed string. Defaults to false.
+					dt: code classes
+					dd String - Use this setting to add custom classes to the Opti's root element. It uses jQuery's .addClass(), so give it a space-separated string of values without leading periods. (For example, "foo bar" will make the Opti be .foo.bar. Defaults to empty.
+					dt: code showClearAll
+					dd Bool - If false, the x button that clears the Opti will not be included. This option exists because native select elements don't seem to have a way via their GUI to "unchoose" and return to a blank state (unless they're in multiple mode). So if you want the native select behavior (disallowing the user from clearing the Opti and rendering it blank), set this to false. Defaults to true.
+					dt: code firstOptDefault
+					dd Bool - This only takes effect if useFirstOptionAsPlaceholder is false (because the placeholder takes priority) and if no options are set to #[code selected]. In that case, the Opti will start on the first option like a native select element when this is true and start out blank when it is false. Defaults to true.
+				
+				h3 Instantiation Methods
+				p There are several ways to instantiate an Opti and several ways to set its settings.
+				p You can use the #[code new] keyword to instantiate the #[code Opti] class, passing a jQuery object containing the corresponding select element as the first argument. There is also a jQuery plugin (#[code opti]) that works on select elements. Finally, if a select has a #[code data-opti] attribute, it will be automatically instantiated.
+				p You can pass an object of options to the jQuery plugin as an argument (priority 1) or include JSON in a #[code data-opti-options] attribute on the select element (priority 2). Otherwise it uses defaults (priority 3). If you use multiple methods, it will use extend to merge the options, with the higher priority sources taking precedence.
+				p(class="example")
+					code(class="codeblock") new Opti($("#myselect"), {classes : "foo bar"})
+					code(class="codeblock") $("#myselect").opti({classes : "foo bar"})
+					code(class="codeblock") &lt;select data-opti data-opti-options='{classes : "foo bar"}'&gt;
+				
+				h2 Methods
+				p Opti has the following methods:
+				dl
+					dt: code destroy([preserveSlot])
+					dd
+						p Reverses instantiation and returns the #[code select] to its original state.
+						p #[code preserveSlot]: Boolean - If true, the Opti's slot in the window.optis array will only be emptied; if false it will be spliced out completely. Useful for if you plan to reinstantiate later and want to keep the same index. Defaults to false.
+					dt: code showMenu([focusOnSearch])
+					dd
+						p Reveals the Opti's dropdown and search if applicable.
+						p #[code focusOnSearch]: Boolean - Whether to focus on the search box after opening the menu. Defaults to true of the Opti is not in short mode, otherwise false.
+					dt: code hideMenu([focusOnSurface])
+					dd
+						p Conceals the Opti's dropdown and search.
+						p #[code focusOnSurface]: Boolean - Whether to focus on the Opti's surface after closing the menu. Defaults to true.
+					dt: code chooseOption(vals [, setFocus, noFade])]
+					dd
+						p "Chooses" an option or multiple options, meaning its val is added to the select and represented in the Opti's surface and dropdown. If the Opti is in multiple mode, the new value is added. If not, it replaces any existing value.
+						p #[code vals]: String, Array, jQuery object - The options to choose. This argument can be the value of the option being chosen as a string, it can be an array of such strings, or it can be a jQuery object of the actual dropdown elements (spans with #[code data-value] attributes) that should be chosen.
+						p #[code setFocus]: Boolean - Whether to focus on the surface element after choosing and closing the dropdown (single-select Optis only). Defaults to false.
+						p #[code noFade]: Boolean - Whether to supress the fade-out animation on the existing surface text and skip right to setting it to the new value. Defaults to false.
+					dt: code unchooseOption(vals [, callback, callbackArgs, focusTarget, dontUpdateSelect, noFade])
+					dd
+						p "Unchooses" an option or multiple options, meaning their vals are removed from the select and their surface representations from the surface. Defaults to undefined.
+						p #[code vals]: String, Array, jQuery object - The options to unchoose. This argument can be the value of the option being unchosen as a string, it can be an array of such strings, or it can be a jQuery object of the actual dropdown elements (spans with #[code data-value] attributes) that should be unchosen. Defaults to undefined.
+						p #[code callback]: Function - Code to execute after the option has been unchosen and any relevant animations have finished. Defaults to undefined.
+						p #[code callbackArgs]: Object - Some vars that the callback needs access to. Defaults to undefined.
+						p #[code focusTarget]: jQuery object - What to focus on after unchoosing the option. Defaults to undefined which means focus will be removed.
+						p #[code dontUpdateSelect]: Whether to supress the setting of the values in the #[code select]. This is mostly used in mutation observers when the select is directly changed rather than using the Opti. In that case, the select already has the new values, so we don't need to set them. Defaults to undefined.
+						p #[code noFade]: Whether to supress the fade animation on the surface text (in the case of a single-select) or on the tags (in the case of a multi-select Opti). Defaults to false.
+					dt: code isZeroState
+					dd
+						p This getter returns whether or not the Opti is showing either nothing or the placeholder in its surface. Don't use parantheses when accessing it.
+					dt: code isBlank
+					dd
+						p This getter returns whether or not the Opti is showing nothing in its surface. Don't use parantheses when accessing it.
+					dt: code isPlaceholder
+					dd
+						p This getter returns whether or not the Opti is showing its placeholder in its surface. Don't use parantheses when accessing it.
+
+		include ./includes/_assets-end.pug

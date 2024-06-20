@@ -25,7 +25,7 @@ body
 	background-size: 100px 50px
 
 p:not(.opti *)
-	margin: 10px 0
+	margin: 15px 0
 	line-height: 1.35em
 
 	&.bigtext
@@ -45,15 +45,41 @@ p:not(.opti *)
 		color: rgba(#997533, 50%)
 
 code.codeblock
-	margin: 10px 0
+	margin: 15px 0
 	padding: 10px
 	display: block
 	background: rgba(black, 7%)
 	outline: 1px solid rgba(black, .15)
 
+$baseMarg: 20px
+
+h1
+	margin: $baseMarg*2.5 0
+
+h2
+	margin: $baseMarg*2 0
+
+h3
+	margin: $baseMarg*1.75 0
+
+h4
+	margin: $baseMarg*1.4 0
+
+h5
+	margin: $baseMarg 0
+
+dl
+	margin: 0
+
 dt
-	margin-top: 10px
+	margin-top: 15px
 	margin-bottom: 5px
+	font-weight: 500
+
+dd
+	margin: 5px 0 15px 4px
+	padding-left: 20px
+	background: transparent url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNkNmQ2ZDYiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLWFycm93LXJpZ2h0Ij48cGF0aCBkPSJNNSAxMmgxNCIvPjxwYXRoIGQ9Im0xMiA1IDcgNy03IDciLz48L3N2Zz4=) left 1px no-repeat
 
 button:not(.opti *)
 	appearance: none
@@ -81,7 +107,7 @@ code:not(.opti *)
 	font-family: "Courier New",monospace
 	font-size: 110%
 
-h1:not(.opti *)
+#logo
 	display: flex
 	justify-content: center
 	align-items: center
@@ -105,7 +131,7 @@ h1:not(.opti *)
 		stroke: black
 		stroke-width: 1.1px
 
-main:not(.opti *)
+#frame
 	display: flex
 	flex-direction: column
 	align-items: left
@@ -199,7 +225,7 @@ main:not(.opti *)
 			padding: 30px 20px
 			border-radius: 15px
 		
-		#header-wrap
+		#demo-frame
 			flex-basis: 300px
 			display: flex
 			flex-direction: column
@@ -245,7 +271,7 @@ main:not(.opti *)
 		margin: 15px 0
 		font-weight: 600
 
-	#control-wrap
+	#control-frame
 		display: flex
 		flex-direction: column
 		flex: 1 1 300px
@@ -311,7 +337,7 @@ body.opti-scheme-dark
 			background-color: $accent-dark
 			color: white
 
-	main
+	#frame
 		background-color: rgba(black, .8)
 		outline-color: black
 
@@ -320,18 +346,18 @@ body.opti-scheme-dark
 			section:not(.opti *)
 				box-shadow: 0 0 5px rgba(black, .65)
 			
-			#header-wrap
+			#demo-frame
 				background-color: rgba(#222, 60%)
 				background-image: radial-gradient(500px circle at left -150px, rgba(yellow, .2), transparent), radial-gradient(400px circle at bottom right, transparent 10%, rgba(green, .15) 70%, transparent), radial-gradient(400px circle at left 150px, transparent 10%, rgba(blue, .2) 70%, transparent), radial-gradient(400px circle at top right, transparent 10%, rgba(red, .25) 70%, transparent), radial-gradient(400px circle at right center, transparent 10%, rgba(turquoise, .15) 70%, transparent)
 				background-blend-mode: overlay
 
-				h1:not(.opti *)
+				#logo
 					color: white
 
 					svg:not(.opti *)
 						stroke: white
 
-		#control-wrap
+		#control-frame
 
 			.faintbox
 				background-color: rgba(white, 7%)

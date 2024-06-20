@@ -1,4 +1,4 @@
-// Instantiation
+// ANCHOR Instantiation
 
 $("#demo").opti(
 	{
@@ -17,7 +17,7 @@ const $demo = $("#demo");
 let $demoOpti = $demo.next(".opti");
 
 
-// Theme switcher nonsense
+// ANCHOR Theme switcher nonsense
 
 $demoOpti.attr("data-theme", $("#theme-switch").val());
 $("#theme-switch").on(
@@ -29,26 +29,26 @@ $("#theme-switch").on(
 );
 
 
-// Scheme switcher nonsense
+// ANCHOR Scheme switcher nonsense
 
 localStorage.getItem("opti-scheme") == "light" ? $("#scheme-switch-tick").prop("checked", false) : $("#scheme-switch-tick").prop("checked", true);
 let scheme = $("#scheme-switch-tick").is(":checked") ? "dark" : "light";
 
 $("body").addClass(`opti-scheme-${scheme}`);
-$("body > main > header").find(".opti").attr("data-scheme", scheme);
+$("body > #frame > header").find(".opti").attr("data-scheme", scheme);
 $("#scheme-switch-tick").on(
 	"change",
 	() => {
 		$demoOpti = $demo.next(".opti");
 		scheme = $("#scheme-switch-tick").is(":checked") ? "dark" : "light";
 		localStorage.setItem("opti-scheme", scheme);
-		$("body > main > header").find(".opti").attr("data-scheme", scheme);
+		$("body > #frame > header").find(".opti").attr("data-scheme", scheme);
 		$("body").removeClass((index, className) => (className.match (/(^|\s)opti-scheme-\S+/g) || []).join(' ')).addClass("opti-scheme-" + scheme);
 	}
 );
 
 
-// Mutation sandbox
+// ANCHOR Mutation sandbox
 
 const
 	addOption = () => {
@@ -218,6 +218,8 @@ $("#toggledisabopt").on(
 		optIsDisab ? $secondOpt.removeAttr("disabled") : $secondOpt.attr("disabled", "disabled");
 	}
 );
+
+// ANCHOR Other controls
 
 $("#destroy").on(
 	"click",

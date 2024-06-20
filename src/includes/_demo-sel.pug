@@ -1,0 +1,41 @@
+section(id="demo-frame")
+	#logo
+		svg(xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="0.6" stroke-linecap="round" stroke-linejoin="round")
+			path(d="M3 20a1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v1a1 1 0 0 1-1 1Z")
+			path(d="M20 16a8 8 0 1 0-16 0")
+			path(d="M12 4v4")
+			path(d="M10 4h4")
+		span Opti
+	select(id="demo")
+		option(value="0") Choose foods
+		option(value="1") Bread
+		optgroup(label="Fruits")
+			option(value="2.0") Apples
+			option(value="2.1") Oranges
+			option(value="2.2") Grapes
+			option(value="2.3") Mango
+			option(value="2.4") Kumquat
+			option(value="2.5") Dragonfruit
+		option(value="3") Eggs
+		optgroup(label="Leafy greens")
+			option(value="4.0") Iceburg lettuce
+			option(value="4.1") Romaine lettuce
+			option(value="4.2" disabled="disabled") Spinach
+			option(value="4.3") Kale
+		option(value="5") Carrot
+		optgroup(label="Herbs")
+			option(value="6.0") Basil
+			option(value="6.1") Oregano
+			option(value="6.2") Parsely
+		option(value="7") Potato
+	div(id="themeNscheme")
+		div
+			label
+				| Theme:
+				select(id="theme-switch" data-theme="minimal")
+					option(value="glossy") Glossy
+					option(value="gradated") Gradated
+					option(value="standard") Standard
+					option(value="outline") Outline
+					option(value="compact") Compact
+					option(value="minimal") Minimal
