@@ -6,7 +6,7 @@
 @mixin hideEl($important: false, $opacity: true, $width: true, $overflow: true, $textwrap: true, $height: false, $margin: false, $padding: false, $left: false, $flexbasis: false)
 
 	$importantString: null
-	@if ($important == true)
+	@if ($important)
 		$importantString: !important
 
 	@if ($opacity)

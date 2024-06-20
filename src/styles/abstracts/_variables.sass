@@ -1,4 +1,5 @@
 @use 'sass:math' as *
+@use 'sass:color' as *
 
 
 //
@@ -61,24 +62,28 @@ $iconstrokewidth: .6px
 
 //
 // Shadow screens
-// NOTE What's up with these? When Opti is activated, it creates the effect of a
-// partially transparent black/white screen over the page. This is done via
-// the oversized box-shadows below, applied to .surface. It's a nice solution
-// because we don't need a separate element, and the elements on the page
-// beneath the screen can still be clicked on. It's just an aesthetic thing
-// to make the Opti a little more prominent when activated and the background
+// NOTE What's up with these? When Opti is activated, it 
+// creates the effect of a partially transparent black/white
+// screen over the page. This is done via the oversized 
+// box-shadows below, applied to the surface. It's a nice 
+// solution because we don't need a separate element, and
+// the elements on the page beneath the screen can still be
+// clicked on. It's just an aesthetic thing to make the Opti
+// a little more prominent when activated and the background
 // a little less cluttered.
 
 $shadowScreenDark: 0 0 0 500vw rgba(255, 255, 255, .4)
 $shadowScreenLight: 0 0 0 500vw rgba(0, 0, 0, .4)
 
-// NOTE So why the completely transparent one? Including it in the inactive state
-// prevents animating the shadow's spread when the Opti is activated.
-// If we don't have a transparent version of the screen in the inactive state,
-// the size of the box-shadow transitions, spreading out from and in to the
-// surface element like a cute little exploding death star.
-// So this way the shadow is already "there" (just invisible) so the browser
-// doesn't see a change in its size to transition, just its color.
+// NOTE So why the completely transparent one? Including it
+// in the inactive state prevents animating the shadow's
+// spread when the Opti is activated. If we don't have a
+// transparent version of the screen in the inactive state,
+// the size of the box-shadow transitions, spreading out 
+// from and in to the surface element like a cute little
+// exploding death star. So this way the shadow is already
+// "there" (just invisible) so the browser doesn't see a
+// change in its size to transition, just its color.
 $shadowScreenTransp: 0 0 0 500vw transparent
 
 
@@ -88,12 +93,11 @@ $shadowScreenTransp: 0 0 0 500vw transparent
 //
 //
 
-$accent: #48B
-$accent-light: #BCDEF5
-$accent-reallylight: #E4F2FB
-$accent-reallydark: #0b1014
-$accent-bg-dark: #32424E
-$accent-bg-light: #C7E3F1
+$accent: #447abb
+$accent-light: scale($accent, $lightness: 60%)
+$accent-lighter: scale($accent-light, $lightness: 75%)
+$accent-dark: scale($accent, $lightness: -60%)
+$accent-darker: scale($accent-dark, $lightness: -75%)
 
 
 //

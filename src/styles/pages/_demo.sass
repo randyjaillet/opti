@@ -1,5 +1,5 @@
 @use '../abstracts' as *
-	
+
 *:not(.opti *)
 	box-sizing: border-box
 
@@ -17,7 +17,7 @@ textarea
 
 body
 	--body-bg-col-greyscale: white
-	--body-bg-col-color: #{$accent-reallylight}
+	--body-bg-col-color: #{$accent-lighter}
 	margin: 0
 	padding: 0
 	background-color: var(--body-bg-col-color)
@@ -281,7 +281,7 @@ main:not(.opti *)
 
 body.opti-scheme-dark
 	--body-bg-col-greyscale: black
-	--body-bg-col-color: #{$accent-reallydark}
+	--body-bg-col-color: #{$accent-darker}
 	color: #DDD
 
 
@@ -308,7 +308,7 @@ body.opti-scheme-dark
 		&:hover,
 		&:focus
 			outline-color: $accent
-			background-color: $accent-bg-dark
+			background-color: $accent-dark
 			color: white
 
 	main
@@ -327,7 +327,6 @@ body.opti-scheme-dark
 
 				h1:not(.opti *)
 					color: white
-					// background-image: radial-gradient(closest-side ellipse at center, rgba(black, .5), transparent)
 
 					svg:not(.opti *)
 						stroke: white

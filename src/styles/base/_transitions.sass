@@ -11,6 +11,7 @@
 .opti
 
 	// ANCHOR Defaults for everything
+
 	*
 		transition-duration: $dur
 		transition-timing-function: linear
@@ -32,16 +33,14 @@
 	// These are both for the button's hover (stroke,
 	// background-color) and its reveal and conceal (margin,
 	// opacity, width).
-	// TODO Don't want to trans width... need to separate
-	// into off and on states.
 	.icon-ex-surf
-		transition-property: margin, opacity, stroke, background-color, width
+		transition-property: opacity, color,  background-color, width, margin
+		transition-duration: $dur,    $dur,   $dur,             0s,    0s
+		transition-delay: 	 0s,      0s,     0s,               $dur,  $dur
 
-	// max-width is kind of a hack since we can't easily
-	// transition to an auto width... Since a tag probably
-	// won't reach the max-width we roughly estimate a
-	// longer duration for max-width's transition so that it
-	// happens at closer to the right pace.
+	&:not(.zerostate, [disabled=disabled]) .icon-ex-surf
+		transition-property: opacity, color, background-color
+
 	.tag
 		transition-property: opacity, width, height, margin, padding, color, background-color
 
@@ -49,19 +48,14 @@
 		&.initial
 			transition: none
 
-	// .tag.initial,
-	// .tag.fadingOut,
-	// &:not([multiple=multiple]) .tag
-	// 	transition-property: all
-
 	// Clear buttons within tags. (See .icon-ex-surf for the
 	// one on the surface.)
 	.icon-ex
-		transition-property: stroke
+		transition-property: color
 
 	.list-item
-		transition-property: all, padding-left, padding-right
-		transition-duration: $dur, $dur*.5, $dur*.5
+		transition-property: all,  padding-left, padding-right
+		transition-duration: $dur, $dur*.5,      $dur*.5
 
 	.icon-arrow
 		transition-property: width, height, margin-left
@@ -79,19 +73,19 @@
 	.text-ph,
 	.text-op
 		transition-property: color, opacity, transform
-		transition-duration: $dur
-		transition-timing-function: linear
 
 		&.fadingOut
-			transition: opacity $dur linear, height 0s linear $dur
+			transition-property: opacity, height
+			transition-duration: $dur,    0s
+			transition-delay:    0s,      $dur
 
 	// Dropdown transition to off state; delay moving 
 	// off-screen with left until other properties are done.
 	// Also, the fade out can be slower than the fade in.
 	.dropdown
 		transition-property: opacity, transform, left
-		transition-duration: $dur*2, $dur*2, 0s
-		transition-delay: 0s, 0s, $dur*2
+		transition-duration: $dur*2,  $dur*2,    0s
+		transition-delay:    0s,      0s,        $dur*2
 
 	// Just transition the search and list elements' slight
 	// vertical offset.

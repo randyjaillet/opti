@@ -71,15 +71,14 @@
 
 	&:not([disabled=disabled]) .tag:hover,
 	&.highlightRemovables .tag
-		--tag-bg: rgba(crimson, .3)
+		--tag-bg: rgba(220, 20, 60, .2)
 		color: pink
 
 	.icon-ex
 		stroke-width: $iconstrokewidth
-		stroke: currentColor
 
 	.surface > svg
-		stroke: var(--text-col-faded)
+		color: var(--text-col-faded)
 		stroke-width: 1px
 		filter: drop-shadow(var(--surface-element-dropshadows-decl))
 
@@ -94,8 +93,8 @@
 		border-radius: 50%
 
 		&:hover
-			stroke: pink
-			background-color: rgba(crimson, .3)
+			color: pink
+			background-color: rgba(220, 20, 60, .2)
 			filter: none
 
 	.dropdown
@@ -120,7 +119,7 @@
 		transform: translateY(0)
 	
 	.icon-search
-		stroke: var(--dd-col)
+		color: var(--dd-col)
 
 	.search-input
 		background-color: transparent
@@ -150,10 +149,10 @@
 
 			.icon-arrow,
 			.icon-tick
-				stroke: $accent
+				color: $accent
 
 			.icon-ban
-				stroke: var(--dd-col)
+				color: var(--dd-col)
 
 			&:not([disabled=disabled])
 

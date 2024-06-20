@@ -18,15 +18,16 @@ class Opti {
 	txt;
 	search;
 	searchInput;
+	dd;
 	list;
 	opts;
 
-	// ANCHOR Constructor
+	// SECTION Constructor
 
 	constructor($s, options) {
 
 		//
-		// Settings
+		// ANCHOR Settings
 		//
 
 		/* If there are no options, create an empty object
@@ -104,7 +105,7 @@ class Opti {
 
 
 		//
-		// Storage array
+		// ANCHOR Storage array
 		//
 
 		/* If this select is already instantiated as
@@ -137,7 +138,7 @@ class Opti {
 
 		
 		//
-		// Properties
+		// ANCHOR Properties
 		//
 
 		/* Store each Opti's index relative to one another
@@ -182,7 +183,7 @@ class Opti {
 
 
 		//
-		// Construct the Opti markup
+		// ANCHOR Markup construction
 		//
 
 		this.o = Opti.#buildAnOpti.bind(this)();
@@ -190,14 +191,16 @@ class Opti {
 		this.surface = this.o.find(".surface");
 		this.pht = this.surface.find(".text-ph");
 		this.txt = this.surface.find(".text-op");
+		this.taglist = this.surface.find(".text-ul");
 		this.search = this.o.find(".search");
 		this.searchInput = this.search.find("input");
+		this.dd = this.o.find(".dropdown");
 		this.list = this.o.find(".list");
 		this.opts = this.list.find("span");
 
 
 		//
-		// Placeholder text
+		// ANCHOR Placeholder text
 		//
 		
 		/* According to the setting
@@ -262,7 +265,7 @@ class Opti {
 
 		
 		//
-		// Initially-selected options
+		// ANCHOR Initially-selected options
 		//
 		
 		const $initiallySelectedOpts = this.opts.filter("[selected=selected]").not("[disabled=disabled]");
@@ -301,7 +304,7 @@ class Opti {
 
 
 		//
-		// Insertion
+		// ANCHOR Insertion
 		//
 
 		/* Hide the "real" select and stick
@@ -321,7 +324,7 @@ class Opti {
 
 
 		//
-		// Attributes
+		// ANCHOR Attributes
 		//
 
 		/* INDEX
@@ -359,10 +362,10 @@ class Opti {
 
 		
 		//
-		// Event handling
+		// SECTION Event handling
 		//
 			
-		
+		// ANCHOR Window resize - flip dropdown
 		/* Possibly flip the dropdown to the top
 		on load and window resize. See comments on
 		the orientDropdown method for details. */
@@ -376,6 +379,7 @@ class Opti {
 		);
 
 		
+		// ANCHOR Label click
 		/* Make it so clicking any labels referencing
 		the original select puts focus on the Opti's
 		surface. */
@@ -393,6 +397,15 @@ class Opti {
 		);
 
 
+		// ANCHOR Select element emergencies
+		/* These are for if the select element manages to
+		get focused and/or changed. On focus we move focus
+		to the Opti.
+		On change... Well, we do all we can to prevent this
+		but savvy users can do anything they want on the
+		front end. If the user changes it, as long as change
+		was triggered on the select, Opti will sync with it.
+		*/
 		this.s.on({
 			
 			
@@ -443,6 +456,7 @@ class Opti {
 			
 		});
 
+		// ANCHOR Dropdown activation
 		/* If the surface is clicked (or enter'd),
 		show/hide the dropdown. */
 		this.surface.on(
@@ -455,15 +469,7 @@ class Opti {
 			}
 		);
 
-		this.o.on({
-			focusin: () => {
-				self.o.addClass("focus-in");
-			},
-			focusout: () => {
-				self.o.removeClass("focus-in");
-			}
-		});
-
+		// ANCHOR Keys on surface
 		this.surface.on({
 			
 			/* If the user starts typing while the surface
@@ -718,8 +724,7 @@ class Opti {
 			}
 		});
 
-		/* Keydown in the search input that's within
-		an open Opti. */
+		// ANCHOR Keys on search input
 		this.searchInput.on({
 			keydown: e => {
 				const
@@ -905,7 +910,10 @@ class Opti {
 			}
 		});
 
-		/* Choosing/unchoosing options with mouse/touch */
+		// ANCHOR List item click
+		/* Items can also be chosen with the keyboard. See
+		the surface and search input keydown listeners -
+		the sections for the enter key. */
 		this.list.on(
 			"click",
 			"span",
@@ -915,10 +923,15 @@ class Opti {
 			}
 		);
 
-		/* Clicking on tags removes them and
-		unchooses the corresponding option
-		(assuming nothing involved is disabled). */
-		this.o.find(".surface .texts ul").on(
+		// ANCHOR Tag click
+		/* Clicking on tags removes them and unchooses the
+		corresponding option (assuming Opti isn't disabled).
+		Event delegation is nice here so we only need one
+		event listener no matter how many tags there are.
+		Plus tags come and go, so we'd have to add the
+		listener every time we make one down in the
+		chooseOption method. */
+		this.taglist.on(
 			"click",
 			".tag",
 			e => {
@@ -933,6 +946,7 @@ class Opti {
 		);
 
 
+		// ANCHOR Clear all button
 		/* This button unchooses all options that can be.
 		It works in single-select optis as well unless
 		the button is hidden with the setting. */
@@ -958,6 +972,7 @@ class Opti {
 		});
 
 
+		// ANCHOR Click on document
 		/* Whenever anything is clicked, close all the Optis except the one
 		that was clicked within if any were in fact clicked within. */
 		$(document).on(
@@ -975,9 +990,19 @@ class Opti {
 			}
 		);
 
+		// !SECTION
 
-		/*
-		Mutation observer on the select.
+
+		/* SECTION Mutation observer
+
+		These mutations aren't just edge cases. Their
+		observation is a primary feature of Opti, as it's
+		entirely reasonable to expect that developers will
+		make programmatic changes to their selects. They
+		shouldn't have to update that code to target Opti
+		instead. So this feature is worth the admittedly
+		lengthy code.
+
 		We care about the following changes:
 		- Addition of options
 		- Removal of options
@@ -991,21 +1016,20 @@ class Opti {
 		at page load (I think).
 		*/
 
-		const config = { attributes: true, childList : true, subtree : true, attributeOldValue : true };
+		const config = { attributes: true, childList: true, subtree: true, attributeOldValue: true };
 
 		const callback = (mutationList) => {
 			for (const mutation of mutationList) {
 				if (mutation.type == "attributes") {
 
 					//
-					// Attribute mutations
+					// SECTION Select attribute
 					//
 
 					if ($(mutation.target).is("select")) {
 
-						/* Change is to an attribute of the select.
-						Whether it's multiple or disabled, we
-						copy the new value over to the opti. */
+						// ANCHOR Disabled
+
 						if (mutation.attributeName == "disabled") {
 							if (self.s.attr(mutation.attributeName) != mutation.attributeName) {
 								self.o.removeAttr(mutation.attributeName);
@@ -1014,6 +1038,8 @@ class Opti {
 							}
 						}
 						
+						// ANCHOR Multiple
+
 						if (mutation.attributeName == "multiple") {
 							const
 								currentVal = self.s.val(),
@@ -1036,15 +1062,28 @@ class Opti {
 								Opti.#unchooseAfter.bind(self, callbackArgs)();
 							}
 						}
-					} else if ($(mutation.target).is("option")) {
-						/* Change is to an option in the select. */
+
+					}
+					
+					// !SECTION
+
+					// SECTION Option attribute
+
+					else if ($(mutation.target).is("option")) {
+						
+						// ANCHOR Value
+
 						if (mutation.attributeName == "value") {
 							const
 								$correspondingListItem = self.o.find(`.list span[data-value="${mutation.oldValue}"]`),
 								$correspondingTag = self.o.find(`.surface .tag[data-value="${mutation.oldValue}"]`)
 							;
 							$correspondingListItem.add($correspondingTag).attr("data-value", $(mutation.target).val());
-						} else if (mutation.attributeName == "disabled") {
+						}
+						
+						// ANCHOR Disabled
+
+						else if (mutation.attributeName == "disabled") {
 							const
 								newVal = $(mutation.target).attr("disabled") || false,
 								$correspondingListItem = self.o.find(`.list span[data-value="${$(mutation.target).val()}"]`)
@@ -1065,15 +1104,16 @@ class Opti {
 							}
 						}
 					}
+
+					// !SECTION
+
+				// SECTION Node tree modification
+
 				} else if (mutation.type == "childList") {
-					
-					//
-					// Node tree mutations
-					//
 					
 					if (mutation.addedNodes.length) {
 						
-						// Node addition
+						// ANCHOR Node insertion
 						
 						mutation.addedNodes.forEach(
 							function (currentValue) {
@@ -1141,7 +1181,7 @@ class Opti {
 						if (self.isInShortMode) self.search.hide();
 					} else if (mutation.removedNodes.length) {
 
-						// Node removal
+						// ANCHOR Node removal
 
 						mutation.removedNodes.forEach(
 							currentValue => {
@@ -1170,6 +1210,9 @@ class Opti {
 						if (!self.isInShortMode) self.search.show();
 					}
 				}
+
+				// !SECTION
+
 			}
 		};
 
@@ -1181,8 +1224,12 @@ class Opti {
 		configured mutations */
 		this.observer.observe(this.s.get(0), config);
 
+		// !SECTION
+
 
 	}
+
+	// !SECTION
 
 
 
@@ -1355,9 +1402,9 @@ class Opti {
 							.attr("disabled", dis)
 							.attr("data-value", val)
 							.html(contents)
-							.prepend($('<svg xmlns="http://www.w3.org/2000/svg" class="icon-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>'))
-							.append($('<svg xmlns="http://www.w3.org/2000/svg" class="icon-tick" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>'))
-							.append($('<svg xmlns="http://www.w3.org/2000/svg" class="icon-ban" width="15" height="12" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m4.9 4.9 14.2 14.2"/></svg>'))
+							.prepend($('<svg xmlns="http://www.w3.org/2000/svg" class="icon-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>'))
+							.append($('<svg xmlns="http://www.w3.org/2000/svg" class="icon-tick" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>'))
+							.append($('<svg xmlns="http://www.w3.org/2000/svg" class="icon-ban" width="15" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m4.9 4.9 14.2 14.2"/></svg>'))
 				;
 				return $newEle;
 			}
@@ -1451,12 +1498,6 @@ class Opti {
 
 
 	#orientDropdown () {
-		
-		const
-			$s = $(".surface", this.o),
-			$dd = $(".dropdown", this.o),
-			bottomPoint = $s.offset().top + $s.outerHeight() + $dd.outerHeight()
-		;
 
 		/* If the bottom of the Opti's dropdown would
 		extend beyond the bottom limit of the
@@ -1471,7 +1512,7 @@ class Opti {
 		blank space at the bottom of the document
 		than have part of our dropdown be
 		inaccessible in the great northern ether. */
-		if (bottomPoint > $("body").height() && $s.offset().top > $dd.outerHeight()) {
+		if (!this.#hasSpaceBelow && this.#hasSpaceAbove) {
 			this.o.addClass("flip-v");
 		} else {
 			this.o.removeClass("flip-v");
@@ -1481,20 +1522,42 @@ class Opti {
 
 
 
+
+	get #hasSpaceBelow () {
+		const
+			bodyHeight = $("body").height(),
+			surfaceOffset = this.surface.offset().top,
+			surfaceHeight = this.surface.outerHeight(),
+			dropdownHeight = this.dd.outerHeight(),
+			bottomEdgeY = surfaceOffset + surfaceHeight + dropdownHeight
+		;
+
+		return bottomEdgeY <= bodyHeight;
+	}
+
+
+
+
+	get #hasSpaceAbove () {
+		return this.surface.offset().top >= this.dd.outerHeight()
+	}
+
+
+
+
 	// ANCHOR Searching
 
 
-	/* Search and filter the list of options
-	based on the string argument. This
-	search is case-insensitive.
-	Note: :containsis() is not a native
-	jQuery selector but is our own
-	case-insensitive version of
-	:contains(). It's below. */
+	/* Search and filter the list of options based on the
+	string argument. This search is not case sensitive.
+	* NOTE - :containsis() is not a native jQuery selector
+	but is our own case-insensitive version of :contains()
+	(defined below). */
 	#searchMenu (string) {
 
 		const
 			$spans = $(".list span", this.o),
+			$sects = this.list.find("section"),
 			filterSelector = ":containsis(" + string + ")",
 			$matches = $spans.filter(filterSelector)
 		;
@@ -1502,22 +1565,19 @@ class Opti {
 		this.#unsearchMenu();
 		$spans.filter(".fakefocus").removeClass("fakefocus");
 
-		/* Hide options that don't match and
-		sections with none that match */
+		/* Hide options that don't match and sections with
+		none that match */
 		$spans.not($matches)
-				.add($(".list section", this.o).not($matches.parents()))
+				.add($sects).not($matches.parents())
 				.addClass("opti-hidden")
 		;
 
-		/* If focused on the search box, fake
-		focus on the first match. This way
-		the user can just type and hit tab
-		or enter to choose the first match.
-		This mimics the ease with which you
-		can search + choose in a native
-		select in which you can just type
-		and the match is automatically
-		chosen. */
+		/* If focused on the search box, fake focus on the
+		first match. This way the user can just type and hit
+		tab or enter to choose the first match. This mimics
+		the ease with which you can search + choose in a
+		native select in which you can just type without
+		opening it and the match is automatically chosen. */
 		const $focusableSpans = $spans.not(".opti-hidden,[disabled=disabled]");
 		if (this.o.find(".search input").is(":focus") && $focusableSpans.length) $focusableSpans.first().addClass("fakefocus");
 
@@ -1567,22 +1627,21 @@ class Opti {
 
 	*/
 	chooseOption (vals, setFocus, noFadeOut = false, noFadeIn = false) {
-		
+
 		/* Keep a reference to the root class
 		for use within closures where the
 		meaning of the "this" keyword
 		changes. */
 		const
 			self = this,
-			$txt = this.o.find(".surface .texts .text-op"),
 			wasPlaceholder = this.isPlaceholder
 		;
-		
+
 		/* Initialize a jQuery object that will
 		contain the elements representing
 		the target values. */
 		let $options = $();
-		
+
 		/* Determine what was passed to us in the
 		vals argument and build a jQuery object
 		of the target option elements
@@ -1609,16 +1668,20 @@ class Opti {
 
 		if ($options.length) {
 
+			/* Why WAS blank? We use it later after that has
+			changed (based on the val of the select which is
+			set right below this), but still need to know
+			what state we came from to know whether and what
+			to fade. */
+			const wasBlank = this.isBlank;
+
 			// This method has a check for whether it's
 			// currently placeholder, so we don't need one
 			// here.
 			Opti.#unchoosePlaceholderOption.bind(self)();
 
-			const
-				wasBlank = this.isBlank
-			;
+			// Multiple-select Optis - Set value in select
 
-			// Multiple-select Optis
 			if (this.s.is("[multiple=multiple]")) {
 
 				$options.each(
@@ -1643,9 +1706,12 @@ class Opti {
 						);
 					}
 				);
-			} else {
+			}
+			
+			// Single-select Optis - Set value in select
+
+			else {
 				
-				/* Set the value in the select. */
 				self.s.val($option.attr("data-value"));
 				
 				/* Move the class that highlights the
@@ -1671,26 +1737,78 @@ class Opti {
 				}
 			;
 
-			if (wasPlaceholder && !noFadeOut) {
+			if (wasBlank || noFadeOut || this.o.is("[multiple=multiple]")) {
 
-				self.#fadeOut.bind(self)(self.pht, Opti.#chooseAfter.bind(self, fadeOutCallbackArgs, true), false);
+				/* No fade out. Immediately call the method that
+				otherwise goes into unchoose's callback.
+				Either we're... 
+				* Coming from blank (so there is nothing to fade
+				out)
+				* Deliberately supressing the fadeout via an arg
+				* In multiple mode in which case choosing an
+				option doesn't unchoose anything so we don't 
+				need to fade out. */
 
-			} else if (wasBlank || noFadeOut || self.o.is("[multiple=multiple]")) {
-
-				Opti.#chooseAfter.bind(self)(fadeOutCallbackArgs, true);
+				Opti.#chooseAfter.bind(this)(fadeOutCallbackArgs);
 
 			} else {
 
-				self.#fadeOut.bind(self)($txt, Opti.#chooseAfter.bind(self, fadeOutCallbackArgs), false);
+				/* We're fading something out:
+				Placeholder if we were on it, otherwise the
+				option text because we are going from one
+				choice to another. */
+
+				const $fadeOutTarget = wasPlaceholder && !noFadeOut ? this.pht : this.txt;
+
+				this.#fadeOut.bind(this)($fadeOutTarget, Opti.#chooseAfter.bind(this, fadeOutCallbackArgs), false);
 
 			}
+
+			// if (wasPlaceholder && !noFadeOut) {
+
+			// 	/* Coming from the placeholder and we're not
+			// 	supressing fade out, so fade-out the ph
+			// 	and inject the fade-in into its callback. */
+
+			// 	$fadeOutTarget = this.pht;
+
+			// 	// this.#fadeOut.bind(this)(this.pht, Opti.#chooseAfter.bind(this, fadeOutCallbackArgs), false);
+
+			// } else if (wasBlank || noFadeOut || this.o.is("[multiple=multiple]")) {
+
+			// 	/* No fade out. Immediately call the method
+			// 	that otherwise goes into unchoose's callback.
+			// 	Either we're... 
+			// 	* Coming from blank (so there is nothing to
+			// 	fade out)
+			// 	* Deliberately supressing the fade via an arg
+			// 	* In multiple mode in which case choosing an
+			// 	option doesn't unchoose anything so we don't
+			// 	need to fade out. */
+
+			// 	Opti.#chooseAfter.bind(this)(fadeOutCallbackArgs);
+
+			// } else {
+
+			// 	/* Already had a value
+			// 	(Also, is single-select and fade out is not
+			// 	supressed.)
+			// 	Fade out the option text, change it, then
+			// 	fade it back in.
+			// 	Notice the first if clause here targets the
+			// 	placeholder text for fading out while this
+			// 	one targets the option text. */
+
+			// 	this.#fadeOut.bind(this)(this.txt, Opti.#chooseAfter.bind(this, fadeOutCallbackArgs), false);
+
+			// }
 		}
 	}
 
 
 
 
-	static #chooseAfter (args, removeZeroState) {
+	static #chooseAfter (args) {
 
 		
 		const
@@ -1698,9 +1816,7 @@ class Opti {
 			$option = args.$options.first()
 		;
 
-		if (removeZeroState) {
-			self.o.removeClass("zerostate");
-		}
+		this.o.removeClass("zerostate");
 
 		args.$options.each(
 			(i, v) => {
@@ -1719,7 +1835,7 @@ class Opti {
 					let $newTag = $("<li/>")
 							.addClass("tag")
 							.attr("data-value", $(v).attr("data-value"))
-							.append('<svg class="icon-ex" height="7px" width="7px" stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" viewBox="0 0 7 7" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" stroke="#000000" stroke-width="1"><path d="M6.5 0.5L0.5 6.5" fill="none" opacity="1" stroke-linecap="round" stroke-linejoin="round"/><path d="M0.5 0.5L6.5 6.5" fill="none" opacity="1" stroke-linecap="round" stroke-linejoin="round"/></svg>')
+							.append('<svg class="icon-ex" height="7px" width="7px" stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" viewBox="0 0 7 7" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" stroke="currentColor" stroke-width="1"><path d="M6.5 0.5L0.5 6.5" fill="none" opacity="1" stroke-linecap="round" stroke-linejoin="round"/><path d="M0.5 0.5L6.5 6.5" fill="none" opacity="1" stroke-linecap="round" stroke-linejoin="round"/></svg>')
 							.append($('<span/>').addClass("tag-text").text($(v).text()))
 					;
 
@@ -1736,13 +1852,30 @@ class Opti {
 
 					if (!args.noFadeIn) {
 
+						/* NOTE - .pre-initial sets the tag
+						to its visible state with no trans
+						so that it can be measured.
+						We briefly overlap that class and
+						.initial to prevent the tag from
+						transitioning out when we remove
+						.pre-initial, which we do next. */
+
 						$newTag.addClass("pre-initial");
-						const actualWidth = $newTag.outerWidth();
-						const actualHeight = $newTag.outerHeight();
+						const
+							actualWidth = $newTag.outerWidth(),
+							actualHeight = $newTag.outerHeight()
+						;
 						$newTag.addClass("initial");
 						$newTag.removeClass("pre-initial");
 
 						$newTag.outerHeight();
+
+						/* NOTE - The measurements we took
+						above are for essentially being able
+						to transition to auto width and
+						height. It needs a fixed measurement
+						to transition to, so we use its own
+						width that we got above. */
 
 						$newTag.css(
 							{
@@ -1754,6 +1887,10 @@ class Opti {
 
 						$newTag.outerHeight();
 
+						/* Once the transition has ended we
+						will no longer need the inline
+						styles. */
+
 						$newTag.on(
 							"transitionend",
 							function (e) {
@@ -1762,7 +1899,10 @@ class Opti {
 								}
 							}
 						);
-						
+
+						/* Removing the initial class starts
+						the transition toward on state. */
+
 						$newTag.removeClass("initial");
 					}
 
@@ -1772,48 +1912,49 @@ class Opti {
 		);
 
 		// Multiple-select Optis
+
 		if (self.o.is("[multiple=multiple]")) {
 
-			/* Highlight the newly selected
-			options in the list to show
-			they are chosen. */
+			/* Highlight the newly selected options in the
+			list to show they are chosen. */
 			args.$options.addClass("selected");
 
-			/* Clear the search box and trigger
-			change event so it unsearches. */
+			/* Clear the search box and trigger change event
+			so it unsearches. */
 			self.o.find(".search input").val(null).trigger("change");
 
 			if (args.setFocus) {
 				const $focusTarget = self.isInShortMode && self.search.is(":hidden") ? self.surface : self.searchInput;
 				$focusTarget.trigger("focus");
 			}
+
 		}
 
 		// Single-select Opti
-		else {
-			
-			const $optParent = $option.parent();
 
-			/* Set the text of the Opti's surface to
-			be the same as the chosen option's. */
+		else {
+
+			/* Set the text of the Opti's surface to be the
+			same as the chosen option's. */
 			self.o.find(".surface .text-op").text($option.text());
 
+			/* Add the optgroup's label before the option
+			text if applicable. */
+			const $optParent = $option.parent();
 			if ($optParent.is("section:not(.list)")) {
-				self.o.find(".surface .text-op").prepend(`<span class="text-grp">${$optParent.find("h5").text()}</span>`);
+				const grpLabel = $optParent.find("h5").first().text();
+				self.txt.prepend(`<span class="text-grp">${grpLabel}</span>`);
 			}
 
 		}
 
-		/* Fire a change event on the select as
-		this doesn't happen automatically upon
-		programmatic change of a form input's
-		value.
-		Let's fire one on the Opti too so it
-		feels like a real boy.
-		We use an event namespace so we can
-		differentiate between Opti-induced
-		changes and changes that happen
-		external to Opti. */
+		/* Fire a change event on the select as this doesn't
+		happen automatically upon programmatic change of a
+		form input's value.
+		The extra parameter for .trigger() tells Opti to
+		ignore this change. (Normally Opti watches and 
+		matches changes to its select which would create an
+		infinite loop here.) */
 		self.s.add(self.o).trigger("change", true);
 		
 	}
@@ -1821,39 +1962,56 @@ class Opti {
 
 
 
-	/* "Un-chooses" an option from a
-	multi-choice Opti, which means it...
-	...sets the value of the select
-	element (which will be the old
-	array with the target option value
-	spliced out).
-	...removes the surface tag that
-	represents the chosen option.
+	/* 
+	
+	"Un-chooses" an option, which means it...
+	* ... sets the value of the select element.
+	* ... removes the surface tag that represents the chosen
+	option.
 
-	In its dataValue argument, this method
-	expects a string equal to the value of
-	the option being unchosen. If a true
-	boolean (not just something truthy) is
-	passed in, all options will be
-	un-chosen. */
+	For flexibility's sake, the vals argument can be several
+	types:
+	* The VALUE of the option being unchosen as a STRING
+	* An ARRAY of such strings
+	* A jQuery object of the actual Opti list elements
+	We usually use the last method, but it's easier to use
+	the string or array of strings if we're updating the
+	Opti from the select's val which is of those types.
+	
+	Arguments:
+	* vals: See above
+	* callback: A function to execute after the elements
+	have faded out (sometimes we then immediately choose an
+	option)
+	* callbackArgs: Object - Some info the above callback
+	might need
+	* focusTarget: jQuery object, false - What to focus on
+	after unchoosing (usually the surface or nothing)
+	* dontUpdateSelect: Bool - Don't change the vals in the
+	select element, just do so in the Opti. This is mostly
+	for when the select element's val is changed
+	independently from the Opti. In that case the Opti is
+	matching the select rather than the other way around.
+	* noFade: Bool - Whether to fade out or just remove
+	immediately.
+	
+	*/
 	unchooseOption (vals, callback, callbackArgs, focusTarget, dontUpdateSelect, noFade = false) {
 
 		const
 			
-			/* Keep a reference to the root class
-			for use within closures where the
-			meaning of the "this" keyword
-			changes. */
+			/* Keep a reference to the root class for use
+			within closures where the meaning of the "this"
+			keyword changes. */
 			self = this,
 
 			oIsMulti = this.o.is("[multiple=multiple]"),
 			sIsMulti = this.s.is("[multiple=multiple]")
 		;
 		
-		/* Determine what was passed to us in the
-		vals argument and build a jQuery object
-		of the target option elements
-		accordingly. */
+		/* Determine what was passed to us in the vals
+		argument and build a jQuery object of the target
+		option elements accordingly. */
 		let $options = $();
 		if (Array.isArray(vals)) {
 			/* An array of values was passed in. */
@@ -1873,8 +2031,8 @@ class Opti {
 		}
 		if (!dontUpdateSelect) $options = $options.filter(".selected");
 
-		/* Remove the selected class from the
-		un-chosen options. */
+		/* Remove the selected class from the un-chosen
+		options. */
 		$options.removeClass("selected");
 		
 		if (!dontUpdateSelect) {
@@ -1957,20 +2115,30 @@ class Opti {
 
 
 
+	/* Sometimes used as the callback of unchoose() - 
+	Mostly in the mutation observer in the constructor. */
+
 	static #unchooseAfter (args) {
 
 		const self = this;
+
+		// REVIEW - Why am I doing this?
 		if (self.s.attr("multiple") != "multiple") {
 			self.o.removeAttr("multiple");
 		} else {
 			self.o.attr("multiple", "multiple");
 		}
+
 		if (args.$targetOpt.length) {
 			self.chooseOption(args.$targetOpt, false, true);
 		} else {
 			if (self.isBlank && !self.placeholderTextEnabled && self.settings.firstOptDefault && args.$nonDisabledOpts.length) {
+				/* If we're now blank, choose the first opt
+				if that option is enabled. */
 				self.chooseOption(args.$nonDisabledOpts.first(), false);
 			} else {
+				/* If that option isn't enabled, we're just
+				staying blank. */
 				self.handleZeroStateText();
 			}
 		}
@@ -1979,7 +2147,8 @@ class Opti {
 
 
 
-	// Figure out what to do when an option is chosen.
+	// Figure out what to do when an option is clicked on or
+	// chosen with keyboard.
 
 	#selectionAction ($t) {
 
@@ -2005,14 +2174,15 @@ class Opti {
 					const $focusTarget = this.isInShortMode ? this.o.find(".surface") : this.o.find(".search input");
 					this.unchooseOption($t, $focusTarget);
 				}
-				/* (We're not allowing un-choosing in a single-select Opti.
-				Instead just close the menu and let the user think
-				they chose the option that was already chosen.) */
+				/* (We're not un-choosing when single-select.
+				Instead just close the menu and let the user
+				think they chose the option that was already
+				chosen.) */
 				else this.hideMenu();
 			}
 
-			/* If the clicked option is not selected, select it
-			no matter what kind of Opti this is. */
+			/* If the clicked option is not selected, select
+			it no matter what kind of Opti this is. */
 			else this.chooseOption($t, true);
 
 		}
@@ -2022,12 +2192,12 @@ class Opti {
 
 
 
+	/* If ufoap, set the select's val to the previously
+	stored placeholder value. This is slightly different
+	between multi- and single-select Optis. */
+
 	#choosePlaceholderOption () {
 
-		/* If ufoap, set the select's val to the
-		previously stored placeholder value.
-		This is slightly different between multi-
-		and single-select Optis. */
 		if (this.getUFOAP) {
 
 			if (this.o.is("[multiple=multiple]")) this.s.val([this.placeholderValue]);

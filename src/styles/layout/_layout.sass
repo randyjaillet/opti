@@ -194,23 +194,27 @@
 	
 	// ANCHOR List item icons
 
-	.icon-arrow,
-	.icon-tick
-		display: inline-flex
-		width: 0
-		height: 0
-		margin-left: 0
+	.list-item
+
+		.icon-arrow,
+		.icon-tick
+			display: inline-flex
+			width: 0
+			height: 0
+			margin-left: 0
 
 	&:not([disabled=disabled])
 
-		&.fakefocus .icon-arrow,
-		&.selected .icon-tick
-			$size: 16px
-			width: $size
-			height: $size
+		.list-item
 
-		&.fakefocus .icon-arrow
-			margin-left: -10px
+			&.fakefocus .icon-arrow,
+			&.selected .icon-tick
+				$size: 16px
+				width: $size
+				height: $size
 
-		.list-item[disabled=disabled] .icon-ban
-			display: inline-flex
+			&.fakefocus .icon-arrow
+				margin-left: -10px
+
+			.list-item[disabled=disabled] .icon-ban
+				display: inline-flex

@@ -6,7 +6,7 @@
 
 .opti[data-theme=glossy][data-scheme=dark]
 	--surface-bg: transparent
-	--tag-bg: #373737
+	--tag-bg: transparent
 	--tag-shadows: 0 1px 0 rgba(255, 255, 255, .1), inset 0 1px 0 rgba(0, 0, 0, .3)
 	--surface-shadow-decl: inset 0 1px rgba(255, 255, 255, .07), #{$shadowScreenTransp}, 0 1px 4px rgba(0, 0, 0, .5)
 
@@ -26,7 +26,7 @@
 				--surface-bg: transparent
 				background:
 					image: $radialAccent, $linearAccentBounce
-			
+
 			&:before
 				content: ''
 				position: absolute
@@ -41,7 +41,7 @@
 				border-radius: $radius
 
 			.texts,
-			ul,
+			.text-ul,
 			> svg.icon-ex-surf
 				z-index: 1
 
@@ -97,7 +97,7 @@
 				border-radius: $radius
 
 			.texts,
-			ul,
+			.text-ul,
 			> svg.icon-ex-surf
 				z-index: 1
 
