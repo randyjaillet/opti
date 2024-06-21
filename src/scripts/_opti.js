@@ -119,7 +119,7 @@ class Opti {
 
 		$.each(
 			window.optis,
-			(i, v) => {
+			(_i, v) => {
 				v && v.s.is($s) && (alreadyInstantiatedIndex = $.inArray(v, window.optis));
 			}
 		);
@@ -364,6 +364,8 @@ class Opti {
 		//
 		// SECTION Event handling
 		//
+		// TODO Namespace these! Remember to add the
+		// namespaces in destroy() as well.
 			
 		// ANCHOR Window resize - flip dropdown
 		/* Possibly flip the dropdown to the top
