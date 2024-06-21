@@ -23,14 +23,14 @@ $dur: .2s
 // ANCHOR Surface
 //
 
-$vertPad: round(6px * $oscale)
-$leftPad: round($vertPad * 1.5)
-$rightPad: round($vertPad * 1.5)
-$pad: $vertPad $rightPad $vertPad $leftPad
-$fontSize: round(14px * $oscale)
-$leading: round(19px * $oscale)
-$mh: $vertPad * 2 + $leading
-$radius: round(7px * $oscale)
+$vertPad  : round(6px * $oscale)
+$leftPad  : round($vertPad * 1.5)
+$rightPad : round($vertPad * 1.5)
+$pad      : $vertPad $rightPad $vertPad $leftPad
+$fontSize : round(14px * $oscale)
+$leading  : round(19px * $oscale)
+$mh       : $vertPad * 2 + $leading
+$radius   : round(7px * $oscale)
 
 //
 // ANCHOR Search
@@ -42,14 +42,14 @@ $marginsXSearch: round(-8px * $oscale)
 // ANCHOR Tags
 //
 
-$tagVertPad: round(5px * $oscale)
-$tagHorzPad: round(5px * $oscale)
-$tagBGSize: round(7px * $oscale)
-$tagMarg: round(2px * $oscale)
-$tagFontSize: round(11px * $oscale)
-$tagLeading: $leading - 2px
-$tagRadius: round(3px * $oscale)
-$iconstrokewidth: .6px
+$tagVertPad      : round(5px  * $oscale)
+$tagHorzPad      : round(5px  * $oscale)
+$tagBGSize       : round(7px  * $oscale)
+$tagMarg         : round(2px  * $oscale)
+$tagFontSize     : round(11px * $oscale)
+$tagRadius       : round(3px  * $oscale)
+$tagLeading      : $leading - 2px
+$iconstrokewidth : .6px
 
 // !SECTION
 
@@ -94,10 +94,10 @@ $shadowScreenTransp: 0 0 0 500vw transparent
 //
 
 $accent: #447abb
-$accent-light: scale($accent, $lightness: 60%)
-$accent-lighter: scale($accent-light, $lightness: 75%)
-$accent-dark: scale($accent, $lightness: -60%)
-$accent-darker: scale($accent-dark, $lightness: -75%)
+$accent-light   : scale($accent,       $lightness: 50%, $saturation: 25%)
+$accent-lighter : scale($accent-light, $lightness: 75%, $saturation: 25%)
+$accent-dark    : scale($accent,       $lightness: -60%)
+$accent-darker  : scale($accent-dark,  $lightness: -75%)
 
 
 //

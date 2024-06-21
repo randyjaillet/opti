@@ -116,7 +116,7 @@ class Opti {
 		Otherwise, push it as a new one onto the
 		end of the array. */
 		let alreadyInstantiatedIndex = -1;
-		
+
 		$.each(
 			window.optis,
 			(i, v) => {
@@ -1124,11 +1124,15 @@ class Opti {
 									$addedNodeParent = $addedNode.parent(),
 									optAddedToOptgroup = $addedNodeParent.is("optgroup")
 								;
+
+								// Optgroup
+
 								if (addedNodeIsOptgroup) {
-									$addedNode.attr("data-groupindex", () => self.groupCount++);
+									$addedNode.add($newTree).attr("data-groupindex", () => self.groupCount);
+									self.groupCount++;
 									const
 										$sValidAll = self.s.children(`option:not([value="${self.placeholderValue}"]), optgroup`),
-										$oValidAll = self.list.children(`span, section`),
+										$oValidAll = self.list.children(`.list-item, section`),
 										ind = $sValidAll.index($addedNode) - 1
 									;
 									if (ind == -1) {
@@ -1139,7 +1143,11 @@ class Opti {
 										;
 										$newTree.insertAfter($listItemAtInd)
 									}
-								} else {
+								} 
+								
+								// Option
+								
+								else {
 									if ($addedNode.is(":first-child")) {
 										if (optAddedToOptgroup) {
 											const
@@ -1186,13 +1194,16 @@ class Opti {
 						mutation.removedNodes.forEach(
 							currentValue => {
 								const
-									removedNodeIsOpt = $(currentValue).is("option"), removedNodeIsOptgroup = $(currentValue).is("optgroup"), $selectedOptsToUnchoose = $(currentValue).find(":selected").addBack(":selected");
+									removedNodeIsOpt = $(currentValue).is("option"),
+									removedNodeIsOptgroup = $(currentValue).is("optgroup"),
+									$selectedOptsToUnchoose = $(currentValue).find(":selected").addBack(":selected")
+								;
 								let $nukeTarget;
 								if (removedNodeIsOpt) {
-									$nukeTarget = self.o.find(`.list [data-value="${$(currentValue).val()}"]`);
+									$nukeTarget = self.o.find(`.list-item[data-value="${$(currentValue).val()}"]`);
 								} else if (removedNodeIsOptgroup) {
 									const opGrpInd = $(currentValue).attr("data-groupindex");
-									$nukeTarget = self.o.find(`.list section[data-groupindex=${opGrpInd}]`);
+									$nukeTarget = self.o.find(`.list-group[data-groupindex=${opGrpInd}]`);
 								}
 								if ($selectedOptsToUnchoose.length) {
 									let $listItemTargets = $();
@@ -1380,6 +1391,7 @@ class Opti {
 					lab = $(this).attr("label"),
 					contents = $(this).html(),
 					$newEle = $("<section/>")
+							.addClass("list-group")
 							.attr("data-groupindex", $(this).attr("data-groupindex"))
 							.html(contents)
 							.prepend(`<h5>${lab}</h5>`)
@@ -2122,12 +2134,15 @@ class Opti {
 
 		const self = this;
 
+
 		// REVIEW - Why am I doing this?
 		if (self.s.attr("multiple") != "multiple") {
 			self.o.removeAttr("multiple");
 		} else {
 			self.o.attr("multiple", "multiple");
 		}
+
+
 
 		if (args.$targetOpt.length) {
 			self.chooseOption(args.$targetOpt, false, true);

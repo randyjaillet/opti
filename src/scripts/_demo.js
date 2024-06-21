@@ -91,7 +91,7 @@ $("#doit1").on(
 						break;
 
 					case "optgroup":
-						$demo.append(addOptgroup());
+						$demo.append(addOptgroup().append(addOption()));
 						break;
 
 					case "optgroupOpt":
@@ -111,7 +111,7 @@ $("#doit1").on(
 						break;
 
 					case "optgroup":
-						$demo.prepend(addOptgroup());
+						$demo.prepend(addOptgroup().append(addOption()));
 						break;
 
 					case "optgroupOpt":

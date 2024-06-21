@@ -61,7 +61,7 @@
 //
 
 .opti[data-theme=glossy][data-scheme=light]
-	--surface-bg: transparent
+	--surface-bg: rgba(255, 255, 255, .2)
 	--tag-bg: rgba(0, 0, 0, .03)
 	--tag-shadows: 0 1px 0 rgba(255, 255, 255, .3), inset 0 1px 0 rgba(0, 0, 0, .07)
 	--surface-shadow-decl: inset 0 1px rgba(255, 255, 255, .3), #{$shadowScreenTransp}, 0 1px 3px rgba(0, 0, 0, .1)
@@ -72,15 +72,15 @@
 		$radialWhite: radial-gradient(150% 110% at center top, rgba(white, .6) 50%, transparent 50%)
 		$linearWhite: linear-gradient(rgba(white, .9) 50%, rgba(black, .05) 50%)
 		$linearWhiteBounce: linear-gradient(transparent 60%, rgba(white, .2))
-		$radialAccent: radial-gradient(rgba($accent-light, .55), transparent 80%)
-		$linearAccentBounce: linear-gradient(transparent 70%, rgba($accent, .1))
+		$radialAccent: radial-gradient(rgba($accent-light, .5), transparent 80%)
+		$linearAccentBounce: linear-gradient(transparent 70%, rgba($accent-light, .5))
 
 		.surface
 			-webkit-box-reflect: below 5px linear-gradient(transparent, rgba(white, .15) 50%, rgba(white, .5))
 
 			&:hover,
 			&:focus
-				--surface-bg: transparent
+				--surface-bg: rgba(255, 255, 255, .2)
 				background:
 					image: $radialAccent, $linearAccentBounce
 			
