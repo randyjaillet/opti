@@ -2523,7 +2523,7 @@ $.fn.opti = function (options) {
 				attrSettsAsJSON = attrSetts && typeof attrSetts == "string" ? JSON.parse(attrSetts) : attrSetts
 			;
 			
-			$.extend(options, attrSettsAsJSON);
+			$.extend(attrSettsAsJSON, options);
 
 			new Opti($(this), options);
 
