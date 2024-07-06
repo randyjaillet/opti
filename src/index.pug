@@ -23,7 +23,7 @@ html
 			main
 
 				h1 Opti Select Interface
-				p(class="bigtext") Opti augments standard select elements with searchable, easily styleable, custom interfaces.
+				p.bigtext Opti augments standard select elements with searchable, easily styleable, custom interfaces.
 				p Select elements are weird. They are notoriously difficult to style consistently across browsers, their search capabilities are inadequate when they contain many options, and the average user doesn't know how to use them in "multiple" mode.
 				p Opti endeavors to remedy this situation.
 				
@@ -70,9 +70,9 @@ html
 
 				h3 Window Array of Optis
 				p Each time the Opti class is instantiated, the new instance gets pushed onto an #[code optis] array on window. If you know the Opti's index, you can access it this way (and every Opti element has a #[code data-opti-index] attribute with a value of its index in this array).
-				div(class="example")
+				div.example
 					p To access the #[code destroy] method of the first Opti that was instantiated, you might use:
-					code(class="codeblock") window.optis[0].destroy()
+					code.codeblock window.optis[0].destroy()
 
 				h2 Instantiation
 				
@@ -94,10 +94,10 @@ html
 				p There are several ways to instantiate an Opti and several ways to set its settings.
 				p You can use the #[code new] keyword to instantiate the #[code Opti] class, passing a jQuery object containing the corresponding select element as the first argument. There is also a jQuery plugin (#[code opti]) that works on select elements. Finally, if a select has a #[code data-opti] attribute, it will be automatically instantiated.
 				p You can pass an object of options to the jQuery plugin as an argument (priority 1) or include JSON in a #[code data-opti-options] attribute on the select element (priority 2). Otherwise it uses defaults (priority 3). If you use multiple methods, it will use extend to merge the options, with the higher priority sources taking precedence.
-				p(class="example")
-					code(class="codeblock") new Opti($("#myselect"), {classes : "foo bar"})
-					code(class="codeblock") $("#myselect").opti({classes : "foo bar"})
-					code(class="codeblock") &lt;select data-opti data-opti-options='{classes : "foo bar"}'&gt;
+				p.example
+					code.codeblock new Opti($("#myselect"), {classes : "foo bar"})
+					code.codeblock $("#myselect").opti({classes : "foo bar"})
+					code.codeblock &lt;select data-opti data-opti-options='{classes : "foo bar"}'&gt;
 				
 				h2 Methods
 				p Opti has the following methods:

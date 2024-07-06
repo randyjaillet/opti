@@ -1,33 +1,33 @@
-section(id="control-frame")
+section#control-frame
 	div
 		div
 			h3 Mutations Sandbox
 			p None of these controls modify the demo Opti directly. It uses mutation observers to stay synched with its #[code select].
 			h5 Modify node list:
-			div(class="flexit faintbox")
-				select(id="control-append" data-theme="minimal" data-scheme="light")
+			div.flexit.faintbox
+				select#control-append" data-theme="minimal" data-scheme="light
 					option(value="append") Append
 					option(value="prepend") Prepend
 					option(value="rmvLast") Remove last
 					option(value="rmvFirst") Remove first
-				select(id="control-append-what" data-theme="minimal" data-scheme="light")
+				select#control-append-what" data-theme="minimal" data-scheme="light
 					option(value="opt") Option
 					option(value="optgroup") Optgroup
 					option(value="optgroupOpt") Opt in last group
-				button(id="doit1") Apply
-			div(class="flexit faintbox")
-				button(id="insertoptrandomly") Insert option randomly
+				button#doit1 Apply
+			div.flexit.faintbox
+				button#insertoptrandomly Insert option randomly
 		div
 			h5 Toggle attribute:
-			div(class="flexit faintbox")
+			div.flexit.faintbox
 				span Select:
-				button(id="togglemultiselect") Multiple
-				button(id="toggledisabselect") Disabled
-			div(class="flexit faintbox")
+				button#togglemultiselect Multiple
+				button#toggledisabselect Disabled
+			div.flexit.faintbox
 				span Option 2:
-				button(id="toggledisabopt") Disabled
+				button#toggledisabopt Disabled
 	div
 		h3 Destroy/Instantiate:
-		div(class="flexit faintbox")
-			button(id="destroy") Destroy
-			button(id="reinst") Reinstantiate
+		div.flexit.faintbox
+			button#destroy Destroy
+			button#reinst Reinstantiate
