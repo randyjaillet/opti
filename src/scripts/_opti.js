@@ -360,7 +360,17 @@ class Opti {
 		Make it so the Opti can't be tabbbed
 		to if it's disabled.
 		*/
-		if (this.o.prop("disabled")) this.surface.attr("tabindex","-1");
+		if (this.o.is("[disabled]")) this.surface.attr("tabindex","-1");
+
+		/*
+		CLASSES
+		*/
+		const
+			sClasses = this.s.attr("class"),
+			classRegex = / ?opti-hidden/i,
+			classesToApply = sClasses.replace(classRegex, "")
+		;
+		this.o.addClass(classesToApply);
 
 		
 		//

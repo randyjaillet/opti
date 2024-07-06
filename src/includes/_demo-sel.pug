@@ -6,7 +6,7 @@ section#demo-frame
 			path(d="M12 4v4")
 			path(d="M10 4h4")
 		span Opti
-	select#demo
+	select#demo.custom-class
 		option(value="0") Choose foods
 		option(value="1") Bread
 		optgroup(label="Fruits")
@@ -32,7 +32,7 @@ section#demo-frame
 		div
 			label
 				| Theme:
-				select#theme-switch" data-theme="minimal
+				select#theme-switch(data-theme="minimal")
 					option(value="glossy") Glossy
 					option(value="gradated") Gradated
 					option(value="standard") Standard
