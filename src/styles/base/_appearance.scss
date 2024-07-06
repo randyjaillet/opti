@@ -1,0 +1,255 @@
+@use '../abstracts' as *;
+
+.opti {
+
+	.surface {
+		stroke-width: $iconstrokewidth;
+		box-shadow: var(--surface-shadow-decl);
+	}
+
+	&[disabled=disabled] .surface {
+		cursor: not-allowed;
+		background-color: transparent;
+		background-image: none;
+		box-shadow: none;
+		border: none;
+	}
+
+	.texts {
+		&:has( > .fadingOut),
+		&:has(.tag):not(:has(.tag:not(.fadingOut))) {
+			transform: translate(-5px, 0);
+		}
+	}
+
+	.text-grp,
+	.text-ph {
+		opacity: .35;
+	}
+
+	.text-op {
+		opacity: 1;
+	}
+
+	.text-ul {
+		list-style: none;
+	}
+
+
+	.text-ul {
+		font-size: $tagFontSize;
+	}
+	
+	.tag {
+		background-color: var(--tag-bg);
+		color: var(--text-col);
+		list-style: none;
+		opacity: 0;
+		text-decoration: none;
+	}
+
+	.tag-text {
+		@include ellipsis();
+		line-height: $tagLeading;
+	}
+
+	&:not([multiple=multiple]) .tag {
+		opacity: 0;
+	}
+	&[multiple=multiple] .text-ul:not(:empty) .tag {
+		opacity: 1;
+	}
+	
+	.icon-ex {
+		stroke-width: $iconstrokewidth;
+	}
+
+	.surface > svg {
+		stroke-width: 1px;
+	}
+
+	.surface > .icon-ban-surf {
+		stroke-width: 1.2px;
+	}
+
+	.surface > .icon-ex-surf {
+		stroke-width: .7px;
+		border-radius: 50%;
+	}
+
+	.dropdown {
+		transform: translateY(5px);
+		opacity: 0;
+	}
+
+	&:is(.activated, .activatedLocked) {
+		--surface-bg: rgba(238, 238, 238, .95);
+		--surface-shadow-decl: #{$shadowScreenLight};
+		
+		.dropdown {
+			opacity: 1;
+			transform: translateY(0);
+		}
+		
+		.list {
+			transform: translateY(0);
+		
+		}
+	}
+
+	.search {
+		background-color: var(--dd-bg);
+	}
+	&.flip-v .search {
+		transform: translateY(0);
+	}
+
+	.list {
+		transform: translateY(10px);
+		background-color: var(--dd-bg);
+
+		.list-item {
+			list-style: none;
+			cursor: pointer;
+
+			svg {
+				stroke-width: 1px;
+			}
+
+			&[disabled=disabled] {
+				cursor: not-allowed;
+				opacity: .7;
+			}
+
+		}
+
+	}
+
+	&.flip-v {
+		.list {
+			transform: translateY(-5px);
+		}
+		&.activated,
+		&.activatedLocked {
+			.dropdown,
+			.list {
+				transform: translateY(0);
+			}
+		}
+	}
+
+}
+
+
+// SECTION Transitions
+
+// Instances where we delay a transition that has 0s duration
+// is a way to delay that property's change until after the
+// other properties have finished transitioning. For example,
+// off states often hide the element with width or left, but
+// that shouldn't happen until after opacity finishes—else we
+// won't see opacity's transition.
+
+.opti {
+	// ANCHOR Defaults for everything
+
+	* {
+		transition-duration: $dur;
+		transition-timing-function: linear;
+	}
+
+	// SECTION States
+
+	// ANCHOR Default/both states
+
+	// Surface default state: transition everything
+	.surface {
+		transition-property: all;
+	}
+	// Only transition the subtle translateX effect.
+	// Other properties are transitioned on children.
+	.texts {
+		transition-property: transform;
+	}
+	// These are both for the button's hover (stroke,
+	// background-color) and its reveal and conceal (margin,
+	// opacity, width).
+	.icon-ex-surf {
+		transition-property: opacity, color, background-color, width, margin;
+		transition-duration: $dur,    $dur,  $dur,             0s,    0s;
+		transition-delay:    0s,      0s,    0s,               $dur,  $dur;
+	}
+	&:not(.zerostate, [disabled=disabled]) .icon-ex-surf {
+		transition-property: opacity, color, background-color;
+	}
+	.tag {
+		transition-property: opacity, width, height, margin, padding, color, background-color;
+
+		&.pre-initial,
+		&.initial {
+			transition: none;
+		}
+	// Clear buttons within tags. (See .icon-ex-surf for the
+	// one on the surface.)
+	}
+	.icon-ex {
+		transition-property: color;
+	}
+	.list-item {
+		transition-property: all,	padding-left, padding-right;
+		transition-duration: $dur,  $dur*.5,      $dur*.5;
+	}
+	.icon-arrow {
+		transition-property: width, height, margin-left;
+	}
+
+	// ANCHOR Off states
+
+	// If the placeholder is empty, disable transitions so
+	// it vanishes instantly.
+	.text-ph {
+		&:empty {
+			transition-property: none;
+		}
+	}
+	.text-ph,
+	.text-op {
+		transition-property: color, opacity, transform;
+
+		&.fadingOut {
+			transition-property: opacity, height;
+			transition-duration: $dur,    0s;
+			transition-delay:    0s,      $dur;
+		}
+	// Dropdown transition to off state; delay moving
+	// off-screen with left until other properties are done.
+	// Also, the fade out can be slower than the fade in.
+	}
+	.dropdown {
+		transition-property: opacity, transform, left;
+		transition-duration: $dur*2,  $dur*2,    0s;
+		transition-delay:    0s,      0s,        $dur*2;
+	}
+	// Just transition the search and list elements' slight
+	// vertical offset.
+
+	.search,
+	.list {
+		transition-property: transform;
+	}
+
+	// ANCHOR On states
+
+	// Dropdown transition to on state. Left can happen
+	// immediately here so we don't even need it in the
+	// transition property.
+	&:is(.activated, .activatedLocked) .dropdown {
+		transition-property: opacity, transform;
+		transition-duration: $dur;
+	}
+	// !SECTION
+}
+
+// !SECTION
+
+

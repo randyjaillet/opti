@@ -1,0 +1,56 @@
+@use 'variables' as *;
+
+
+// ANCHOR Universal hide helper
+
+@mixin hideEl($important: false, $opacity: true, $width: true, $overflow: true, $textwrap: true, $height: false, $margin: false, $padding: false, $left: false, $flexbasis: false) {
+	$importantString: null;
+	@if ($important) {
+		$importantString: !important;
+	}
+
+	@if ($opacity) {
+		opacity: 0 $importantString;
+	}
+
+	@if ($width) {
+		width: 0 $importantString;
+	}
+
+	@if ($overflow) {
+		overflow: hidden $importantString;
+	}
+
+	@if ($textwrap) {
+		text-wrap: nowrap $importantString;
+	}
+
+	@if ($height) {
+		height: 0 $importantString;
+	}
+
+	@if ($margin) {
+		margin: 0 $importantString;
+	}
+
+	@if ($padding) {
+		padding: 0 $importantString;
+	}
+
+	@if ($left) {
+		left: -300vw $importantString;
+	}
+
+	@if ($flexbasis) {
+		flex-basis: 0 $importantString;
+	}
+}
+
+
+// ANCHOR Ellipsis overflow
+
+@mixin ellipsis() {
+	overflow: hidden;
+	text-wrap: nowrap;
+	text-overflow: ellipsis;
+}

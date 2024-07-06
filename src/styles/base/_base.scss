@@ -1,21 +1,20 @@
-@use '../abstracts' as *
+@use '../abstracts' as *;
 
 // ANCHOR Global
 
-.opti-hidden
-	display: none !important
-
+.opti-hidden {
+	display: none !important;
+}
 .opti,
 .opti *,
 .opti *:before,
-.opti *:after
-	box-sizing: border-box
-
+.opti *:after {
+	box-sizing: border-box;
+}
 
 // SECTION States
 
-.opti
-
+.opti {
 
 	// ANCHOR Off states
 
@@ -23,52 +22,51 @@
 
 	.icon-chevs,
 	.icon-ban-surf,
-	.icon-ex-surf
-		@include hideEl()
-
-	.icon-ex
-		display: none
-
+	.icon-ex-surf {
+		@include hideEl();
+	}
+	.icon-ex {
+		display: none;
+	}
 	// Hide the element containing the text of the selected
 	// option when nothing is selected or when in multiple
 	// mode (we use a different element then, a UL). Hide
 	// the optgroup text as well in these conditions.
 
 	&.zerostate .text-op,
-	&[multiple=multiple] .text-op
-		@include hideEl($height: true)
-		flex: 0 1 0
-		width: 0
-		transition: opacity $dur linear, transform $dur linear, height 0s linear $dur, flex-basis 0s linear $dur
+	&[multiple=multiple] .text-op {
+		@include hideEl($height: true);
+		flex: 0 1 0;
+		width: 0;
+		transition: opacity $dur linear, transform $dur linear, height 0s linear $dur, flex-basis 0s linear $dur;
 
-		.text-grp
-			display: none
-
+		.text-grp {
+			display: none;
+		}
 	// The off state we transition the placeholder and option
 	// text elements to.
-
+	}
 	.text-ph,
-	.text-op
-		
-		&.fadingOut
-			@include hideEl($important: true, $width: false, $height: true)
-
+	.text-op {
+		&.fadingOut {
+			@include hideEl($important: true, $width: false, $height: true);
+		}
 	// Hide the placeholder if we're not in the zero state.
-
-	&:not(.zerostate) .surface .texts .text-ph
-		@include hideEl($height: true, $width: false)
-
+	}
+	&:not(.zerostate) .surface .texts .text-ph {
+		@include hideEl($height: true, $width: false);
+	}
 	// This class sets the height, width, and padding to
 	// what they'll look like in their on state so that JS
 	// can quickly measure them. Then we set those attributes
 	// so we have something to transition to. The user won't
 	// see this state.
 
-	.tag.pre-initial
-		height: auto
-		width: auto
-		padding: 0 var(--tag-horzpad)
-
+	.tag.pre-initial {
+		height: auto;
+		width: auto;
+		padding: 0 var(--tag-horzpad);
+	}
 	// The initial class and the fading out class are both
 	// off states; a new tag starts with .initial so it can
 	// transition from hidden, and a tag being removed gets
@@ -76,33 +74,33 @@
 
 	.tag.initial,
 	.tag.fadingOut,
-	&:not([multiple=multiple]) .tag
-		@include hideEl($important: true, $height: true, $flexbasis: false, $margin: true, $padding: true)
-
+	&:not([multiple=multiple]) .tag {
+		@include hideEl($important: true, $height: true, $flexbasis: false, $margin: true, $padding: true);
+	}
 	// Hide the dropdown offscreen by default.
 
-	.dropdown
-		left: -200vw
-
+	.dropdown {
+		left: -200vw;
+	}
 	// Hide the header of empty optgroup sections.
 
-	.list h5:only-child
-		display: none
-
+	.list h5:only-child {
+		display: none;
+	}
 	// Default to hiding the list item icons; show later.
 
-	.list-item svg
-		display: none
-
+	.list-item svg {
+		display: none;
+	}
 
 	// ANCHOR On states
 
 	// Show the clear buttons on tags as long as we're not
 	// disabled.
 
-	&:not([disabled=disabled]) .icon-ex
-		display: inline-flex
-
+	&:not([disabled=disabled]) .icon-ex {
+		display: inline-flex;
+	}
 	// Conditions for showing each of the surface icons.
 	// • Chevrons: As long as not disabled
 	// • Ban: Only when disabled
@@ -110,48 +108,52 @@
 
 	&:not([disabled=disabled]) .icon-chevs,
 	&[disabled=disabled] .icon-ban-surf,
-	&:not(.zerostate, [disabled=disabled]) .icon-ex-surf
-		opacity: 1
-
+	&:not(.zerostate, [disabled=disabled]) .icon-ex-surf {
+		opacity: 1;
+	}
 	// Dimensions of the surface icons. Same conditions as
 	// for the above rule, but we need to break them out
 	// because each icon has different dimensions. And we
 	// do need the conditions because we set width to 0 when
 	// the icons are hidden.
 
-	&:not([disabled=disabled]) .icon-chevs
-		width: 16px * $oscale
-		display: block
-
-	&[disabled=disabled] .icon-ban-surf
-		width: 13px * $oscale
-
-	&:not(.zerostate, [disabled=disabled]) .icon-ex-surf
-		width: 18px * $oscale
-
+	&:not([disabled=disabled]) .icon-chevs {
+		width: 16px * $oscale;
+		display: block;
+	}
+	&[disabled=disabled] .icon-ban-surf {
+		width: 13px * $oscale;
+	}
+	&:not(.zerostate, [disabled=disabled]) .icon-ex-surf {
+		width: 18px * $oscale;
+	}
 	// ???
 
-	&[multiple=multiple] .text-ul:not(:empty)
-		min-height: $tagLeading
-		height: auto
-
+	&[multiple=multiple] .text-ul:not(:empty) {
+		min-height: $tagLeading;
+		height: auto;
+	}
 	// Position the dropdown into the viewport.
 
-	&:is(.activated, .activatedLocked) .dropdown
-		left: 0
-
+	&:is(.activated, .activatedLocked) .dropdown {
+		left: 0;
+	}
 	// No matter what, even if the Opti is hiding the search
 	// because of few items, show the search if it gets
 	// focused. This happens when the user types on the
 	// surface.
 
-	.search-input:focus
-		display: block !important
-
+	.search-input {
+		font: inherit;
+	}
+	.search-input:focus {
+		display: block !important;
+	}
 	// Show the ban icon on disabled list items.
 
-	.list-item[disabled=disabled] .icon-ban
-		display: inline-flex
-
+	.list-item[disabled=disabled] .icon-ban {
+		display: inline-flex;
+	}
 
 	// !SECTION
+}

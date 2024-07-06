@@ -1,0 +1,82 @@
+@use '../abstracts' as *;
+
+//
+// Dark
+//
+
+.opti[data-theme=compact] {
+	--surface-bg: transparent;
+	--tag-horzpad: 0;
+	--tag-bg: transparent;
+
+	&:not([disabled=disabled]) {
+		--surface-leftmar: #{$leftPad};
+		--surface-rightmar: #{$rightPad};
+		--surface-shadow-decl: 0 1px 0 rgba(255, 255, 255, .4), #{$shadowScreenTransp};
+		--surface-radius-decl: #{$radius} #{$radius} 0 0;
+
+		.surface {
+			--surface-leftpad: 0;
+			--surface-rightpad: 0;
+
+			&:hover,
+			&:focus {
+				--surface-leftmar: 0;
+				--surface-rightmar: 0;
+				--surface-leftpad: #{$leftPad};
+				--surface-rightpad: #{$rightPad};
+				--surface-bg: transparent;
+				--surface-shadow-decl: 0 1px 0 #{$accent}, #{$shadowScreenTransp};
+			}
+		}
+		.text-ul {
+			gap: 10px;
+		}
+		&:is(.activated, .activatedLocked) {
+			--surface-bg: rgba(34, 34, 34, .95);
+			--surface-shadow-decl: 0 0 0 transparent, #{$shadowScreenDark};
+			--surface-radius-decl: #{$radius};
+
+			.surface {
+				--surface-bg: rgba(34, 34, 34, .95);
+				--surface-leftmar: 0;
+				--surface-rightmar: 0;
+				--surface-leftpad: #{$leftPad};
+				--surface-rightpad: #{$rightPad};
+
+				&:hover,
+				&:focus {
+					--surface-shadow-decl: 0 0 0 transparent, #{$shadowScreenDark};
+				}
+			}
+		}
+		&[multiple=multiple] {
+			--surface-leftpad: 0;
+			--surface-rightpad: 0;
+		}
+		.surface .texts ul .tag:hover,
+		&.highlightRemovables .surface .texts ul .tag {
+			--tag-bg: inherit;
+		}
+	//
+	// Light
+	//
+	}
+	&[data-scheme=light] {
+		&:not([disabled=disabled]) {
+			--surface-shadow-decl: 0 1px 0 rgba(0, 0, 0, .4), #{$shadowScreenTransp};
+
+			&:not(.activated, .activatedLocked) .surface {
+				&:hover,
+				&:focus {
+					--surface-shadow-decl: 0 1px 0 #{$accent}, #{$shadowScreenTransp};
+				}
+			}
+			&:is(.activated, .activatedLocked),
+			&:is(.activated, .activatedLocked) .surface {
+				--surface-bg: rgba(238, 238, 238, .95);
+				--surface-shadow-decl: 0 0 0 transparent, #{$shadowScreenLight};
+			}
+		}
+	}
+}

@@ -1,1 +1,1 @@
-// @codekit-prepend "_opti.js", "_demo.js";
+// @codekit-prepend "_opti.js";

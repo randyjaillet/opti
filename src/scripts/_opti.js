@@ -1,3 +1,5 @@
+// TODO Make it so multiple attr w/o a value counts
+
 /* Keep track of our instantiated Optis in case
 we need to manipulate them later */
 window.optis = [];
@@ -293,7 +295,7 @@ class Opti {
 				this.#choosePlaceholderOption();
 				this.o.addClass("zerostate");
 			} else {
-				if (this.settings.firstOptDefault && !this.o.prop("multiple")) {
+				if (this.settings.firstOptDefault && !this.o.is("[multiple]")) {
 					const $firstChoosableListItem = this.o.find(".list span:not([disabled=disabled])").first();
 					this.chooseOption($firstChoosableListItem, false, true);
 				} else {
@@ -515,7 +517,7 @@ class Opti {
 					/* Anything else that inserts a character:
 					Show menu and always focus on search box */
 					else {
-						self.searchInput.val(null).trigger("change");
+						// self.searchInput.trigger("focus");
 						self.showMenu(true);
 					}
 
@@ -535,7 +537,7 @@ class Opti {
 				const
 					oIsActivated = self.o.hasClass("activated"),
 					oIsDisabled = self.o.is("[disabled=disabled]"),
-					oIsMultiple = self.o.is("[multiple=multiple]"),
+					oIsMultiple = self.o.is("[multiple]"),
 
 					$allLIs = self.o.find(".list span"),
 					$selectableOpts = $allLIs.not(".opti-hidden,[disabled=disabled]"),
@@ -732,7 +734,7 @@ class Opti {
 				const
 					oIsActivated = self.o.hasClass("activated"),
 					oIsDisabled = self.o.is("[disabled=disabled]"),
-					oIsMultiple = self.o.is("[multiple=multiple]"),
+					oIsMultiple = self.o.is("[multiple]"),
 					$allLIs = self.o.find(".list span"),
 
 					searchIsBlank = self.searchInput.val() === "",
@@ -1046,23 +1048,24 @@ class Opti {
 							const
 								currentVal = self.s.val(),
 								targetVal = Array.isArray(currentVal) ? currentVal[0] : currentVal,
-								$targetOpt = self.o.find(`.list span[data-value="${targetVal}"]`),
-								$nonDisabledOpts = self.o.find(".list span:not([disabled=disabled])"),
+								$targetOpt = self.o.find(`.list .list-item[data-value="${targetVal}"]`),
+								$nonDisabledOpts = self.o.find(".list .list-item:not([disabled])"),
 								callbackArgs = {
 									$targetOpt : $targetOpt,
 									$nonDisabledOpts : $nonDisabledOpts
 								}
 							;
 
-							if (self.o.find(".list span.selected").length) {
+							if (self.o.find(".list .list-item.selected").length) {
 								/* If there is anything to unchoose,
 								delay choosing until we've unchosen */
-								self.unchooseOption(self.o.find(".list span.selected"), Opti.#unchooseAfter.bind(self, callbackArgs));
+								self.unchooseOption(self.o.find(".list .list-item.selected"), Opti.#unchooseAfter.bind(self, callbackArgs));
 							} else {
 								/* If there is nothing to unchoose,
 								immediately choose */
 								Opti.#unchooseAfter.bind(self, callbackArgs)();
 							}
+							// self.s.is("[multiple]") ? self.o.attr("multiple", "multiple") : self.o.removeAttr("multiple");
 						}
 
 					}
@@ -1321,6 +1324,7 @@ class Opti {
 			svgChevs 	= `<svg class="icon-chevs" 		width="16" height="16" viewBox="0 0 24 24" 		stroke="currentColor" stroke-width="1" 		stroke-linecap="round" stroke-linejoin="round" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg>`,
 			svgBan 		= `<svg class="icon-ban-surf"	width="13" height="13" viewBox="0 0 24 24" 		stroke="currentColor" stroke-width="1.5" 	stroke-linecap="round" stroke-linejoin="round" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10"/><path d="m4.9 4.9 14.2 14.2"/></svg>`,
 			svgSearch 	= `<svg class="icon-search" 	width="16" height="16" viewBox="0 0 24 24" 		stroke="currentColor" stroke-width="1" 		stroke-linecap="round" stroke-linejoin="round" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 6H3"/><path d="M10 12H3"/><path d="M10 18H3"/><circle cx="17" cy="15" r="3"/><path d="m21 19-1.9-1.9"/></svg>`,
+			// TODO Make theme and scheme insertion conditional based on whether they're set
 			$oOpti = $(`<div class="opti" data-theme="${this.s.data("theme")}" data-scheme="${this.s.data("scheme")}">`)
 					.attr("id", this.s.attr("id") ? `${this.s.attr("id")}-opti` : null)
 					.addClass(this.settings.classes)
@@ -1437,23 +1441,23 @@ class Opti {
 
 		if (this.o.is(":not(.activated)")) {
 
-			const $focusTarget = focusOnSearch ? this.searchInput : this.surface;
-
 			/* Add the "activated" class to the Opti. This class does
 			the heavy lifting in terms of visbility and transitions. */
 			this.o.addClass("activated");
 
-			/* Focus on the search input if the corresponding boolean
-			argument is true. We might have to show the search
-			input first if it was hidden due to short mode being
-			enabled. */
-			if (focusOnSearch) $(this.search).filter(":hidden").show();
-
-			$focusTarget.trigger("focus");
-
 			this.o.trigger("optishow");
 
 		}
+
+		const $focusTarget = focusOnSearch ? this.searchInput : this.surface;
+
+		/* Focus on the search input if the corresponding boolean
+		argument is true. We might have to show the search
+		input first if it was hidden due to short mode being
+		enabled. */
+		if (focusOnSearch) $(this.search).filter(":hidden").show();
+
+		$focusTarget.trigger("focus");
 
 	}
 
@@ -1696,7 +1700,7 @@ class Opti {
 
 			// Multiple-select Optis - Set value in select
 
-			if (this.s.is("[multiple=multiple]")) {
+			if (this.s.is("[multiple]")) {
 
 				$options.each(
 					(_i, v) => {
@@ -1751,7 +1755,7 @@ class Opti {
 				}
 			;
 
-			if (wasBlank || noFadeOut || this.o.is("[multiple=multiple]")) {
+			if (wasBlank || noFadeOut || this.o.is("[multiple]")) {
 
 				/* No fade out. Immediately call the method that
 				otherwise goes into unchoose's callback.
@@ -1777,45 +1781,7 @@ class Opti {
 				this.#fadeOut.bind(this)($fadeOutTarget, Opti.#chooseAfter.bind(this, fadeOutCallbackArgs), false);
 
 			}
-
-			// if (wasPlaceholder && !noFadeOut) {
-
-			// 	/* Coming from the placeholder and we're not
-			// 	supressing fade out, so fade-out the ph
-			// 	and inject the fade-in into its callback. */
-
-			// 	$fadeOutTarget = this.pht;
-
-			// 	// this.#fadeOut.bind(this)(this.pht, Opti.#chooseAfter.bind(this, fadeOutCallbackArgs), false);
-
-			// } else if (wasBlank || noFadeOut || this.o.is("[multiple=multiple]")) {
-
-			// 	/* No fade out. Immediately call the method
-			// 	that otherwise goes into unchoose's callback.
-			// 	Either we're... 
-			// 	* Coming from blank (so there is nothing to
-			// 	fade out)
-			// 	* Deliberately supressing the fade via an arg
-			// 	* In multiple mode in which case choosing an
-			// 	option doesn't unchoose anything so we don't
-			// 	need to fade out. */
-
-			// 	Opti.#chooseAfter.bind(this)(fadeOutCallbackArgs);
-
-			// } else {
-
-			// 	/* Already had a value
-			// 	(Also, is single-select and fade out is not
-			// 	supressed.)
-			// 	Fade out the option text, change it, then
-			// 	fade it back in.
-			// 	Notice the first if clause here targets the
-			// 	placeholder text for fading out while this
-			// 	one targets the option text. */
-
-			// 	this.#fadeOut.bind(this)(this.txt, Opti.#chooseAfter.bind(this, fadeOutCallbackArgs), false);
-
-			// }
+			
 		}
 	}
 
@@ -1927,7 +1893,7 @@ class Opti {
 
 		// Multiple-select Optis
 
-		if (self.o.is("[multiple=multiple]")) {
+		if (self.o.is("[multiple]")) {
 
 			/* Highlight the newly selected options in the
 			list to show they are chosen. */
@@ -2019,8 +1985,8 @@ class Opti {
 			keyword changes. */
 			self = this,
 
-			oIsMulti = this.o.is("[multiple=multiple]"),
-			sIsMulti = this.s.is("[multiple=multiple]")
+			oIsMulti = this.o.is("[multiple]"),
+			sIsMulti = this.s.is("[multiple]")
 		;
 		
 		/* Determine what was passed to us in the vals
@@ -2102,7 +2068,7 @@ class Opti {
 			
 		} else if (oIsMulti && $targetTags.length) {
 
-			Opti.#fadeOutTag.bind(self, $targetTags, callback, true, callbackArgs)();
+			Opti.#fadeOutTag.bind(self, $targetTags, callback)();
 
 		} else {
 
@@ -2137,14 +2103,16 @@ class Opti {
 		const self = this;
 
 
-		// REVIEW - Why am I doing this?
-		if (self.s.attr("multiple") != "multiple") {
-			self.o.removeAttr("multiple");
-		} else {
+		// This is for when we're unchoosing because we just observed a mutation
+		// to the multiple attribute. We need to wait until now to reflect that
+		// change.
+		if (self.s.is("[multiple]")) {
 			self.o.attr("multiple", "multiple");
+		} else {
+			self.o.removeAttr("multiple");
 		}
 
-
+		console.log("target to choose length:", args.$targetOpt.length);
 
 		if (args.$targetOpt.length) {
 			self.chooseOption(args.$targetOpt, false, true);
@@ -2178,7 +2146,7 @@ class Opti {
 		const
 			anythingIsDisabled = this.o.add($t).is("[disabled=disabled]"),
 			optIsSelected = $t.is(".selected"),
-			oIsMultiple = this.o.is("[multiple=multiple]")
+			oIsMultiple = this.o.is("[multiple]")
 		;
 		
 		if (!anythingIsDisabled) {
@@ -2217,7 +2185,7 @@ class Opti {
 
 		if (this.getUFOAP) {
 
-			if (this.o.is("[multiple=multiple]")) this.s.val([this.placeholderValue]);
+			if (this.o.is("[multiple]")) this.s.val([this.placeholderValue]);
 			else this.s.val(this.placeholderValue);
 
 		}
@@ -2520,12 +2488,11 @@ $.fn.opti = function (options) {
 
 			const
 				attrSetts = $(this).data("opti-options"),
-				attrSettsAsJSON = attrSetts && typeof attrSetts == "string" ? JSON.parse(attrSetts) : attrSetts
+				attrSettsAsJSON = attrSetts && typeof attrSetts == "string" ? JSON.parse(attrSetts) : attrSetts,
+				extendedSetts = $.extend(attrSettsAsJSON, options)
 			;
-			
-			$.extend(attrSettsAsJSON, options);
 
-			new Opti($(this), options);
+			new Opti($(this), extendedSetts);
 
 		}
 	);

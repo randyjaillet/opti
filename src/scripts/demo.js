@@ -189,10 +189,10 @@ $("#insertoptrandomly").on(
 $("#togglemultiselect").on(
 	"click",
 	e => {
-		const demoIsMulti = $demo.attr("multiple") == "multiple";
+		const demoIsMulti = $demo.is("[multiple]");
 		e.preventDefault();
 		$(e.target).toggleClass("on");
-		demoIsMulti ? $demo.removeAttr("multiple") : $demo.attr("multiple", "multiple");
+		demoIsMulti ? $demo.removeAttr("multiple") : $demo.prop("multiple", true);
 	}
 );
 

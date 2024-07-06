@@ -1,0 +1,60 @@
+@use '../abstracts' as *;
+
+.opti[data-scheme=dark] {
+
+	--text-col-rgbvals: 255,255,255;
+	--text-col: rgba(var(--text-col-rgbvals), .9);
+	--surface-bg: rgba(153, 153, 153, .1);
+	--surface-element-dropshadows-rgbvals: 0,0,0;
+	--surface-element-dropshadows: rgb(var(--surface-element-dropshadows-rgbvals));
+	--surface-element-dropshadows-decl: 0 -1px 1px var(--surface-element-dropshadows);
+	--dd-col-rgbvals: 187, 187, 187;
+	--dd-col: rgb(var(--dd-col-rgbvals));
+	--dd-bg: rgba(34, 34, 34, .95);
+	--accent-bg: #{$accent-dark};
+	--tag-bg: rgba(255, 255, 255, .07);
+
+
+	//
+	//
+	// States - Dark scheme
+	//
+	//
+
+	// Not disabled - dark
+	&:is(:not([disabled=disabled])) {
+		.surface {
+			&:hover,
+			&:focus {
+				--surface-bg: #{$accent-dark};
+			}
+		}
+	}
+
+	// Activated - dark
+	&:is(.activated, .activatedLocked) {
+		--surface-bg: rgba(34, 34, 34, .95);
+		--surface-shadow-decl: #{$shadowScreenDark};
+	}
+
+	// Neither zerostate nor disabled - dark
+	&:not(.zerostate):not([disabled=disabled]) {
+		.surface {
+			> svg.icon-ex-surf {
+				&:hover {
+					color: pink;
+					background-color: rgba(220, 20, 60, .2);
+				}
+			}
+		}
+	}
+
+	// Removable text/tags highlighted - dark
+	&.highlightRemovables .surface .texts .text-op,
+	&:not([disabled=disabled]) .surface .texts ul .tag:hover,
+	&.highlightRemovables .surface .texts ul .tag {
+		--tag-bg: rgba(220, 20, 60, .2);
+		color: pink;
+	}
+
+}

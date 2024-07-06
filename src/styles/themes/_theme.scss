@@ -1,0 +1,181 @@
+@use '../abstracts' as *;
+
+:root {
+}
+
+.opti {
+
+	&[multiple=multiple]:not(.zerostate) {
+		--surface-leftpad: #{$vertPad};
+	}
+
+	.surface {
+		background-color: var(--surface-bg);
+		background-image: var(--surface-gradients-decl);
+		background-repeat: no-repeat;
+		border-radius: var(--surface-radius-decl);
+		outline: none;
+		cursor: pointer;
+	}
+
+	&:not([disabled=disabled]) {
+		.surface {
+			&:hover,
+			&:focus {
+				--surface-bg: var(--accent-bg);
+			}
+		}
+		&:is(.activated, .activatedLocked) {
+
+			.surface {
+				outline: none;
+
+				&:hover,
+				&:focus {
+					--surface-bg: var(--accent-bg);
+				}
+			}
+		}
+	}
+	.tag {
+		border: none;
+		border-radius: $tagRadius;
+		box-shadow: var(--tag-shadows);
+	}
+	&:not([multiple=multiple]) .tag {
+		opacity: 0;
+	}
+	&[multiple=multiple] .text-ul:not(:empty) .tag {
+		opacity: 1;
+	}
+	&:not([disabled=disabled]) .tag:hover,
+	&.highlightRemovables .tag {
+		--tag-bg: rgba(255,192,203,.6);
+		color: crimson;
+	}
+	.surface > svg {
+		color: var(--text-col-faded);
+		filter: drop-shadow(var(--surface-element-dropshadows-decl));
+	}
+
+	&:not(.zerostate):not([disabled=disabled]) {
+
+		.surface > .icon-ex-surf:hover {
+			color: crimson;
+			background-color: rgba(pink, .6);
+			filter: none;
+		}
+
+	}
+
+	
+	.search {
+		width: calc(100% - $marginsXSearch*2);
+		margin: 2px $marginsXSearch 0 $marginsXSearch;
+		border-radius: 100px;
+	}
+	.icon-search {
+		color: var(--dd-col);
+	}
+	.search-input {
+		background-color: transparent;
+		border: none;
+
+		&:focus {
+			outline: none;
+		}
+	}
+	.list {
+		border-radius: $radius;
+
+		h5 {
+			margin: (10px * $oscale) 0 (10px * $oscale) $indentation;
+		}
+
+		.list-item {
+
+			&:hover,
+			&.fakefocus {
+				outline: none;
+			}
+			&.selected {
+				color: $accent;
+			}
+			
+			.icon-arrow,
+			.icon-tick {
+				color: $accent;
+			}
+			.icon-ban {
+				color: var(--dd-col);
+			}
+			&:not([disabled=disabled]) {
+				&:hover,
+				&.fakefocus {
+					background-color: var(--accent-bg);
+					color: $accent;
+				}
+			}
+		}
+
+	}
+}
+
+
+
+// SECTION TYPOGRAPHY
+
+.opti {
+	text-align: left;
+
+	.surface {
+		font-size: $fontSize;
+		line-height: $leading;
+		text-decoration: none;
+		color: var(--text-col);
+	}
+	.texts {
+		@include ellipsis();
+	}
+	.text-grp {
+		font-weight: 400;
+	}
+	.text-ph,
+	.text-op {
+		@include ellipsis();
+	}
+	.text-ph {
+		font-style: italic;
+	}
+	.text-op {
+		text-shadow: var(--surface-element-dropshadows-decl);
+	}
+	&.highlightRemovables .surface .texts .text-op {
+		color: crimson;
+	}
+	.surface > svg {
+		--text-col-faded: rgba(var(--text-col-rgbvals), .8);
+	}
+	.dropdown {
+		color: var(--dd-col);
+	}
+	.search-input {
+		font-size: 14px * $oscale;
+		color: var(--dd-col);
+	}
+	.list {
+		font-size: 14px * $oscale;
+		line-height: 1.15em;
+
+		h5 {
+			font: {
+				size: inherit;
+				weight: 700;
+				color: rgba(var(--dd-col-rgbvals),.35);
+			}
+		}
+		
+	}
+}
+
+// !SECTION
