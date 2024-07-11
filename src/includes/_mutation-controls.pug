@@ -1,8 +1,17 @@
 section#control-frame
 	div
+		h2 Mutations Sandbox
+		p None of these controls modify the demo Opti directly. It uses mutation observers to stay synched with its #[code select].
 		div
-			h3 Mutations Sandbox
-			p None of these controls modify the demo Opti directly. It uses mutation observers to stay synched with its #[code select].
+			h5 Toggle attribute:
+			div.flexit.faintbox
+				span Select:
+				button#togglemultiselect Multiple
+				button#toggledisabselect Disabled
+			div.flexit.faintbox
+				span Option 2:
+				button#toggledisabopt Disabled
+		div
 			h5 Modify node list:
 			div.flexit.faintbox
 				select#control-append(data-theme="minimal" data-scheme="light")
@@ -17,17 +26,3 @@ section#control-frame
 				button#doit1 Apply
 			div.flexit.faintbox
 				button#insertoptrandomly Insert option randomly
-		div
-			h5 Toggle attribute:
-			div.flexit.faintbox
-				span Select:
-				button#togglemultiselect Multiple
-				button#toggledisabselect Disabled
-			div.flexit.faintbox
-				span Option 2:
-				button#toggledisabopt Disabled
-	div
-		h3 Destroy/Instantiate:
-		div.flexit.faintbox
-			button#destroy Destroy
-			button#reinst Reinstantiate

@@ -120,8 +120,11 @@ p:not(.opti *) {
 	}
 }
 .example {
+	display: flex;
+    flex-direction: column;
+    gap: 10px;
 	margin: 10px 0;
-	padding: 10px 10px 0 10px;
+	padding: 10px;
 	background: rgba(orange, 7%);
 	outline: 1px solid rgba(orange, 20%);
 
@@ -134,7 +137,7 @@ p:not(.opti *) {
 	}
 }
 code.codeblock {
-	margin: 15px 0;
+	margin: 0;
 	padding: 10px;
 	display: block;
 	background: rgba(black, 7%);
@@ -147,6 +150,9 @@ h1:not(.opti *) {
 }
 h2:not(.opti *) {
 	margin: $baseMarg*2 0;
+}
+#demo-frame h2 {
+	margin-top: 0;
 }
 h3:not(.opti *) {
 	margin: $baseMarg*1.75 0;
@@ -168,7 +174,7 @@ dt {
 dd {
 	margin: 5px 0 15px 4px;
 	padding-left: 20px;
-	background: transparent url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNkNmQ2ZDYiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLWFycm93LXJpZ2h0Ij48cGF0aCBkPSJNNSAxMmgxNCIvPjxwYXRoIGQ9Im0xMiA1IDcgNy03IDciLz48L3N2Zz4=') left 1px no-repeat;
+	background: transparent url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiM4ODg4ODgiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLWFycm93LXJpZ2h0Ij48cGF0aCBkPSJNNSAxMmgxNCIvPjxwYXRoIGQ9Im0xMiA1IDcgNy03IDciLz48L3N2Zz4=') left 1px no-repeat;
 }
 button:not(.opti *) {
 	appearance: none;
@@ -339,6 +345,11 @@ code:not(.opti *) {
 				min-width: 200px;
 				max-width: min(500px, 100%);
 			}
+
+			button {
+				opacity: .4;
+			}
+
 			#themeNscheme {
 				display: flex;
 				flex-direction: column;
@@ -358,8 +369,7 @@ code:not(.opti *) {
 						align-items: center;
 						gap: 10px;
 					}
-					.opti {						// width: 100px
-
+					.opti {
 						.surface {
 							font-size: inherit;
 						}
@@ -367,10 +377,6 @@ code:not(.opti *) {
 				}
 			}
 		}
-	}
-	h3 {
-		margin: 15px 0;
-		font-weight: 600;
 	}
 	#control-frame {
 		display: flex;
