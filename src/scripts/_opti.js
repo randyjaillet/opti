@@ -2122,8 +2122,6 @@ class Opti {
 			self.o.removeAttr("multiple");
 		}
 
-		console.log("target to choose length:", args.$targetOpt.length);
-
 		if (args.$targetOpt.length) {
 			self.chooseOption(args.$targetOpt, false, true);
 		} else {
