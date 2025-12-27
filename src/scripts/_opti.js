@@ -2485,37 +2485,39 @@ jQuery.expr[':'].containsis = function(a, i, m) {
 // Instantiation
 //
 
-/* Plugin for ease of instantiation.
-Priority is on options passed in
-argument followed by those in HTML
-attribute. */
-$.fn.opti = function (options) {
+/* Instantiate Opti for a list of elements. Accepts selectors,
+NodeLists, arrays, or jQuery objects. */
+export function initOpti(elements, options) {
 
-    return this.filter("select").each(
-    	function() {
+	const selects =
+		typeof elements === "string"
+			? document.querySelectorAll(elements)
+			: elements || [];
 
-			const
-				attrSetts = $(this).data("opti-options"),
-				attrSettsAsJSON = attrSetts && typeof attrSetts == "string" ? JSON.parse(attrSetts) : attrSetts,
-				extendedSetts = $.extend(attrSettsAsJSON, options)
-			;
+	return Array.from(selects)
+		.filter(el => el instanceof Element && el.tagName.toLowerCase() === "select")
+		.map(
+			el => {
+				const
+					attrSetts = $(el).data("opti-options"),
+					attrSettsAsJSON = attrSetts && typeof attrSetts == "string" ? JSON.parse(attrSetts) : attrSetts,
+					extendedSetts = $.extend({}, attrSettsAsJSON, options)
+				;
 
-			new Opti($(this), extendedSetts);
-
-		}
-	);
+				return new Opti($(el), extendedSetts);
+			}
+		);
 
 };
 
 
 /* Auto-instantiation based on HTML
 attributes */
-$(
-	function () {
-		$("[data-opti]").each(
-			function () {
-				$(this).opti();
-			}
-		);		
+document.addEventListener(
+	"DOMContentLoaded",
+	() => {
+		initOpti(document.querySelectorAll("[data-opti]"));
 	}
 );
+
+export { Opti };
