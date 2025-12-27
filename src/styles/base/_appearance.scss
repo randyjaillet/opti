@@ -1,119 +1,315 @@
 @use '../abstracts' as *;
 
 .opti {
+	border-radius: var(--radius);
+	box-shadow: 0 0 0 500vw transparent;
+
+	// Activated
+	&:is(.activated, .activatedLocked) {
+		box-shadow: 0 0 0 500vw hsl(0 0% 30% / 70%);
+	}
+
+
+
+	// #region SURFACE
+	////////////////////////
+	////////////////////////
+	////////////////////////
+
+
 
 	.surface {
-		stroke-width: $iconstrokewidth;
-		box-shadow: var(--surface-shadow-decl);
-	}
-
-	&[disabled=disabled] .surface {
-		cursor: not-allowed;
-		background-color: transparent;
-		background-image: none;
-		box-shadow: none;
-		border: none;
-	}
-
-	.texts {
-		&:has( > .fadingOut),
-		&:has(.tag):not(:has(.tag:not(.fadingOut))) {
-			transform: translate(-5px, 0);
-		}
-	}
-
-	.text-grp,
-	.text-ph {
-		opacity: .35;
-	}
-
-	.text-op {
-		opacity: 1;
-	}
-
-	.text-ul {
-		list-style: none;
-	}
-
-
-	.text-ul {
-		font-size: $tagFontSize;
-	}
-	
-	.tag {
-		background-color: var(--tag-bg);
 		color: var(--text-col);
-		list-style: none;
-		opacity: 0;
-		text-decoration: none;
-	}
-
-	.tag-text {
-		@include ellipsis();
-		line-height: $tagLeading;
-	}
-
-	&:not([multiple=multiple]) .tag {
-		opacity: 0;
-	}
-	&[multiple=multiple] .text-ul:not(:empty) .tag {
-		opacity: 1;
-	}
-	
-	.icon-ex {
+		background-color: var(--surface-bg);
+		background-image: var(--surface-gradients-decl);
+		background-repeat: no-repeat;
+		border-radius: var(--radius);
+		box-shadow: var(--surface-shadow-decl);
+		outline: none;
 		stroke-width: $iconstrokewidth;
+		cursor: pointer;
+		text-align: left;
+		font-size: $fontSize;
+		line-height: var(--surface-leading);
+		text-decoration: none;
+
+		&:is(.opti:not([disabled=disabled], .activated, .activatedLocked) *) {
+		
+			&:hover {
+				background-color: hsl(from var(--accent) h s calc(l + 15) / 40%);
+			}
+
+			&:focus {
+				animation: 1.2s linear infinite alternate throb;
+			}
+
+		}
+
+		&:is(.opti[multiple=multiple]:not(.zerostate) *) {
+			--surface-pad-x: var(--pad-base);
+		}
+
+		&:is(.opti[disabled=disabled] *) {
+			cursor: not-allowed;
+			background-color: revert;
+			background-image: revert;
+			box-shadow      : revert;
+			border          : revert;
+		}
+
+
+		// #region Surface text elements
+		////////////////////////
+		////////////////////////
+
+
+		.surface-text {
+
+			&:has(> .fadingOut),
+			&:has(.tag):not(:has(.tag:not(.fadingOut))) {
+				transform: translate(-5px, 0);
+			}
+
+		}
+
+		.surface-text-placeholder {
+			font-style: italic;
+		}
+
+		.surface-text-single {
+			opacity: 1;
+		}
+
+		.surface-text-single-group {
+			font-weight: 400;
+		}
+
+		.surface-text-placeholder,
+		.surface-text-single {
+			@include ellipsis();
+		}
+
+		.surface-text-single-group,
+		.surface-text-placeholder {
+			opacity: .35;
+		}
+
+
+		// #endregion Surface text elements
+
+
+		// #region Surface tags
+		////////////////////////
+		////////////////////////
+
+
+		.surface-text-multi {
+			list-style: none;
+			font-size: $tagFontSize;
+		}
+		
+		.tag {
+			list-style     : none;
+			text-decoration: none;
+			border         : none;
+			border-radius: $tagRadius;
+			box-shadow: var(--tag-shadows);
+			color           : var(--tag-col);
+			background-color: var(--tag-bg);
+
+			&:not(.opti[multiple=multiple] *) {
+				opacity: 0;
+			}
+
+			&:is(.opti[multiple=multiple] *) {
+				opacity: 1;
+			}
+
+		}
+
+		// Highlighting tags to indicate impending removal
+
+		&:not([disabled=disabled] *, .zerostate *) {
+		
+			.tag:hover,
+			.surface-icon-clear:hover,
+			.opti.highlightRemovables & :is(.tag, .surface-text-single) {
+				color: hsl(348 83% 47%);
+
+				&:not(.surface-text-single) {
+					background-color: hsl(350 100% 88% / 40%);
+				}
+
+			}
+
+		}
+		
+		.tag-icon-ex {
+			stroke-width: $iconstrokewidth;
+		}
+
+
+		// #endregion Surface tags
+
+
+		// #region Surface Icons
+		////////////////////////
+		////////////////////////
+
+
+		.surface svg {
+			stroke-width: 1px;
+			color: hsl(from var(--text-col) h s l / .8);
+			// filter: drop-shadow(var(--surface-elements-shadows));
+		}
+
+		.surface-icon-ban {
+			stroke-width: 1.2px;
+		}
+
+		.surface-icon-clear {
+			stroke-width: .7px;
+			border-radius: 50%;
+
+			&:not([disabled=disabled] *, .zerostate *) {
+				opacity: 1;
+			}
+
+		}
+
+
+		// #endregion surface icons
+
+
 	}
 
-	.surface > svg {
-		stroke-width: 1px;
-	}
 
-	.surface > .icon-ban-surf {
-		stroke-width: 1.2px;
-	}
 
-	.surface > .icon-ex-surf {
-		stroke-width: .7px;
-		border-radius: 50%;
-	}
+	// #endregion SURFACE
+
+
+
+	// #region DROPDOWN
+	////////////////////////
+	////////////////////////
+	////////////////////////
+
+
 
 	.dropdown {
 		transform: translateY(5px);
 		opacity: 0;
+		color: var(--dd-col);
+
+		&:is(.opti.flip-v *) {
+			transform: translateY(-5px);
+		}
+
+		.list {
+			transform: translateY(10px);
+
+			&:is(.opti.flip-v *) {
+				transform: translateY(-5px);
+			}
+
+		}
+
+		&:is(.opti.activated *, .opti.activatedLocked *) {
+			opacity: 1;
+
+			&,
+			.list {
+				transform: translateY(0);
+			}
+
+		}
+
 	}
 
-	&:is(.activated, .activatedLocked) {
-		--surface-bg: rgba(238, 238, 238, .95);
-		--surface-shadow-decl: #{$shadowScreenLight};
-		
-		.dropdown {
-			opacity: 1;
-			transform: translateY(0);
-		}
-		
-		.list {
-			transform: translateY(0);
-		
-		}
-	}
+
+
+	// #endregion DROPDOWN
+
+
+
+	// #region SEARCH
+	////////////////////////
+	////////////////////////
+	////////////////////////
+
+
 
 	.search {
+		width: calc(100% - $marginsXSearch*2);
+		margin: 2px $marginsXSearch 0 $marginsXSearch;
+		border-radius: 100px;
 		background-color: var(--dd-bg);
 	}
+
 	&.flip-v .search {
 		transform: translateY(0);
 	}
 
+	.icon-search {
+		color: var(--dd-col);
+	}
+
+	.search-input {
+		font-size: 14px;
+		color: var(--dd-col);
+		background-color: transparent;
+		border: none;
+
+		&:focus {
+			outline: none;
+		}
+
+	}
+
+
+
+	// #endregion search
+
+
+
+	// #region LIST
+	////////////////////////
+	////////////////////////
+	////////////////////////
+
+
+
 	.list {
-		transform: translateY(10px);
 		background-color: var(--dd-bg);
+		font-size: 14px;
+		line-height: 1.15em;
+		border-radius: var(--radius);
+
+		h5 {
+			font-size: inherit;
+			font-weight: 700;
+			color: hsl(from var(--dd-col) h s l / .35);
+		}
 
 		.list-item {
 			list-style: none;
 			cursor: pointer;
 
-			svg {
-				stroke-width: 1px;
+			&:hover,
+			&.fakefocus {
+				outline: none;
+			}
+
+			&.selected {
+				color: var(--accent);
+			}
+			
+			&:not([disabled=disabled]) {
+				&:hover,
+				&.fakefocus {
+					background-color: hsl(from var(--accent) h s l / .25);
+					color: var(--accent);
+				}
 			}
 
 			&[disabled=disabled] {
@@ -121,67 +317,82 @@
 				opacity: .7;
 			}
 
-		}
-
-	}
-
-	&.flip-v {
-		.list {
-			transform: translateY(-5px);
-		}
-		&.activated,
-		&.activatedLocked {
-			.dropdown,
-			.list {
-				transform: translateY(0);
+			svg {
+				stroke-width: 1px;
 			}
+
+			.list-icon-arrow,
+			.list-icon-tick {
+				color: var(--accent);
+			}
+
+			.list-surface-icon-ban {
+				color: var(--dd-col);
+			}
+
 		}
+
 	}
 
-}
 
 
-// SECTION Transitions
+	// #endregion LIST
 
-// Instances where we delay a transition that has 0s duration
-// is a way to delay that property's change until after the
-// other properties have finished transitioning. For example,
-// off states often hide the element with width or left, but
-// that shouldn't happen until after opacity finishes—else we
-// won't see opacity's transition.
 
-.opti {
-	// ANCHOR Defaults for everything
 
+	// #region TRANSITIONS
+	////////////////////////
+	////////////////////////
+	////////////////////////
+
+
+	/* Instances where we delay a transition that has 0s duration
+	is a way to delay that property's change until after the
+	other properties have finished transitioning. For example,
+	off states often hide the element with width or left, but
+	that shouldn't happen until after opacity finishes—else we
+	won't see opacity's transition. */
+
+	& {
+		transition-property: box-shadow, margin-left, margin-right;
+	}
+
+	// Defaults for everything
+	////////////////////////
+
+	&,
 	* {
-		transition-duration: $dur;
+		transition-duration: var(--dur);
 		transition-timing-function: linear;
 	}
 
-	// SECTION States
-
-	// ANCHOR Default/both states
+	// Both off and on states
+	////////////////////////
 
 	// Surface default state: transition everything
 	.surface {
 		transition-property: all;
 	}
+
 	// Only transition the subtle translateX effect.
 	// Other properties are transitioned on children.
-	.texts {
+	.surface-text {
 		transition-property: transform;
 	}
+
 	// These are both for the button's hover (stroke,
 	// background-color) and its reveal and conceal (margin,
 	// opacity, width).
-	.icon-ex-surf {
+	.surface-icon-clear {
 		transition-property: opacity, color, background-color, width, margin;
-		transition-duration: $dur,    $dur,  $dur,             0s,    0s;
-		transition-delay:    0s,      0s,    0s,               $dur,  $dur;
+		transition-duration: var(--dur),    var(--dur),  var(--dur),             0s,    0s;
+		transition-delay:    0s,      0s,    0s,               var(--dur),  var(--dur);
 	}
-	&:not(.zerostate, [disabled=disabled]) .icon-ex-surf {
+
+	&:not(.zerostate, [disabled=disabled]) .surface-icon-clear {
 		transition-property: opacity, color, background-color;
 	}
+
 	.tag {
 		transition-property: opacity, width, height, margin, padding, color, background-color;
 
@@ -189,67 +400,74 @@
 		&.initial {
 			transition: none;
 		}
-	// Clear buttons within tags. (See .icon-ex-surf for the
-	// one on the surface.)
 	}
-	.icon-ex {
+
+	// Clear buttons within tags. (See .surface-icon-clear for the
+	// one on the surface.)
+	.tag-icon-ex {
 		transition-property: color;
 	}
 	.list-item {
-		transition-property: all,	padding-left, padding-right;
-		transition-duration: $dur,  $dur*.5,      $dur*.5;
+		transition-property: all, padding-left, padding-right;
+		transition-duration: var(--dur), calc(var(--dur) * .5), calc(var(--dur) * .5);
 	}
-	.icon-arrow {
+	.list-icon-arrow {
 		transition-property: width, height, margin-left;
 	}
 
-	// ANCHOR Off states
+	// Off states
+	////////////////////////
 
 	// If the placeholder is empty, disable transitions so
 	// it vanishes instantly.
-	.text-ph {
+	.surface-text-placeholder {
 		&:empty {
 			transition-property: none;
 		}
 	}
-	.text-ph,
-	.text-op {
+
+	.surface-text-placeholder,
+	.surface-text-single {
 		transition-property: color, opacity, transform;
 
 		&.fadingOut {
 			transition-property: opacity, height;
-			transition-duration: $dur,    0s;
-			transition-delay:    0s,      $dur;
+			transition-duration: var(--dur),    0s;
+			transition-delay:    0s,      var(--dur);
 		}
+
+	}
+
 	// Dropdown transition to off state; delay moving
 	// off-screen with left until other properties are done.
 	// Also, the fade out can be slower than the fade in.
-	}
 	.dropdown {
 		transition-property: opacity, transform, left;
-		transition-duration: $dur*2,  $dur*2,    0s;
-		transition-delay:    0s,      0s,        $dur*2;
+		transition-duration: calc(var(--dur) * 2), calc(var(--dur) * 2), 0s;
+		transition-delay: 0s, 0s, calc(var(--dur) * 2);
 	}
+
 	// Just transition the search and list elements' slight
 	// vertical offset.
-
 	.search,
 	.list {
 		transition-property: transform;
 	}
 
-	// ANCHOR On states
+	// On states
+	////////////////////////
 
 	// Dropdown transition to on state. Left can happen
 	// immediately here so we don't even need it in the
 	// transition property.
 	&:is(.activated, .activatedLocked) .dropdown {
 		transition-property: opacity, transform;
-		transition-duration: $dur;
+		transition-duration: var(--dur);
 	}
-	// !SECTION
+
+
+	// #endregion TRANSITIONS
+
+
+
 }
-
-// !SECTION
-
-

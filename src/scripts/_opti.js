@@ -191,9 +191,9 @@ class Opti {
 		this.o = Opti.#buildAnOpti.bind(this)();
 
 		this.surface = this.o.find(".surface");
-		this.pht = this.surface.find(".text-ph");
-		this.txt = this.surface.find(".text-op");
-		this.taglist = this.surface.find(".text-ul");
+		this.pht = this.surface.find(".surface-text-placeholder");
+		this.txt = this.surface.find(".surface-text-single");
+		this.taglist = this.surface.find(".surface-text-multi");
 		this.search = this.o.find(".search");
 		this.searchInput = this.search.find("input");
 		this.dd = this.o.find(".dropdown");
@@ -964,7 +964,7 @@ class Opti {
 		/* This button unchooses all options that can be.
 		It works in single-select optis as well unless
 		the button is hidden with the setting. */
-		this.o.find(".surface .icon-ex-surf").on({
+		this.o.find(".surface .surface-icon-clear").on({
 			click: e => {
 				e.preventDefault();
 				e.stopPropagation();
@@ -1330,9 +1330,9 @@ class Opti {
 	static #buildAnOpti () {
 
 		const
-			svgExSurf 	= `<svg class="icon-ex-surf" 	width="20" height="20" viewBox="6.5 6.5 20 20" 	stroke="currentColor" stroke-width="1" 		stroke-linecap="round" stroke-linejoin="round" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20,13 L13,20" fill="none" opacity="1" stroke-linecap="round" stroke-linejoin="round"/><path d="M13,13 L20,20" fill="none" opacity="1" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
-			svgChevs 	= `<svg class="icon-chevs" 		width="16" height="16" viewBox="0 0 24 24" 		stroke="currentColor" stroke-width="1" 		stroke-linecap="round" stroke-linejoin="round" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg>`,
-			svgBan 		= `<svg class="icon-ban-surf"	width="13" height="13" viewBox="0 0 24 24" 		stroke="currentColor" stroke-width="1.5" 	stroke-linecap="round" stroke-linejoin="round" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10"/><path d="m4.9 4.9 14.2 14.2"/></svg>`,
+			svgExSurf 	= `<svg class="surface-icon-clear" 	width="20" height="20" viewBox="6.5 6.5 20 20" 	stroke="currentColor" stroke-width="1" 		stroke-linecap="round" stroke-linejoin="round" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20,13 L13,20" fill="none" opacity="1" stroke-linecap="round" stroke-linejoin="round"/><path d="M13,13 L20,20" fill="none" opacity="1" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+			svgChevs 	= `<svg class="surface-icon-chevrons" 		width="16" height="16" viewBox="0 0 24 24" 		stroke="currentColor" stroke-width="1" 		stroke-linecap="round" stroke-linejoin="round" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg>`,
+			svgBan 		= `<svg class="surface-icon-ban"	width="13" height="13" viewBox="0 0 24 24" 		stroke="currentColor" stroke-width="1.5" 	stroke-linecap="round" stroke-linejoin="round" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10"/><path d="m4.9 4.9 14.2 14.2"/></svg>`,
 			svgSearch 	= `<svg class="icon-search" 	width="16" height="16" viewBox="0 0 24 24" 		stroke="currentColor" stroke-width="1" 		stroke-linecap="round" stroke-linejoin="round" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 6H3"/><path d="M10 12H3"/><path d="M10 18H3"/><circle cx="17" cy="15" r="3"/><path d="m21 19-1.9-1.9"/></svg>`,
 			// TODO Make theme and scheme insertion conditional based on whether they're set
 			$oOpti = $(`<div class="opti" data-theme="${this.s.data("theme")}" data-scheme="${this.s.data("scheme")}">`)
@@ -1341,10 +1341,10 @@ class Opti {
 					.append(
 						$(`
 							<a href="#" class="surface">
-								<div class="texts">
-									<span class="text-op"></span>
-									<span class="text-ph"></span>
-									<ul class="text-ul"></ul>
+								<div class="surface-text">
+									<span class="surface-text-single"></span>
+									<span class="surface-text-placeholder"></span>
+									<ul class="surface-text-multi"></ul>
 								</div>
 								${svgExSurf}
 								${svgChevs}
@@ -1369,7 +1369,7 @@ class Opti {
 
 		this.ogTabindex = this.s.attr("tabindex");
 
-		!this.settings.showClearAll && $oOpti.find(".surface .icon-ex-surf").remove();
+		!this.settings.showClearAll && $oOpti.find(".surface .surface-icon-clear").remove();
 
 		/* Construct option list */
 
@@ -1430,9 +1430,9 @@ class Opti {
 							.attr("disabled", dis)
 							.attr("data-value", val)
 							.html(contents)
-							.prepend($('<svg xmlns="http://www.w3.org/2000/svg" class="icon-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>'))
-							.append($('<svg xmlns="http://www.w3.org/2000/svg" class="icon-tick" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>'))
-							.append($('<svg xmlns="http://www.w3.org/2000/svg" class="icon-ban" width="15" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m4.9 4.9 14.2 14.2"/></svg>'))
+							.prepend($('<svg xmlns="http://www.w3.org/2000/svg" class="list-icon-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>'))
+							.append($('<svg xmlns="http://www.w3.org/2000/svg" class="list-icon-tick" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>'))
+							.append($('<svg xmlns="http://www.w3.org/2000/svg" class="list-surface-icon-ban" width="15" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m4.9 4.9 14.2 14.2"/></svg>'))
 				;
 				return $newEle;
 			}
@@ -1825,7 +1825,7 @@ class Opti {
 					let $newTag = $("<li/>")
 							.addClass("tag")
 							.attr("data-value", $(v).attr("data-value"))
-							.append('<svg class="icon-ex" height="7px" width="7px" stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" viewBox="0 0 7 7" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" stroke="currentColor" stroke-width="1"><path d="M6.5 0.5L0.5 6.5" fill="none" opacity="1" stroke-linecap="round" stroke-linejoin="round"/><path d="M0.5 0.5L6.5 6.5" fill="none" opacity="1" stroke-linecap="round" stroke-linejoin="round"/></svg>')
+							.append('<svg class="tag-icon-ex" height="7px" width="7px" stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" viewBox="0 0 7 7" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" stroke="currentColor" stroke-width="1"><path d="M6.5 0.5L0.5 6.5" fill="none" opacity="1" stroke-linecap="round" stroke-linejoin="round"/><path d="M0.5 0.5L6.5 6.5" fill="none" opacity="1" stroke-linecap="round" stroke-linejoin="round"/></svg>')
 							.append($('<span/>').addClass("tag-text").text($(v).text()))
 					;
 
@@ -1926,14 +1926,14 @@ class Opti {
 
 			/* Set the text of the Opti's surface to be the
 			same as the chosen option's. */
-			self.o.find(".surface .text-op").text($option.text());
+			self.o.find(".surface .surface-text-single").text($option.text());
 
 			/* Add the optgroup's label before the option
 			text if applicable. */
 			const $optParent = $option.parent();
 			if ($optParent.is("section:not(.list)")) {
 				const grpLabel = $optParent.find("h5").first().text();
-				self.txt.prepend(`<span class="text-grp">${grpLabel}</span>`);
+				self.txt.prepend(`<span class="surface-text-single-group">${grpLabel}</span>`);
 			}
 
 		}
@@ -2082,7 +2082,7 @@ class Opti {
 
 		} else {
 
-			self.#fadeOut.bind(self, self.surface.find(".text-op"), callback, false)();
+			self.#fadeOut.bind(self, self.surface.find(".surface-text-single"), callback, false)();
 
 		}
 
@@ -2229,7 +2229,7 @@ class Opti {
 			if (this.getUFOAP) {
 				this.#choosePlaceholderOption.bind(this)();
 			} else {
-				this.o.find(".surface .text-op").text(null);
+				this.o.find(".surface .surface-text-single").text(null);
 			}
 		} else {
 			this.o.removeClass("zerostate");

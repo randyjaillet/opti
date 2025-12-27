@@ -1,0 +1,30 @@
+@use '../abstracts' as *;
+
+.opti[data-theme=standard] {
+
+
+	// Dark
+	////////////////////////
+	////////////////////////
+
+
+	&[data-scheme=dark] {
+
+		--surface-bg: hsl(0 0% 100% / 7%);
+
+	}
+
+
+	// Light
+	////////////////////////
+	////////////////////////
+
+
+	&[data-scheme=light] {
+
+		--surface-bg: hsl(0 0% 0% / 7%);
+
+	}
+
+
+}

@@ -1,122 +1,75 @@
 @use '../abstracts' as *;
 
-//
-// Dark
-//
 
-.opti[data-theme=glossy][data-scheme=dark] {
-	--surface-bg: transparent;
-	--tag-bg: transparent;
-	--tag-shadows: 0 1px 0 rgba(255, 255, 255, .1), inset 0 1px 0 rgba(0, 0, 0, .3);
-	--surface-shadow-decl: inset 0 1px rgba(255, 255, 255, .07), #{$shadowScreenTransp}, 0 1px 4px rgba(0, 0, 0, .5);
+.opti[data-theme=glossy] {
+	--surface-shadow-decl: inset 0 1px hsl(0 0% 100% / .3), 0 1px 3px hsl(0 0% 0% / .1);
+	--grad-linear: linear-gradient(transparent 50%, hsl(0 0% 100% / 6%));
+	--grad-radial: radial-gradient(hsl(0 0% 100% / 60%), hsl(0 0% 100% / 20%) 80%);
+	--grad-highlightcurve: radial-gradient(150% 110% at center top, hsl(0 0% 100% / 30%), hsl(0 0% 100% / 12%) 50%, transparent 50%);
 
-	&:not([disabled=disabled]) {
-		$center: radial-gradient(rgba(white, .6), rgba(white, .2) 80%);
-		$radialWhite: radial-gradient(150% 110% at center top, rgba(white, .3), rgba(white, .12) 50%, transparent 50%);
-		$linearWhite: linear-gradient(rgba(white, .18), rgba(white, .05) 50%, rgba(black, .05) 50%);
-		$linearWhiteBounce: linear-gradient(transparent 50%, rgba(white, .06));
-		$radialAccent: radial-gradient(rgba($accent-dark, .9), transparent 80%);
-		$linearAccentBounce: linear-gradient(transparent 70%, rgba($accent, .1));
+	&:not([disabled=disabled]) .surface::before {
+		border-radius: var(--radius);
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background-color: white;
+		mask-image: var(--grad-linear), var(--grad-radial), var(--grad-highlightcurve);
+		mask-composite: add, intersect;
+	}
 
-		.surface {
-			-webkit-box-reflect: below 5px linear-gradient(transparent, rgba(white, .15) 50%, rgba(white, .5));
+	//
+	// Dark
+	//
 
-			&:hover,
-			&:focus {
-				--surface-bg: transparent;
-				background: {
-					image: $radialAccent, $linearAccentBounce;
-				};
-			}
-			&:before {
-				content: '';
-				position: absolute;
-				top: 0;
-				left: 0;
-				right: 0;
-				bottom: 0;
-				background-color: white;
-				mask-image: $linearWhiteBounce, $center, $radialWhite;
-				mask-mode: luminance;
-				mask-composite: add, intersect;
-				border-radius: $radius;
-			}
-			.texts,
-			.text-ul,
-			> svg.icon-ex-surf {
-				z-index: 1;
-			}
-		}
-		&:is(.activated, .activatedLocked) {
-			--surface-bg: rgba(255, 255, 255, 7%);
-			--surface-shadow-decl: inset 0 1px rgba(255, 255, 255, .07), #{$shadowScreenDark}, 0 1px 1px transparent;
+	&[data-scheme=dark] {
+		--tag-bg: transparent;
+		--tag-shadows: 0 1px 0 hsl(0 0% 100% / .1), inset 0 1px 0 hsl(0 0% 0% / .3);
+		--surface-shadow-decl: inset 0 1px hsl(0 0% 100% / .07), 0 1px 4px hsl(0 0% 0% / .5);
+
+		&:not([disabled=disabled]) {
 
 			.surface {
-				&:hover,
-				&:focus {
-					--surface-bg: rgba(255, 255, 255, .07);
-				}
+				-webkit-box-reflect: below 5px linear-gradient(transparent, hsl(0 0% 100% / .15) 50%, hsl(0 0% 100% / .5));
 
-//
-// Light
-//
+				.surface-text,
+				.surface-text-multi,
+				> svg.surface-icon-clear {
+					z-index: 1;
+				}
+			}
+			&:is(.activated, .activatedLocked) {
+				--surface-shadow-decl: inset 0 1px hsl(0 0% 100% / .07), 0 1px 1px transparent;
 			}
 		}
 	}
-}
-.opti[data-theme=glossy][data-scheme=light] {
-	--surface-bg: rgba(255, 255, 255, .2);
-	--tag-bg: rgba(0, 0, 0, .03);
-	--tag-shadows: 0 1px 0 rgba(255, 255, 255, .3), inset 0 1px 0 rgba(0, 0, 0, .07);
-	--surface-shadow-decl: inset 0 1px rgba(255, 255, 255, .3), #{$shadowScreenTransp}, 0 1px 3px rgba(0, 0, 0, .1);
-	--surface-element-dropshadows-decl: 0 1px 0 rgba(255, 255, 255, .5);
 
-	&:not([disabled=disabled]) {
-		$center: radial-gradient(rgba(white, .5), rgba(white, .3));
-		$radialWhite: radial-gradient(150% 110% at center top, rgba(white, .6) 50%, transparent 50%);
-		$linearWhite: linear-gradient(rgba(white, .9) 50%, rgba(black, .05) 50%);
-		$linearWhiteBounce: linear-gradient(transparent 60%, rgba(white, .2));
-		$radialAccent: radial-gradient(rgba($accent-light, .5), transparent 80%);
-		$linearAccentBounce: linear-gradient(transparent 70%, rgba($accent-light, .5));
+	//
+	// Light
+	//
 
-		.surface {
-			-webkit-box-reflect: below 5px linear-gradient(transparent, rgba(white, .15) 50%, rgba(white, .5));
+	&[data-scheme=light] {
+		--tag-bg: hsl(0 0% 0% / .03);
+		--tag-shadows: 0 1px 0 hsl(0 0% 100% / 30%), inset 0 1px 0 hsl(0 0% 0% / 7%);
 
-			&:hover,
-			&:focus {
-				--surface-bg: rgba(255, 255, 255, .2);
-				background: {
-					image: $radialAccent, $linearAccentBounce;
-				};
-			}
-			&:before {
-				content: '';
-				position: absolute;
-				top: 0;
-				left: 0;
-				right: 0;
-				bottom: 0;
-				background-color: white;
-				mask-image: $linearWhiteBounce, $center, $radialWhite;
-				mask-composite: add, intersect;
-				border-radius: $radius;
-			}
-			.texts,
-			.text-ul,
-			> svg.icon-ex-surf {
-				z-index: 1;
-			}
-		}
-		&:is(.activated, .activatedLocked) {
-			--surface-bg: rgba(255, 255, 255, .3);
-			--surface-shadow-decl: inset 0 1px rgba(255, 255, 255, .07), #{$shadowScreenLight}, 0 1px 3px transparent;
+		--grad-linear        : linear-gradient(transparent 50%, hsl(0 0% 100% / 35%));
+		--grad-radial        : radial-gradient(hsl(0 0% 100% / 100%), hsl(0 0% 100% / 15%) 80%);
+		--grad-highlightcurve: radial-gradient(150% 110% at center top, hsl(0 0% 100% / 60%), hsl(0 0% 100% / 25%) 50%, transparent 50%);
+
+		&:not([disabled=disabled]) {
 
 			.surface {
-				&:hover,
-				&:focus {
-					--surface-bg: rgba(255, 255, 255, .3);
+				-webkit-box-reflect: below 5px linear-gradient(transparent, hsl(0 0% 100% / .15) 50%, hsl(0 0% 100% / .5));
+
+				.surface-text,
+				.surface-text-multi,
+				> svg.surface-icon-clear {
+					z-index: 1;
 				}
 			}
 		}
 	}
+
 }

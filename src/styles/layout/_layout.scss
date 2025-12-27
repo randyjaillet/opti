@@ -1,126 +1,166 @@
 @use '../abstracts' as *;
 
 
-// ANCHOR Root element
-
 .opti {
 	display: block;
 	position: relative;
+	margin-left: var(--root-mar-x);
+	margin-right: var(--root-mar-x);
 
-	// ANCHOR Surface and its states
+
+
+	// #region SURFACE
+	////////////////////////
+	////////////////////////
+	////////////////////////
+
+
 
 	.surface {
 		display: flex;
 		justify-content: flex-end;
 		align-items: center;
 		position: relative;
-		min-height: $mh;
-		margin: 0 var(--surface-rightmar) 0 var(--surface-leftmar);
-		padding: var(--surface-vertpad) var(--surface-rightpad) var(--surface-vertpad) var(--surface-leftpad);
-	}
-	&[disabled=disabled] .surface {
-		padding: 0;
-		min-height: 0;
-	}
-	&:is(.activated, .activatedLocked):not([disabled=disabled]) .surface {
-		z-index: 110;
-	}
+		min-height: var(--min-height);
+		padding: var(--surface-pad-y) var(--surface-pad-x);
 
-	// ANCHOR Textual surface elements
-
-	.texts {
-		flex: 1 1 auto;
-		min-height: $leading;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		transform: none;
-	}
-	.text-grp {
-		display: inline-block;
-		margin: 0 5px 0 0;
-
-		&:after {
-			margin-left: .35em;
-			content: "/";
+		&:is(.opti[disabled=disabled] *) {
+			padding: 0;
+			min-height: 0;
 		}
 
-	}
-
-	.text-ph,
-	.text-op {
-		height: $leading;
-		display: block;
-		order: 0;
-	}
-	.text-ul {
-		display: flex;
-		flex-wrap: wrap;
-		flex: 1 1 auto;
-		gap: 5px;
-		align-items: center;
-		margin: 0;
-		padding: 0;
-	}
-	&[multiple=multiple] .text-ul:not(:empty) {
-		min-height: $tagLeading;
-		height: auto;
-	}
-	.tag {
-		display: inline-flex;
-		align-items: center;
-		flex-wrap: nowrap;
-		flex: 0 1 auto;
-		width: 0;
-		margin: 0;
-		padding: 0 var(--tag-horzpad);
-	}
-	&[multiple=multiple] .text-ul:not(:empty) .tag {
-		width: auto;
-	}
-	.icon-ex {
-		flex: 0 0 $tagBGSize;
-		width: $tagBGSize;
-		height: $tagBGSize;
-		margin: 0;
-		margin-right: $tagHorzPad * .6;
-	}
-
-	// ANCHOR Surface icons
-
-	.icon-chevs,
-	.icon-ban-surf,
-	.icon-ex-surf {
-		flex: 0 0 auto;
-		order: 2;
-	}
-	&:not([disabled=disabled]) .icon-chevs,
-	&[disabled=disabled] .icon-ban-surf,
-	&:not(.zerostate, [disabled=disabled]) .icon-ex-surf {
-		display: block;
-		margin-left: $rightPad;
-	}
-	.surface > {
-		.icon-chevs {
-			height: 16px * $oscale;
+		&:is(.opti:is(.activated, .activatedLocked):not([disabled=disabled]) *) {
+			z-index: 110;
 		}
-		.icon-ban-surf {
-			height: 13px * $oscale;
+
+
+		// Surface text elements
+		////////////////////////
+		////////////////////////
+
+
+		.surface-text {
+			@include ellipsis();
+			flex: 1 1 auto;
+			min-height: var(--surface-leading);
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			transform: none;
+
+			.surface-text-placeholder,
+			.surface-text-single {
+				height: var(--surface-leading);
+				display: block;
+				order: 0;
+			}
+
+			.surface-text-single-group {
+				display: inline-block;
+				margin: 0 5px 0 0;
+
+				&:after {
+					margin-left: .35em;
+					content: "/";
+				}
+
+			}
+			
+
+			// Surface tags
+			////////////////////////
+			////////////////////////
+
+
+			.surface-text-multi {
+				display: flex;
+				flex-wrap: wrap;
+				flex: 1 1 auto;
+				gap: 5px;
+				align-items: center;
+				margin: 0;
+				padding: 0;
+			}
+
+			&[multiple=multiple] .surface-text-multi:not(:empty) {
+				min-height: var(--tag-leading);
+				height: auto;
+			}
+
+			.tag {
+				display: inline-flex;
+				align-items: center;
+				width: 0;
+				margin: 0;
+				padding: 0 var(--tag-pad-x);
+
+				&:is([multiple=multiple] *) {
+					width: auto;
+				}
+
+			}
+
+			.tag-text {
+				@include ellipsis();
+				line-height: var(--tag-leading);
+			}
+
+			.tag-icon-ex {
+				flex: 0 0 $tagBGSize;
+				width: $tagBGSize;
+				height: $tagBGSize;
+				margin: 0px;
+				margin-right: calc($tagHorzPad * .6);
+			}
+
 		}
-		.icon-ex-surf {
-			height: 18px * $oscale;
+
+
+		// Surface icons
+		////////////////////////
+		////////////////////////
+
+
+		.surface-icon-chevrons,
+		.surface-icon-ban,
+		.surface-icon-clear {
+			flex: 0 0 auto;
+			order: 2;
+			height: var(--surface-leading);
+		}
+
+		.surface-icon-chevrons:not([disabled=disabled] *),
+		.surface-icon-ban:is([disabled=disabled] *),
+		.surface-icon-clear:not(.zerostate *, [disabled=disabled] *) {
+			display: block;
+			margin-left: var(--pad-base);
+		}
+
+		.surface-icon-chevrons:not([disabled=disabled] *) {
+			margin-right: -3px;
+		}
+
+		.surface-icon-clear {
 			display: inline-flex;
+
+			&:not([disabled=disabled] *, .zerostate *) {
+				margin-right: -8px;
+			}
+
 		}
-	}
-	&:not([disabled=disabled]) .icon-chevs {
-		margin-right: -3px * $oscale;
-	}
-	&:not([disabled=disabled], .zerostate) .icon-ex-surf {
-		opacity: 1;
-		margin-right: -8px;
+
 	}
 
-	// ANCHOR Dropdown
+
+	// #endregion SURFACE
+
+
+
+	// #region DROPDOWN
+	////////////////////////
+	////////////////////////
+	////////////////////////
+
 
 	.dropdown {
 		position: absolute;
@@ -131,91 +171,124 @@
 		display: flex;
 		flex-direction: column;
 		justify-content: flex-start;
-	}
-	&.flip-v .dropdown {
-		top: auto;
-		bottom: calc(100% + 2px);
-		transform: translateY(-5px);
-	}
 
-	// ANCHOR Search
-
-	.search {
-		$hpad: 7px * $oscale;
-		display: flex;
-		align-items: center;
-		margin-top: 2px;
-		padding: 6px 7px;
-	}
-	&.flip-v .search {
-		order: 1;
-	}
-	.icon-search {
-		margin-right: 4px;
-	}
-	.search-input {
-		flex-grow: 1;
-	}
-
-	// ANCHOR Dropdown list
-
-	.list {
-		max-height: 50vh;
-		position: relative;
-		overflow: scroll;
-		margin: 2px 0 0 0;
-		padding: 12px 0;
-
-		h5 {
-			margin-left: $indentation;
-			padding: 0;
+		&:is(.opti.flip-v *) {
+			top: auto;
+			bottom: calc(100% + 2px);
+			transform: translateY(-5px);
 		}
-	}
-	.list-item {
-		display: flex;
-		align-items: center;
-		justify-content: flex-start;
-		position: relative;
-		margin: 0;
-		padding: (5px * $oscale) ($indentation * .5) (5px * $oscale) $indentation;
 
-		> * {
-			flex: 1 1 auto;
-		}
-		svg {
-			flex: 0 0 auto;
-			margin-left: 3px;
-		}
-	}
-	section > .list-item {
-		padding-left: $indentation * 2;
-	}
 
-	// ANCHOR List item icons
+		// #region Search
+		////////////////////////
+		////////////////////////
 
-	.list-item {
-		.icon-arrow,
-		.icon-tick {
-			display: inline-flex;
-			width: 0;
-			height: 0;
-			margin-left: 0;
+
+		.search {
+			display: flex;
+			align-items: center;
+			margin-top: 2px;
+			padding: var(--pad-base);
 		}
-	}
-	&:not([disabled=disabled]) {
-		.list-item {
-			&.fakefocus .icon-arrow,
-			&.selected .icon-tick {
-				$size: 16px;
-				width: $size;
-				height: $size;
+		&.flip-v .search {
+			order: 1;
+		}
+		.icon-search {
+			margin-right: 4px;
+		}
+		.search-input {
+			flex-grow: 1;
+		}
+
+
+		// #endregion search
+
+
+		// #region List
+		////////////////////////
+		////////////////////////
+
+
+		.list {
+			max-height: 50vh;
+			position: relative;
+			overflow: scroll;
+			margin: 2px 0 0 0;
+			padding: 12px 0;
+
+			h5 {
+				margin: 10px 0 10px $indentation;
+				padding: 0;
 			}
-			&.fakefocus .icon-arrow {
-				margin-left: -10px;
+
+			.list-item {
+				display: flex;
+				align-items: center;
+				justify-content: flex-start;
+				position: relative;
+				margin: 0;
+				padding: 5px calc($indentation * .5) 5px $indentation;
+
+				> * {
+					flex: 1 1 auto;
+				}
+
+				svg {
+					flex: 0 0 auto;
+					margin-left: 3px;
+				}
+
 			}
-			.list-item[disabled=disabled] .icon-ban {
+
+			section > .list-item {
+				padding-left: $indentation * 2;
+			}
+
+
+			// #endregion List
+
+
+			// #region List icons
+			////////////////////////
+			////////////////////////
+
+
+			.list-icon-arrow,
+			.list-icon-tick {
+				--size: 0px;
 				display: inline-flex;
+				width: var(--size);
+				height: var(--size);
+				margin-left: 0;
 			}
+
+			.list-item:not(.opti[disabled=disabled] *) {
+
+				&.fakefocus .list-icon-arrow,
+				&.selected .list-icon-tick {
+					--size: 16px;
+				}
+
+				&.fakefocus .list-icon-arrow {
+					margin-left: -10px;
+				}
+
+				&[disabled=disabled] .list-surface-icon-ban {
+					display: inline-flex;
+				}
+
+			}
+
+			// #endregion List icons
+
 		}
+
 	}
+
+
+
+	// #endregion dropdown
+
+
+
 }

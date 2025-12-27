@@ -2,138 +2,116 @@
 @use 'sass:color' as *;
 
 
-//
-// ANCHOR Global settings
-//
 
-// Product by which to size just about everything
-$oscale: 1;
-
-// Duration of most transitions
-$dur: .2s;
+// #region SASS VARS
+////////////////////////
+////////////////////////
+////////////////////////
 
 
-//
-//
-// SECTION Dimensions
-//
-//
 
-//
-// ANCHOR Surface
-//
+// #region Dimensions
+////////////////////////
+////////////////////////
 
-$vertPad: round(6px * $oscale);
-$leftPad: round($vertPad * 1.5);
-$rightPad: round($vertPad * 1.5);
-$pad: $vertPad $rightPad $vertPad $leftPad;
-$fontSize: round(14px * $oscale);
-$leading: round(19px * $oscale);
-$mh: $vertPad * 2 + $leading;
-$radius: round(7px * $oscale);
 
-//
-// ANCHOR Search
-//
+// Surface
+////////////////////////
 
-$marginsXSearch: round(-8px * $oscale);
+$indentation: 20px;
+$arrowSize: 5px;
+$fontSize: 14px;
 
-//
-// ANCHOR Tags
-//
+// Tags
+////////////////////////
 
-$tagVertPad: round(5px	* $oscale);
-$tagHorzPad: round(5px	* $oscale);
-$tagBGSize: round(7px	* $oscale);
-$tagMarg: round(2px	* $oscale);
-$tagFontSize: round(11px * $oscale);
-$tagRadius: round(3px	* $oscale);
-$tagLeading: $leading - 2px;
+$tagMarg    : 2px;
+$tagVertPad : 5px;
+$tagHorzPad : 5px;
+$tagBGSize  : 7px;
+$tagFontSize: 11px;
+$tagRadius  : 3px;
 $iconstrokewidth: .6px;
 
-//
-// ANCHOR List
-//
+// Search
+////////////////////////
 
-$indentation: 20px * $oscale;
-$arrowSize: 5px * $oscale;
-
-// !SECTION
+$marginsXSearch: -8px;
 
 
-//
-//
-// ANCHOR Declarations
-//
-//
-
-//
-// Shadow screens
-// NOTE What's up with these? When Opti is activated, it
-// creates the effect of a partially transparent black/white
-// screen over the page. This is done via the oversized
-// box-shadows below, applied to the surface. It's a nice
-// solution because we don't need a separate element, and
-// the elements on the page beneath the screen can still be
-// clicked on. It's just an aesthetic thing to make the Opti
-// a little more prominent when activated and the background
-// a little less cluttered.
-
-$shadowScreenDark: 0 0 0 500vw rgba(255, 255, 255, .4);
-$shadowScreenLight: 0 0 0 500vw rgba(0, 0, 0, .4);
-
-// NOTE So why the completely transparent one? Including it
-// in the inactive state prevents animating the shadow's
-// spread when the Opti is activated. If we don't have a
-// transparent version of the screen in the inactive state,
-// the size of the box-shadow transitions, spreading out
-// from and in to the surface element like a cute little
-// exploding death star. So this way the shadow is already
-// "there" (just invisible) so the browser doesn't see a
-// change in its size to transition, just its color.
-$shadowScreenTransp: 0 0 0 500vw transparent;
+// #endregion dimensions
 
 
-//
-//
-// ANCHOR Colors
-//
-//
 
-$accent: #447abb;
-$accent-light: scale($accent,			 $lightness: 50%, $saturation: 25%);
-$accent-lighter: scale($accent-light, $lightness: 90%, $saturation: 25%);
-$accent-dark: scale($accent,			 $lightness: -60%);
-$accent-darker: scale($accent-dark,	$lightness: -75%);
+// #endregion sass vars
 
 
-//
-//
-// ANCHOR CSS vars
-//
-//
+
+// #region CSS VARS
+////////////////////////
+////////////////////////
+////////////////////////
+
+
 
 :root {
-	--text-col-rgbvals: 0,0,0;
-	--text-col: rgb(var(--text-col-rgbvals));
-	--surface-bg: rgba(34, 34, 34, .05);
-	--surface-element-dropshadows-rgbvals: 255,255,255;
-	--surface-element-dropshadows: rgba(var(--surface-element-dropshadows-rgbvals), .4);
-	--surface-element-dropshadows-decl: none;
-	--dd-col-rgbvals: 68, 68, 68;
-	--dd-col: rgb(var(--dd-col-rgbvals));
-	--dd-bg: rgba(238, 238, 238, .95);
-	--accent-bg: #C7E3F1;
-	--surface-shadow-decl: #{$shadowScreenTransp};
+
+
+	// Constants
+	////////////////////////
+	////////////////////////
+
+
+	--accent: hsl(213, 60%, 50%);
+
+	// Duration of most transitions
+	--dur: .2s;
+
+	--pad-base: 6px;
+
+
+	// Variables
+	////////////////////////
+	////////////////////////
+
+
+	// Layout
+	////////////////////////
+
+	--surface-leading: 19px;
+	--tag-leading: calc(var(--surface-leading) - 2px);
+	--min-height: calc(var(--pad-base) * 2 + var(--surface-leading));
+
+	// Whitespace
+	////////////////////////
+
+	--root-mar-x   : 0px;
+	--surface-pad-y: var(--pad-base);
+	--surface-pad-x: calc(var(--pad-base) * 1.5);
+	--tag-pad-x    : 5px;
+
+	// Appearance
+	////////////////////////
+
 	--surface-gradients-decl: null;
-	--surface-leftmar: 0;
-	--surface-rightmar: 0;
-	--surface-vertpad: #{$vertPad};
-	--surface-leftpad: #{$leftPad};
-	--surface-rightpad: #{$rightPad};
-	--surface-pad: var(--surface-vertpad) var(--surface-rightpad) var(--surface-vertpad) var(--surface-leftpad);
-	--surface-radius-decl: #{$radius};
-	--tag-horzpad: 5px;
-	--tag-bg: rgba(0, 0, 0, .07);
-	--tag-shadows: none;
+	--surface-shadow-decl: none;
+	--tag-shadows        : none;
+	--radius: 7px;
+
+	// Theme
+	////////////////////////
+
+	--text-col  : hsl(0 0% 15%);
+	--tag-col   : var(--text-col);
+	--dd-col    : hsl(0 0% 20%);
+
+	--surface-bg: initial;
+	--dd-bg     : hsl(0 0% 90% / 85%);
+	--tag-bg    : hsl(0 0% 00% / 07%);
+
+
 }
+
+
+
+// #endregion css vars

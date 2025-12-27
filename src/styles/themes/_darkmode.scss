@@ -2,17 +2,12 @@
 
 .opti[data-scheme=dark] {
 
-	--text-col-rgbvals: 255,255,255;
-	--text-col: rgba(var(--text-col-rgbvals), .9);
-	--surface-bg: rgba(153, 153, 153, .1);
-	--surface-element-dropshadows-rgbvals: 0,0,0;
-	--surface-element-dropshadows: rgb(var(--surface-element-dropshadows-rgbvals));
-	--surface-element-dropshadows-decl: 0 -1px 1px var(--surface-element-dropshadows);
-	--dd-col-rgbvals: 187, 187, 187;
-	--dd-col: rgb(var(--dd-col-rgbvals));
-	--dd-bg: rgba(34, 34, 34, .95);
-	--accent-bg: #{$accent-dark};
-	--tag-bg: rgba(255, 255, 255, .07);
+	--text-col: hsl(0 0% 85%);
+	--tag-col : var(--text-col);
+	--dd-col  : hsl(0 0% 80%);
+
+	--dd-bg   : hsl(0 0% 10% / 85%);
+	--tag-bg  : hsl(0 0% 100% / .07);
 
 
 	//
@@ -21,40 +16,31 @@
 	//
 	//
 
-	// Not disabled - dark
-	&:is(:not([disabled=disabled])) {
-		.surface {
-			&:hover,
-			&:focus {
-				--surface-bg: #{$accent-dark};
-			}
-		}
+	// Hovered - dark
+	&:not([disabled=disabled], .activated, .activatedLocked) .surface:hover {
+		background-color: hsl(from var(--accent) h calc(s + 20) calc(l - 30) / 60%);
 	}
 
 	// Activated - dark
 	&:is(.activated, .activatedLocked) {
-		--surface-bg: rgba(34, 34, 34, .95);
-		--surface-shadow-decl: #{$shadowScreenDark};
+		box-shadow: 0 0 0 500vw hsl(0 0% 70% / 70%);
 	}
 
-	// Neither zerostate nor disabled - dark
-	&:not(.zerostate):not([disabled=disabled]) {
-		.surface {
-			> svg.icon-ex-surf {
-				&:hover {
-					color: pink;
-					background-color: rgba(220, 20, 60, .2);
-				}
+	// Highlighting tags to indicate impending removal
+
+	&:not([disabled=disabled], .zerostate) {
+	
+		.tag:hover,
+		.surface-icon-clear:hover,
+		&.highlightRemovables :is(.tag, .surface-text-single) {
+			color: hsl(350 100% 88%);
+
+			&:not(.surface-text-single) {
+				background-color: hsl(348 83% 47% / 40%);
 			}
-		}
-	}
 
-	// Removable text/tags highlighted - dark
-	&.highlightRemovables .surface .texts .text-op,
-	&:not([disabled=disabled]) .surface .texts ul .tag:hover,
-	&.highlightRemovables .surface .texts ul .tag {
-		--tag-bg: rgba(220, 20, 60, .2);
-		color: pink;
+		}
+
 	}
 
 }

@@ -103,8 +103,8 @@ textarea {
 	margin: 5px 0;
 }
 body {
-	--body-bg-col-greyscale: white;
-	--body-bg-col-color: #{$accent-lighter};
+	--body-bg-col-greyscale: hsl(from black h s 95%);
+	--body-bg-col-color: hsl(from var(--accent) h 74% 100%);
 	margin: 0;
 	padding: 0;
 	background-color: var(--body-bg-col-color);
@@ -125,15 +125,15 @@ p:not(.opti *) {
     gap: 10px;
 	margin: 10px 0;
 	padding: 10px;
-	background: rgba(orange, 7%);
-	outline: 1px solid rgba(orange, 20%);
+	background: hsl(39 100% 50% / 7%);
+	outline: 1px solid hsl(39 100% 50% / 20%);
 
 	&:before {
 		content: "Example";
 		font-size: 80%;
 		text-transform: uppercase;
 		font-weight: 600;
-		color: rgba(#997533, 50%);
+		color: hsl(39 50% 40% / 50%);
 	}
 }
 code.codeblock {
@@ -187,8 +187,8 @@ button:not(.opti *) {
 	font-size: 80%;
 	text-transform: uppercase;
 	cursor: pointer;
-	transition: all $dur linear;
-	min-height: $mh;
+	transition: all var(--dur) linear;
+	min-height: var(--min-height);
 
 	&:hover,
 	&:focus,
@@ -209,9 +209,6 @@ code:not(.opti *) {
 	align-items: center;
 	font-weight: 400;
 	margin: 0;
-	padding: 0 20px 0 0;
-	width: 150px;
-	height: 150px;
 	font-family: "Noto Sans", sans-serif;
 	font-size: 30px;
 	line-height: 28px;
@@ -237,11 +234,12 @@ code:not(.opti *) {
 	min-height: 100vh;
 	margin: 0 auto;
 	padding: 10px 30px 30px 30px;
+	background-color: rgba(#EEE, .7);
+	outline: 3px solid white;
+
 	@media (max-width: 450px) {
 		padding: 50px 15px;
 	}
-	background-color: rgba(#EEE, .7);
-	outline: 3px solid white;
 
 	#top-controls {
 		margin-bottom: 15px;
@@ -332,18 +330,19 @@ code:not(.opti *) {
 		#demo-frame {
 			flex-basis: 300px;
 			display: flex;
+			gap: 30px;
 			flex-direction: column;
-			justify-content: space-between;
+			justify-content: space-around;
 			align-items: center;
-			transition: all $dur linear;
+			transition: all var(--dur) linear;
 			background-color: rgba(white, 10%);
 			background-image: radial-gradient(500px circle at left -150px, rgba(yellow, .3), transparent), radial-gradient(400px circle at bottom right, transparent 10%, rgba(green, .15) 70%, transparent), radial-gradient(400px circle at left 150px, transparent 10%, rgba(blue, .2) 70%, transparent), radial-gradient(400px circle at top right, transparent 10%, rgba(red, .25) 70%, transparent), radial-gradient(400px circle at right center, transparent 10%, rgba(turquoise, .15) 70%, transparent);
 			background-blend-mode: overlay;
 
 			#demo-opti {
-				margin: 10px auto;
 				min-width: 200px;
-				max-width: min(500px, 100%);
+				width: max-content;
+				max-width: 100%;
 			}
 
 			button {
@@ -353,11 +352,8 @@ code:not(.opti *) {
 			#themeNscheme {
 				display: flex;
 				flex-direction: column;
-				align-items: flex-end;
-				justify-content: flex-end;
+				align-items: center;
 				gap: 10px;
-				height: 150px;
-				width: 150px;
 				font-size: 12px;
 				color: #999;
 
@@ -415,7 +411,7 @@ code:not(.opti *) {
 }
 body.opti-scheme-dark {
 	--body-bg-col-greyscale: black;
-	--body-bg-col-color: #{$accent-darker};
+	--body-bg-col-color: hsl(from var(--accent) h 20% 10%);
 	color: #DDD;
 
 
@@ -431,8 +427,8 @@ body.opti-scheme-dark {
 		font-size: 80%;
 		text-transform: uppercase;
 		cursor: pointer;
-		transition: all $dur linear;
-		min-height: $mh;
+		transition: all var(--dur) linear;
+		min-height: var(--min-height);
 
 		&.on {
 			outline-color: rgba(white, .7);
@@ -441,8 +437,8 @@ body.opti-scheme-dark {
 		}
 		&:hover,
 		&:focus {
-			outline-color: $accent;
-			background-color: $accent-dark;
+			outline-color: var(--accent);
+			background-color: hsl(from var(--accent) h 35% 20%);
 			color: white;
 		}
 	}
